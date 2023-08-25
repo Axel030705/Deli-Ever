@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AgendaApp" parent="Theme.Material3.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/azulCielo</item>
+        <item name="colorPrimaryDark">@color/azulCielo</item>
+
+    </style>
+    <style name="Theme.AgendaApp" parent="Base.Theme.AgendaApp" />
+    <style name="Theme.AgendaApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.AgendaApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.AgendaApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

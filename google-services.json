@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "48534996518",
+    "firebase_url": "https://student-app-fb310-default-rtdb.firebaseio.com",
+    "project_id": "student-app-fb310",
+    "storage_bucket": "student-app-fb310.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48534996518:android:08e6dd07ae75062a2888e7",
+        "android_client_info": {
+          "package_name": "com.example.agenda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "48534996518-2bfm8b7lgvaoofpm3fo6ojd6bqm09ruk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBscMkbZ2M38YYTMhLNRH1wDAMikDmhns0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "48534996518-2bfm8b7lgvaoofpm3fo6ojd6bqm09ruk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:layout_margin="18dp"
+    android:padding="8dp"
+    app:cardCornerRadius="25dp"
+    app:strokeColor="@color/azulCielo"
+    app:strokeWidth="2dp"
+    app:cardBackgroundColor="@color/white">
+
+    <ImageView
+        android:id="@+id/ImagenProductoItem"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:id="@+id/TXTView_NombreProducto"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="25dp"
+        android:text="Nombre del producto"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/TXTView_DescripcionProducto"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="55dp"
+        android:text="Descripcion"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/TXTView_PrecioProducto"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="85dp"
+        android:text="Precio"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/TXTView_ExtraProducto"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="115dp"
+        android:text="Extra"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+</com.google.android.material.card.MaterialCardView>

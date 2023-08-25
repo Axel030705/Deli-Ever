@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Deli-Ever</string>
+    <string name="title_activity_registro_de_tienda">RegistroDeTienda</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="Slogan">Ordena, Disfruta, Repite</string>
+    <string name="Slogan2">Tu sabor, a un clic de distancia</string>
+
+</resources>
