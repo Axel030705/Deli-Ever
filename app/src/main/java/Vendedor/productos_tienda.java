@@ -80,7 +80,6 @@ public class productos_tienda extends AppCompatActivity {
             });
         } else {
             Toast.makeText(getApplicationContext(), "No se proporcionó el ID de la tienda", Toast.LENGTH_SHORT).show();
-            // Puedes manejar este caso de acuerdo a tus necesidades
         }
     }
 }
