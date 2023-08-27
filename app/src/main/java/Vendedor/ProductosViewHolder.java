@@ -3,6 +3,7 @@ package Vendedor;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,11 +12,11 @@ import com.example.agenda.R;
 
 public class ProductosViewHolder extends RecyclerView.ViewHolder {
 
-    private TextView TXTView_NombreProducto;
-    private TextView TXTView_DescripcionProducto;
-    private TextView TXTView_PrecioProducto;
-    private TextView TXTView_ExtraProducto;
-    private ImageView ImagenProductoItem; // Cambiado de TextView a ImageView
+    private final TextView TXTView_NombreProducto;
+    private final TextView TXTView_DescripcionProducto;
+    private final TextView TXTView_PrecioProducto;
+    private final TextView TXTView_ExtraProducto;
+    private final ImageView ImagenProductoItem;
 
     public ProductosViewHolder(View itemView){
         super(itemView);
@@ -30,25 +31,25 @@ public class ProductosViewHolder extends RecyclerView.ViewHolder {
     public void bind(Producto producto){
         if (producto != null) {
             if (producto.getNombre() != null) {
-                TXTView_NombreProducto.setText(producto.getNombre().toString());
+                TXTView_NombreProducto.setText(producto.getNombre());
             } else {
                 TXTView_NombreProducto.setText("");
             }
 
             if (producto.getDescripcion() != null) {
-                TXTView_DescripcionProducto.setText(producto.getDescripcion().toString());
+                TXTView_DescripcionProducto.setText(producto.getDescripcion());
             } else {
                 TXTView_DescripcionProducto.setText("");
             }
 
             if (producto.getPrecio() != null) {
-                TXTView_PrecioProducto.setText(producto.getPrecio().toString());
+                TXTView_PrecioProducto.setText(producto.getPrecio());
             } else {
                 TXTView_PrecioProducto.setText("");
             }
 
             if (producto.getExtra() != null) {
-                TXTView_ExtraProducto.setText(producto.getExtra().toString());
+                TXTView_ExtraProducto.setText(producto.getExtra());
             } else {
                 TXTView_ExtraProducto.setText("");
             }
@@ -56,6 +57,7 @@ public class ProductosViewHolder extends RecyclerView.ViewHolder {
             Glide.with(ImagenProductoItem.getContext())
                     .load(producto.getImagenUrl())
                     .into(ImagenProductoItem);
+
         } else {
             // Si el producto es nulo, establecer todas las vistas en blanco
             TXTView_NombreProducto.setText("");
