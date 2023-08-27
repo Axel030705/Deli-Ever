@@ -53,9 +53,9 @@ public class ProductosViewHolder extends RecyclerView.ViewHolder {
                 TXTView_ExtraProducto.setText("");
             }
 
-            /*Glide.with(ImagenProductoItem.getContext())
+            Glide.with(ImagenProductoItem.getContext())
                     .load(producto.getImagenUrl())
-                    .into(ImagenProductoItem); */
+                    .into(ImagenProductoItem);
         } else {
             // Si el producto es nulo, establecer todas las vistas en blanco
             TXTView_NombreProducto.setText("");
