@@ -1,13 +1,21 @@
 package Vendedor;
 
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.engine.Resource;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.agenda.R;
 
 public class ProductosViewHolder extends RecyclerView.ViewHolder {
@@ -54,8 +62,23 @@ public class ProductosViewHolder extends RecyclerView.ViewHolder {
                 TXTView_ExtraProducto.setText("");
             }
 
-            Glide.with(ImagenProductoItem.getContext())
+            // Cargar la imagen con Glide y agregar un listener de carga
+            Glide.with(itemView.getContext())
                     .load(producto.getImagenUrl())
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            // Mostrar un Toast indicando que la carga de la imagen falló
+                            Toast.makeText(itemView.getContext(), "Error al cargar la imagen del producto", Toast.LENGTH_SHORT).show();
+                            return true; // Devolver true para que Glide maneje la visualización de un recurso de error
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            // La imagen se cargó correctamente
+                            return false;
+                        }
+                    })
                     .into(ImagenProductoItem);
 
         } else {
