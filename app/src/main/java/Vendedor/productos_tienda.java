@@ -62,7 +62,6 @@ public class productos_tienda extends AppCompatActivity {
                             String descripcion = productoSnapshot.child("descripcion").getValue(String.class);
                             String precio = productoSnapshot.child("precio").getValue(String.class);
                             String extra = productoSnapshot.child("extra").getValue(String.class);
-
                             Producto producto = new Producto(nombre, descripcion, precio, extra);
                             productosList.add(producto);
                         }
