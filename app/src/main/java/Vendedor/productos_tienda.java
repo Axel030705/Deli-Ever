@@ -65,6 +65,7 @@ public class productos_tienda extends AppCompatActivity {
                             String imagenUrl = productoSnapshot.child("imagenUrl").getValue(String.class);
 
                             Producto producto = new Producto(nombre, descripcion, precio, extra);
+                            producto.setImagenUrl(imagenUrl); // Agregar la URL de la imagen al producto
                             productosList.add(producto);
                         }
 

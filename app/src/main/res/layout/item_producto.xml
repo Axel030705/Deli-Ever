@@ -19,7 +19,9 @@
         android:text="Nombre del producto"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/TXTView_DescripcionProducto"

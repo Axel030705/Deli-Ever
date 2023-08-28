@@ -51,7 +51,7 @@ public class ProductosViewHolder extends RecyclerView.ViewHolder {
             }
 
             if (producto.getPrecio() != null) {
-                TXTView_PrecioProducto.setText(producto.getPrecio());
+                TXTView_PrecioProducto.setText("MX$" + producto.getPrecio());
             } else {
                 TXTView_PrecioProducto.setText("");
             }
