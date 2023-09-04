@@ -62,6 +62,7 @@ public class vista_producto extends AppCompatActivity {
         Intent intent = new Intent(this, comprar_producto.class);
         intent.putExtra("productoNombre", productoNombre);
         startActivity(intent);
+
     }
 
 }
