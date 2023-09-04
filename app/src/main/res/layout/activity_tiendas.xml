@@ -32,7 +32,8 @@
                     android:text="Nombre de usuario"
                     android:textColor="@color/azulCielo"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/tvEdad"
@@ -41,7 +42,8 @@
                     android:layout_marginTop="8dp"
                     android:text="Tu sabor, a un clic de distancia"
                     android:textColor="@color/black"
-                    android:textStyle="italic|bold" />
+                    android:textStyle="italic|bold"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
 
@@ -53,15 +55,34 @@
                 android:contentDescription="Imagen del usuario"
                 android:src="@drawable/icono_persona"
                 app:civ_border_color="@color/azulCielo"
-                app:civ_border_width="2dp" />
+                app:civ_border_width="2dp"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Negocios disponibles"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            tools:ignore="HardcodedText"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingTop="20dp">
     </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

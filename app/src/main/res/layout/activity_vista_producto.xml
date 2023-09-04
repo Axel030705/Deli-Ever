@@ -14,7 +14,7 @@
         android:id="@+id/imgProducto"
         android:layout_width="210dp"
         android:layout_height="210dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:src="@mipmap/icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,12 +71,13 @@
         tools:ignore="ContentDescription,HardcodedText" />
 
     <Button
-        android:id="@+id/Btn_añadirProducto"
+        android:id="@+id/Btn_comprarProducto"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Comprar"
         android:textSize="18sp"
+        android:onClick="comprar_producto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textExtraProducto"

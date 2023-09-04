@@ -1,0 +1,16 @@
+package Vendedor;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+import com.example.agenda.R;
+
+public class comprar_producto extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_comprar_producto);
+    }
+}
