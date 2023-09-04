@@ -3,6 +3,7 @@ package Vendedor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -43,11 +44,12 @@ public class vista_producto extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     public void CargarProducto(){
 
         textNombreProducto.setText(productoNombre);
         textDescripcionProducto.setText(productoDescripcion);
-        textPrecioProducto.setText("MX$ " + productoPrecio);
+        textPrecioProducto.setText("MX $" + productoPrecio);
         textExtraProducto.setText(productoExtra);
         Glide.with(imgProducto.getContext())
                 .load(productoImg)
@@ -58,8 +60,7 @@ public class vista_producto extends AppCompatActivity {
     public void comprar_producto(View view){
 
         Intent intent = new Intent(this, comprar_producto.class);
-        intent.putExtra(productoNombre, productoNombre);
-        Toast.makeText(this, productoNombre, Toast.LENGTH_SHORT).show();
+        intent.putExtra("productoNombre", productoNombre);
         startActivity(intent);
     }
 
