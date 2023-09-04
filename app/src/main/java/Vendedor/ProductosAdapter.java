@@ -38,11 +38,11 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosViewHolder> 
             // Redirigir a otra actividad
             Intent intent = new Intent(v.getContext(), vista_producto.class);
             // Pasar datos adicionales a la otra actividad utilizando putExtra()
-            /*intent.putExtra("productoNombre", producto.getNombre());
+            intent.putExtra("productoNombre", producto.getNombre());
             intent.putExtra("productoDescripcion", producto.getDescripcion());
             intent.putExtra("productoPrecio", producto.getPrecio());
             intent.putExtra("productoExtra", producto.getExtra());
-            intent.putExtra("productoImg", producto.getImagenUrl()); */
+            intent.putExtra("productoImg", producto.getImagenUrl());
 
             //Toast.makeText(v.getContext(), producto.getNombre(), Toast.LENGTH_SHORT).show();
             v.getContext().startActivity(intent);
