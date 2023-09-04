@@ -8,17 +8,20 @@
         android:maxSdkVersion="32" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32"/>
+        android:maxSdkVersion="32" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AgendaApp"
-        tools:targetApi="31"
-        android:icon="@mipmap/icon">
+        tools:targetApi="31">
+        <activity
+            android:name="Vendedor.vista_producto"
+            android:exported="false" />
         <activity
             android:name="Vendedor.productos_tienda"
             android:exported="false" />

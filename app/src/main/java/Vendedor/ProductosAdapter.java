@@ -1,5 +1,6 @@
 package Vendedor;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,17 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosViewHolder> 
     public void onBindViewHolder(@NonNull ProductosViewHolder holder, int position) {
         Producto producto = productos.get(position);
         holder.bind(producto);
+
+        holder.itemView.setOnClickListener(v -> {
+            // Acción a realizar al hacer clic en el CardView
+            // Redirigir a otra actividad
+            Intent intent = new Intent(v.getContext(), vista_producto.class);
+            // Puedes pasar datos adicionales a la otra actividad utilizando putExtra()
+            //(intent.putExtra("tiendaId", producto.getNombre()); // Ejemplo de pasar el nombre de la tienda
+            //Toast.makeText(v.getContext(), tienda.getNombre(), Toast.LENGTH_SHORT).show();
+            v.getContext().startActivity(intent);
+        });
+
     }
 
     @Override
