@@ -2,6 +2,7 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="160dp"
     android:layout_margin="18dp"
@@ -19,7 +20,8 @@
         android:text="Nombre del producto"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/TXTView_DescripcionProducto"
@@ -27,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="55dp"
-        android:text="Descripcion"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="14sp" />
 
@@ -39,7 +41,8 @@
         android:layout_marginTop="85dp"
         android:text="Precio"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/TXTView_ExtraProducto"
@@ -47,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="115dp"
-        android:text="Extra"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="14sp" />
 
@@ -58,6 +61,7 @@
         android:layout_gravity="center_vertical"
         android:layout_margin="250dp"
         android:scaleType="centerCrop"
-        android:adjustViewBounds="false"/>
+        android:adjustViewBounds="false"
+        tools:ignore="ContentDescription" />
 
 </com.google.android.material.card.MaterialCardView>

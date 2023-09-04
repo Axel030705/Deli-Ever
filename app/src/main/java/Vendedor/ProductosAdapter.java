@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,9 +37,14 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosViewHolder> 
             // Acción a realizar al hacer clic en el CardView
             // Redirigir a otra actividad
             Intent intent = new Intent(v.getContext(), vista_producto.class);
-            // Puedes pasar datos adicionales a la otra actividad utilizando putExtra()
-            //(intent.putExtra("tiendaId", producto.getNombre()); // Ejemplo de pasar el nombre de la tienda
-            //Toast.makeText(v.getContext(), tienda.getNombre(), Toast.LENGTH_SHORT).show();
+            // Pasar datos adicionales a la otra actividad utilizando putExtra()
+            intent.putExtra("productoNombre", producto.getNombre());
+            intent.putExtra("productoDescripcion", producto.getDescripcion());
+            intent.putExtra("productoPrecio", producto.getPrecio());
+            intent.putExtra("productoExtra", producto.getExtra());
+            intent.putExtra("productoImg", producto.getImagenUrl());
+
+            //Toast.makeText(v.getContext(), producto.getNombre(), Toast.LENGTH_SHORT).show();
             v.getContext().startActivity(intent);
         });
 

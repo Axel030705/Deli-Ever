@@ -6,4 +6,55 @@
     android:layout_height="match_parent"
     tools:context="Vendedor.vista_producto">
 
+
+    <ImageView
+        android:id="@+id/imgProducto"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@mipmap/icon"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/textNombreProducto"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="Nombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgProducto"
+        tools:ignore="ContentDescription,HardcodedText" />
+
+    <TextView
+        android:id="@+id/textDescripcionProducto"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="Descripción"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textNombreProducto"
+        tools:ignore="ContentDescription,HardcodedText" />
+
+    <TextView
+        android:id="@+id/textPrecioProducto"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="Precio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textDescripcionProducto"
+        tools:ignore="ContentDescription,HardcodedText" />
+
+    <TextView
+        android:id="@+id/textExtraProducto"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="Extra"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textPrecioProducto"
+        tools:ignore="ContentDescription,HardcodedText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

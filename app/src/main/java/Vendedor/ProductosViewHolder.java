@@ -44,23 +44,23 @@ public class ProductosViewHolder extends RecyclerView.ViewHolder {
                 TXTView_NombreProducto.setText("");
             }
 
-            if (producto.getDescripcion() != null) {
+            /*if (producto.getDescripcion() != null) {
                 TXTView_DescripcionProducto.setText(producto.getDescripcion());
             } else {
                 TXTView_DescripcionProducto.setText("");
-            }
+            } */
 
             if (producto.getPrecio() != null) {
-                TXTView_PrecioProducto.setText("MX$" + producto.getPrecio());
+                TXTView_PrecioProducto.setText("MX$ " + producto.getPrecio());
             } else {
                 TXTView_PrecioProducto.setText("");
             }
 
-            if (producto.getExtra() != null) {
+            /*if (producto.getExtra() != null) {
                 TXTView_ExtraProducto.setText(producto.getExtra());
             } else {
                 TXTView_ExtraProducto.setText("");
-            }
+            } */
 
             // Cargar la imagen con Glide y agregar un listener de carga
             Glide.with(itemView.getContext())
