@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Comprar producto"
+            android:text="Finalizar compra"
             android:textColor="@color/black"
             android:textSize="25sp"
             tools:ignore="HardcodedText" />
@@ -36,7 +36,7 @@
 
         <TextView
             android:id="@+id/textNombreProducto2"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="35dp"
             android:text="Nombre"
@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/textPrecioProducto2"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="15dp"
             android:text="Precio"

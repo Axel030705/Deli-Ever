@@ -35,7 +35,7 @@ public class comprar_producto extends AppCompatActivity {
         Btn_finalizarProducto = findViewById(R.id.Btn_finalizarProducto);
         Cantidad = findViewById(R.id.cantidad);
         String[] OpcionesCantidad = {"1", "2", "3", "4", "5"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, OpcionesCantidad);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, OpcionesCantidad);
         Cantidad.setAdapter(adapter);
 
         cargar_producto();
@@ -50,7 +50,6 @@ public class comprar_producto extends AppCompatActivity {
                 .load(productoImg)
                 .into(imgProducto2);
 
-            Btn_finalizarProducto.setText("Comprar      MX$" + productoPrecio);
 
     }
 
