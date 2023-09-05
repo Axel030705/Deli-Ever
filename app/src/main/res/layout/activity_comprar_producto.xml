@@ -62,6 +62,26 @@
             tools:ignore="ContentDescription,HardcodedText" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/TextInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:hintEnabled="true"
+            android:hint="Cantidad"
+            android:textColorHint="@color/black"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            tools:ignore="HardcodedText">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cantidad"
+                android:inputType="none">
+            </AutoCompleteTextView>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@color/black"
@@ -69,17 +89,27 @@
             android:layout_marginTop="15dp">
 
             <EditText
-                android:id="@+id/txt_NombreTiendaEdit"
+                android:id="@+id/txt_ubicacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/tienda"
+                android:drawableStart="@drawable/direccion"
                 android:drawablePadding="10dp"
-                android:hint="Nombre de la tienda (negocio)"
+                android:hint="Ubicación"
                 android:inputType="textPersonName"
                 android:padding="20dp"
                 tools:ignore="HardcodedText" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/Btn_finalizarProducto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Comprar"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            tools:ignore="HardcodedText" />
 
     </LinearLayout>
 </ScrollView>

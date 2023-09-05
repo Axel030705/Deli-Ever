@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     tools:context="Vendedor.vista_producto"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="20dp">
 
 
     <ImageView
@@ -72,7 +73,7 @@
 
     <Button
         android:id="@+id/Btn_comprarProducto"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Comprar"

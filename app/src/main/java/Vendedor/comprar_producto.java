@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +18,8 @@ public class comprar_producto extends AppCompatActivity {
     public TextView textNombreProducto2, textPrecioProducto2;
     public ImageView imgProducto2;
     public String productoImg, productoNombre, productoPrecio;
+    public Button Btn_finalizarProducto;
+    public AutoCompleteTextView Cantidad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,11 @@ public class comprar_producto extends AppCompatActivity {
         imgProducto2 = findViewById(R.id.imgProducto2);
         textNombreProducto2 = findViewById(R.id.textNombreProducto2);
         textPrecioProducto2 = findViewById(R.id.textPrecioProducto2);
+        Btn_finalizarProducto = findViewById(R.id.Btn_finalizarProducto);
+        Cantidad = findViewById(R.id.cantidad);
+        String[] OpcionesCantidad = {"1", "2", "3", "4", "5"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, OpcionesCantidad);
+        Cantidad.setAdapter(adapter);
 
         cargar_producto();
     }
@@ -39,6 +49,8 @@ public class comprar_producto extends AppCompatActivity {
         Glide.with(imgProducto2.getContext())
                 .load(productoImg)
                 .into(imgProducto2);
+
+            Btn_finalizarProducto.setText("Comprar      MX$" + productoPrecio);
 
     }
 
