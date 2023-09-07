@@ -27,7 +27,7 @@
             android:layout_width="210dp"
             android:layout_height="210dp"
             android:layout_marginTop="50dp"
-            android:src="@mipmap/icon"
+            android:src="@android:drawable/ic_menu_gallery"
             android:layout_gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
