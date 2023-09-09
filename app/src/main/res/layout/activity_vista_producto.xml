@@ -91,7 +91,7 @@
         android:layout_marginTop="24dp"
         android:text="Seguir con la compra"
         android:textSize="18sp"
-        android:onClick="comprar_producto"
+        android:onClick="mostrarDetallesDelProducto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textExtraProducto"
