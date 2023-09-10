@@ -1,12 +1,12 @@
 package Perfil;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,13 +16,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.agenda.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
@@ -86,7 +89,7 @@ public class Registro extends AppCompatActivity {
         correo = txt_Correo.getText().toString();
         password = txt_Password.getText().toString();
         confirmarpassword = txt_ConfirmarPassword.getText().toString();
-        tipoUsuario = spinner.getText().toString();
+        tipoUsuario = spinner.getText().toString().trim();
 
         if (TextUtils.isEmpty(nombre)) {
             Toast.makeText(this, "Ingrese su nombre", Toast.LENGTH_SHORT).show();
@@ -108,67 +111,75 @@ public class Registro extends AppCompatActivity {
     }
 
     private void CrearCuenta() {
-
         progressDialog.setMessage("Creando su cuenta...");
         progressDialog.show();
 
-        //Crear usuario en firebase
+        // Crear usuario en Firebase
         firebaseAuth.createUserWithEmailAndPassword(correo, password)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        GuardarInformacion();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(Registro.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                .addOnSuccessListener(authResult -> {
+                    // Continuar con el flujo después de crear la cuenta
+                    // Obtener el token FCM
+                    FirebaseMessaging.getInstance().getToken()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    String token = task.getResult();
 
+                                    // Aquí puedes guardar el token en la base de datos junto con otros datos del usuario
+                                    GuardarInformacion(token);
+                                } else {
+                                    // Manejar el caso en que no se pudo obtener el token
+                                    // Puedes mostrar un mensaje de error o realizar alguna otra acción
+                                    Log.w(TAG, "No se pudo obtener el token de FCM.", task.getException());
+
+                                    // Aún así, guarda la información del usuario sin el token si lo deseas
+                                    GuardarInformacion(null);
+                                }
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(Registro.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
-    private void GuardarInformacion() {
-        progressDialog.setMessage("Guardando su informacion");
-        progressDialog.dismiss();
+    private void GuardarInformacion(String token) {
+        progressDialog.setMessage("Guardando su información");
 
-        //Obtener la identificacion de usuario actual
+        // Obtener la identificación de usuario actual
         String uid = firebaseAuth.getUid();
 
-        HashMap<String, String> Datos = new HashMap<>();
+        HashMap<String, Object> Datos = new HashMap<>();
         Datos.put("uid", uid);
         Datos.put("correo", correo);
         Datos.put("nombre", nombre);
         Datos.put("password", password);
         Datos.put("Tipo de usuario", tipoUsuario);
 
+        if (token != null) {
+            Datos.put("tokenFCM", token);
+        }
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Usuarios");
-        databaseReference.child(uid).setValue(Datos).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                progressDialog.dismiss();
-                Toast.makeText(Registro.this, "Cuenta creada con exito", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(Registro.this, MenuPrincipal.class));
+        databaseReference.child(uid).setValue(Datos)
+                .addOnSuccessListener(unused -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(Registro.this, "Cuenta creada con éxito", Toast.LENGTH_SHORT).show();
 
-                if (tipoUsuario.equals("Cliente")) { //Se manda al cliente a su respectiva vista
-                    startActivity(new Intent(Registro.this, Tiendas_Activity.class));
-                } else if (tipoUsuario.equals("Vendedor")) { //Se manda al vendedor a su respectiva vista
-                    startActivity(new Intent(Registro.this, Activity_Vendedor.class));
-                } else {
-                    Toast.makeText(Registro.this, "Tipo de usuario no válido", Toast.LENGTH_SHORT).show();
-                }
+                    // Iniciar la actividad correspondiente según el tipo de usuario
+                    if ("Cliente".equals(tipoUsuario)) {
+                        startActivity(new Intent(Registro.this, Tiendas_Activity.class));
+                    } else if ("Vendedor".equals(tipoUsuario)) {
+                        startActivity(new Intent(Registro.this, Activity_Vendedor.class));
+                    } else {
+                        Toast.makeText(Registro.this, "Tipo de usuario no válido", Toast.LENGTH_SHORT).show();
+                    }
 
-                finish();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
-                Toast.makeText(Registro.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(Registro.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 }
 
