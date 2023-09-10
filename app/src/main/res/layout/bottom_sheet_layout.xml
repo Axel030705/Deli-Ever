@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- bottom_sheet_comprar_producto.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,7 +19,9 @@
             android:layout_height="200dp"
             android:layout_gravity="center"
             android:src="@android:drawable/ic_menu_gallery"
-            tools:ignore="ContentDescription"/>
+            tools:ignore="ContentDescription"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="false"/>
 
     </LinearLayout>
 

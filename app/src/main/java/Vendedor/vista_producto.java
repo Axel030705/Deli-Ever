@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -45,7 +47,7 @@ public class vista_producto extends AppCompatActivity {
         productoPrecio= getIntent().getStringExtra("productoPrecio");
         productoExtra= getIntent().getStringExtra("productoExtra");
         CargarProducto();
-
+        Logicas();
     }
 
     @SuppressLint("SetTextI18n")
@@ -72,6 +74,7 @@ public class vista_producto extends AppCompatActivity {
 
 
     // Método para mostrar el BottomSheetDialog
+    @SuppressLint("SetTextI18n")
     public void mostrarDetallesDelProducto(View view) {
         // Crea una instancia del BottomSheetDialog
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
@@ -85,6 +88,7 @@ public class vista_producto extends AppCompatActivity {
         AutoCompleteTextView cantidad = bottomSheetView.findViewById(R.id.cantidad2);
         Button Btn_finalizarProducto2 = bottomSheetView.findViewById(R.id.Btn_finalizarProducto2);
         cantidad.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -125,6 +129,15 @@ public class vista_producto extends AppCompatActivity {
         bottomSheetDialog.setContentView(bottomSheetView);
         // Muestra el BottomSheet
         bottomSheetDialog.show();
+    }
+
+    public void Logicas(){
+        // Verificar si el textView de extra esta vacio
+        if(textExtraProducto.getText().toString().isEmpty()){
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) Btn_comprarProducto.getLayoutParams();
+            params.topMargin = (int) getResources().getDimension(R.dimen.nuevo_margin_top);
+            Btn_comprarProducto.setLayoutParams(params);
+        }
     }
 
 }

@@ -47,7 +47,7 @@
                 android:hint="Nombre"
                 android:inputType="textPersonName|textCapWords"
                 android:padding="20dp"
-                tools:ignore="HardcodedText"></EditText>
+                tools:ignore="HardcodedText" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
