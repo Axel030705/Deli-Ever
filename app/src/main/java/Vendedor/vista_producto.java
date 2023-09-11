@@ -138,58 +138,58 @@ public class vista_producto extends AppCompatActivity {
         // Muestra el BottomSheet
         bottomSheetDialog.show();
 
-        Btn_finalizarProducto2.setOnClickListener(view1 -> {
+        Btn_finalizarProducto2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Paso 1: Obtener el vendedorId de la tienda en la que se realiza la acción
+                DatabaseReference tiendasRef = FirebaseDatabase.getInstance().getReference("Tienda");
+                tiendasRef.child(idTienda).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            String vendedorId = dataSnapshot.child("usuarioAsociado").getValue(String.class);
 
-            // Paso 1: Obtener el vendedorId de la tienda en la que se realiza la acción
-            DatabaseReference tiendasRef = FirebaseDatabase.getInstance().getReference("Tienda");
-            tiendasRef.child(idTienda).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        String vendedorId = dataSnapshot.child("usuarioAsociado").getValue(String.class);
+                            if (vendedorId != null) {
+                                // Paso 2: Buscar el token del vendedor en la base de datos de usuarios
+                                DatabaseReference usuariosRef = FirebaseDatabase.getInstance().getReference("Usuarios");
+                                usuariosRef.child(vendedorId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.exists()) {
+                                            String vendedorToken = dataSnapshot.child("tokenFCM").getValue(String.class);
 
-                        if (vendedorId != null) {
-                            // Paso 2: Buscar el token del vendedor en la base de datos de usuarios
-                            DatabaseReference usuariosRef = FirebaseDatabase.getInstance().getReference("Usuarios");
-                            usuariosRef.child(vendedorId).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if (dataSnapshot.exists()) {
-                                        String vendedorToken = dataSnapshot.child("tokenFCM").getValue(String.class);
-
-                                        if (vendedorToken != null) {
-                                            // Paso 3: Crear y enviar la notificación al vendedor
-                                            RemoteMessage.Builder builder = new RemoteMessage.Builder(vendedorToken);
-                                            builder.setMessageId(Integer.toString(new Random().nextInt(9999)));
-                                            builder.addData("title", "Nuevo pedido");
-                                            builder.addData("body", "Tienes un nuevo pedido de " + "Axel");
-                                            builder.addData("pedido_id", "ID_del_pedido"); // Puedes incluir información adicional sobre el pedido aquí
-
-                                            FirebaseMessaging.getInstance().send(builder.build());
-                                            Toast.makeText(vista_producto.this, "Pedido realizado con exito!", Toast.LENGTH_LONG).show();
-                                        } else {
-                                            // Manejar el caso en que no se encontró el token del vendedor
-                                            Toast.makeText(vista_producto.this, "Token del vendedor no encontrado", Toast.LENGTH_SHORT).show();
+                                            if (vendedorToken != null) {
+                                                // Paso 3: Crear y enviar la notificación al vendedor
+                                                RemoteMessage.Builder builder = new RemoteMessage.Builder(vendedorToken);
+                                                builder.setMessageId(Integer.toString(new Random().nextInt(9999)));
+                                                builder.addData("title", "Nuevo pedido");
+                                                builder.addData("body", "Tienes un nuevo pedido de " + "Axel");
+                                                builder.addData("pedido_id", "ID_del_pedido"); // Puedes incluir información adicional sobre el pedido aquí
+                                                FirebaseMessaging.getInstance().send(builder.build());
+                                                Toast.makeText(vista_producto.this, "Pedido realizado con éxito!", Toast.LENGTH_LONG).show();
+                                            } else {
+                                                // Manejar el caso en que no se encontró el token del vendedor
+                                                Toast.makeText(vista_producto.this, "Token del vendedor no encontrado", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
                                     }
-                                }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                    Toast.makeText(vista_producto.this, "Error base de datos de usuarios", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        } else {
-                            // Manejar el caso en que no se encontró el vendedorId
-                            Toast.makeText(vista_producto.this, "ID del vendedor no encontrado en la tienda", Toast.LENGTH_SHORT).show();
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Toast.makeText(vista_producto.this, "Error base de datos de usuarios", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            } else {
+                                // Manejar el caso en que no se encontró el vendedorId
+                                Toast.makeText(vista_producto.this, "ID del vendedor no encontrado en la tienda", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(vista_producto.this, "Error base de datos de tiendas", Toast.LENGTH_LONG).show();
-                }
-            });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(vista_producto.this, "Error base de datos de tiendas", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
         });
     }
 
