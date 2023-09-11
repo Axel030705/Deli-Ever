@@ -37,14 +37,14 @@ public class productos_tienda extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productos_tienda);
 
+        // Obtén el ID de la tienda desde los extras del Intent
+        String tiendaId = getIntent().getStringExtra("tiendaId");
+
         RecyclerView recyclerView = findViewById(R.id.recyclerViewProductos);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new ProductosAdapter(productosList);
+        adapter = new ProductosAdapter(productosList, tiendaId);
         recyclerView.setAdapter(adapter);
-
-        // Obtén el ID de la tienda desde los extras del Intent
-        String tiendaId = getIntent().getStringExtra("tiendaId");
 
         if (tiendaId != null) {
             DatabaseReference tiendaRef = FirebaseDatabase.getInstance().getReference("Tienda").child(tiendaId);
@@ -63,12 +63,11 @@ public class productos_tienda extends AppCompatActivity {
                             String precio = productoSnapshot.child("precio").getValue(String.class);
                             String extra = productoSnapshot.child("extra").getValue(String.class);
                             String imagenUrl = productoSnapshot.child("imagenUrl").getValue(String.class);
-
                             Producto producto = new Producto(nombre, descripcion, precio, extra);
                             producto.setImagenUrl(imagenUrl); // Agregar la URL de la imagen al producto
                             productosList.add(producto);
-                        }
 
+                        }
                         adapter.notifyDataSetChanged();
                     } else {
                         Toast.makeText(getApplicationContext(), "No se encontraron productos en esta tienda", Toast.LENGTH_SHORT).show();

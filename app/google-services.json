@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "48534996518",
+    "firebase_url": "https://student-app-fb310-default-rtdb.firebaseio.com",
     "project_id": "student-app-fb310",
     "storage_bucket": "student-app-fb310.appspot.com"
   },

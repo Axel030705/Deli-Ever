@@ -1,5 +1,7 @@
 package Vendedor;
 
+import static android.content.Intent.getIntent;
+
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +17,12 @@ import java.util.List;
 
 public class ProductosAdapter extends RecyclerView.Adapter<ProductosViewHolder> {
 
+
     private final List<Producto> productos;
-    public ProductosAdapter(List<Producto> productos) {
+    private final String tiendaId;
+    public ProductosAdapter(List<Producto> productos, String tiendaId) {
         this.productos = productos;
+        this.tiendaId = tiendaId;
     }
 
     @NonNull
@@ -26,6 +31,8 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosViewHolder> 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_producto, parent, false);
         return new ProductosViewHolder(itemView);
+
+
     }
 
     @Override
@@ -43,7 +50,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosViewHolder> 
             intent.putExtra("productoPrecio", producto.getPrecio());
             intent.putExtra("productoExtra", producto.getExtra());
             intent.putExtra("productoImg", producto.getImagenUrl());
-
+            intent.putExtra("tiendaId", tiendaId);
             //Toast.makeText(v.getContext(), producto.getNombre(), Toast.LENGTH_SHORT).show();
             v.getContext().startActivity(intent);
         });
