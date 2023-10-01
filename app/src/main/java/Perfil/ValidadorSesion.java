@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
-import com.example.agenda.MainActivityEspera;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import Vendedor.Activity_Vendedor;
+import Vendedor.MainActivityEspera;
 import Vendedor.Tiendas_Activity;
 import Vendedor.Vendedor_Main;
 

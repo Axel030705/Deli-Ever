@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.agenda.MainActivityEspera;
 import com.example.agenda.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +26,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
+import Vendedor.MainActivityEspera;
 import Vendedor.Tiendas_Activity;
 
 public class Registro extends AppCompatActivity {

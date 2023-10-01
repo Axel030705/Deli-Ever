@@ -33,14 +33,14 @@
             app:lottie_autoPlay="true"
             app:lottie_fileName="UserLogin.json"
             app:lottie_imageAssetsFolder="assets"
-            app:lottie_loop="true"></com.airbnb.lottie.LottieAnimationView>
+            app:lottie_loop="true"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            app:boxStrokeColor="@color/azulCielo"
             android:textColorHint="@color/black"
+            app:boxStrokeColor="@color/azulCielo"
             app:hintTextColor="@color/azulCielo">
 
             <EditText
@@ -59,10 +59,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            app:passwordToggleEnabled="true"
-            app:boxStrokeColor="@color/azulCielo"
             android:textColorHint="@color/black"
-            app:hintTextColor="@color/azulCielo">
+            app:boxStrokeColor="@color/azulCielo"
+            app:hintTextColor="@color/azulCielo"
+            app:passwordToggleEnabled="true">
 
             <EditText
                 android:id="@+id/txt_PasswordLogin"

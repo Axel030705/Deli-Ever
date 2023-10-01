@@ -21,7 +21,7 @@
         android:theme="@style/Theme.AgendaApp"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivityEspera"
+            android:name="Vendedor.MainActivityEspera"
             android:exported="false" />
         <activity
             android:name="Vendedor.comprar_producto"
