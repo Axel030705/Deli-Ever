@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
+import com.example.agenda.MainActivityEspera;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,7 +37,7 @@ public class ValidadorSesion {
         }
     }
 
-    private void ValidarDatos() {
+    /*private void ValidarDatos() {
         usuarios.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -74,7 +75,65 @@ public class ValidadorSesion {
                 // Manejar el error en caso de cancelación de la operación
             }
         });
+    }*/
+
+    private void ValidarDatos() {
+
+        DatabaseReference usuarioRef = FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid());
+        usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String tipoUsuario = dataSnapshot.child("Tipo de usuario").getValue(String.class);
+                    String estado = dataSnapshot.child("estado").getValue(String.class);
+
+                    assert tipoUsuario != null;
+                    if ("Cliente".equals(tipoUsuario)) {
+                        iniciarActividad(Tiendas_Activity.class);
+                    } else if ("Vendedor".equals(tipoUsuario)) {
+                        if ("aprobado".equals(estado)) {
+                            // El usuario "Vendedor" está aprobado, ahora verifica si existe una tienda
+                            DatabaseReference tiendasRef = FirebaseDatabase.getInstance().getReference("Tienda");
+                            tiendasRef.orderByChild("usuarioAsociado").equalTo(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        // Hay una tienda registrada, redirigir a la actividad de vendedor
+                                        iniciarActividad(Vendedor_Main.class);
+                                    } else {
+                                        // No hay una tienda registrada, redirigir a la actividad de registro de tienda
+                                        iniciarActividad(Activity_Vendedor.class);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    // Manejar el error en caso de cancelación de la operación
+                                }
+                            });
+                        } else {
+                            // El usuario "Vendedor" no está aprobado, redirigir a la actividad de espera
+                            iniciarActividad(MainActivityEspera.class);
+                        }
+                    } else {
+                        // Otro tipo de usuario no válido, manejar de acuerdo a tus necesidades
+                        iniciarActividad(MainActivity.class); // Otra opción podría ser redirigir a la actividad principal
+                    }
+                } else {
+                    // No se encontró información del usuario, manejar de acuerdo a tus necesidades
+                    iniciarActividad(MainActivity.class); // Otra opción podría ser redirigir a la actividad principal
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Manejar el error en caso de cancelación de la operación
+            }
+        });
     }
+
+
+
 
     private void iniciarActividad(Class<?> claseActividad) {
         Intent intent = new Intent(context, claseActividad);

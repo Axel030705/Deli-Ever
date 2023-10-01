@@ -16,12 +16,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.agenda.MainActivityEspera;
 import com.example.agenda.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,7 +27,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
-import Vendedor.Activity_Vendedor;
 import Vendedor.Tiendas_Activity;
 
 public class Registro extends AppCompatActivity {
@@ -142,7 +139,7 @@ public class Registro extends AppCompatActivity {
                 });
     }
 
-    private void GuardarInformacion(String token) {
+    /*private void GuardarInformacion(String token) {
         progressDialog.setMessage("Guardando su información");
 
         // Obtener la identificación de usuario actual
@@ -180,7 +177,55 @@ public class Registro extends AppCompatActivity {
                     progressDialog.dismiss();
                     Toast.makeText(Registro.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }*/
+
+
+    private void GuardarInformacion(String token) {
+        progressDialog.setMessage("Guardando su información");
+
+        // Obtener la identificación de usuario actual
+        String uid = firebaseAuth.getUid();
+
+        HashMap<String, Object> Datos = new HashMap<>();
+        Datos.put("uid", uid);
+        Datos.put("correo", correo);
+        Datos.put("nombre", nombre);
+        Datos.put("password", password);
+        Datos.put("Tipo de usuario", tipoUsuario);
+
+        if (token != null) {
+            Datos.put("tokenFCM", token);
+        }
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Usuarios");
+        databaseReference.child(uid).setValue(Datos)
+                .addOnSuccessListener(unused -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(Registro.this, "Cuenta creada con éxito", Toast.LENGTH_SHORT).show();
+
+                    // Iniciar la actividad correspondiente según el tipo de usuario
+                    if ("Cliente".equals(tipoUsuario)) {
+                        startActivity(new Intent(Registro.this, Tiendas_Activity.class));
+                    } else if ("Vendedor".equals(tipoUsuario)) {
+                        // Establecer el estado como "pendiente" para los vendedores
+                        DatabaseReference vendedorReference = FirebaseDatabase.getInstance().getReference("Usuarios").child(uid);
+                        vendedorReference.child("estado").setValue("pendiente");
+                        Intent intent = new Intent(this, MainActivityEspera.class);
+                        intent.putExtra("uid", uid); // Aquí "uid" es el nombre de la variable y su valor
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(Registro.this, "Tipo de usuario no válido", Toast.LENGTH_SHORT).show();
+                    }
+
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(Registro.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
+
+
 }
 
 
