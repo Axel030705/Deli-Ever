@@ -1,5 +1,6 @@
 package Vendedor;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ public class VendedorAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -71,8 +73,8 @@ public class VendedorAdapter extends BaseAdapter {
         });
 
         nombreTextView.setText(vendedor.getNombre());
-        correoTextView.setText(vendedor.getCorreo());
-        estadoTextView.setText(vendedor.getEstado());
+        correoTextView.setText("Correo: "+ vendedor.getCorreo());
+        estadoTextView.setText("Estado: " + vendedor.getEstado());
 
         return convertView;
     }
