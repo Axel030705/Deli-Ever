@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agenda.R;
+import com.example.agenda.databinding.ActivitySolicitudesVendedoresBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,7 +40,7 @@ public class Registro extends AppCompatActivity {
 
     private AutoCompleteTextView spinner;
 
-
+    String USUARIOROOT = "Admin", PASSWORDROOT = "Root";
     ///////////////////////////////
     String nombre = "", correo = "", password = "", confirmarpassword = "", tipoUsuario = "";
 
@@ -204,25 +205,29 @@ public class Registro extends AppCompatActivity {
                     Toast.makeText(Registro.this, "Cuenta creada con éxito", Toast.LENGTH_SHORT).show();
 
                     // Iniciar la actividad correspondiente según el tipo de usuario
-                    if ("Cliente".equals(tipoUsuario)) {
-                        startActivity(new Intent(Registro.this, Tiendas_Activity.class));
-                    } else if ("Vendedor".equals(tipoUsuario)) {
-                        // Establecer el estado como "pendiente" para los vendedores
-                        DatabaseReference vendedorReference = FirebaseDatabase.getInstance().getReference("Usuarios").child(uid);
-                        vendedorReference.child("estado").setValue("pendiente");
-                        Intent intent = new Intent(this, MainActivityEspera.class);
-                        intent.putExtra("uid", uid); // Aquí "uid" es el nombre de la variable y su valor
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(Registro.this, "Tipo de usuario no válido", Toast.LENGTH_SHORT).show();
+                    if(USUARIOROOT.equals(nombre) && PASSWORDROOT.equals(password)){
+                        startActivity(new Intent(Registro.this, ActivitySolicitudesVendedoresBinding.class));
+                    }else {
+                        if ("Cliente".equals(tipoUsuario)) {
+                            startActivity(new Intent(Registro.this, Tiendas_Activity.class));
+                        } else if ("Vendedor".equals(tipoUsuario)) {
+                            // Establecer el estado como "pendiente" para los vendedores
+                            DatabaseReference vendedorReference = FirebaseDatabase.getInstance().getReference("Usuarios").child(uid);
+                            vendedorReference.child("estado").setValue("pendiente");
+                            Intent intent = new Intent(this, MainActivityEspera.class);
+                            intent.putExtra("uid", uid); // Aquí "uid" es el nombre de la variable y su valor
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(Registro.this, "Tipo de usuario no válido", Toast.LENGTH_SHORT).show();
+                        }
                     }
-
                     finish();
                 })
                 .addOnFailureListener(e -> {
                     progressDialog.dismiss();
                     Toast.makeText(Registro.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+
     }
 
 

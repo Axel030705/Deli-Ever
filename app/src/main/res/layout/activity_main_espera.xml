@@ -32,7 +32,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="100dp"
             app:lottie_autoPlay="true"
-            app:lottie_fileName="usuario.json"
+            app:lottie_fileName="send.json"
             app:lottie_imageAssetsFolder="assets"
             app:lottie_loop="false"/>
 
@@ -48,6 +48,17 @@
             android:layout_marginTop="50dp"
             android:layout_gravity="center"
             tools:ignore="HardcodedText"/>
+
+        <Button
+            android:id="@+id/Btn_Salir"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salir"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </RelativeLayout>
