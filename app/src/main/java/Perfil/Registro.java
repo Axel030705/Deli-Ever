@@ -19,7 +19,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agenda.R;
-import com.example.agenda.databinding.ActivitySolicitudesVendedoresBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,6 +27,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.HashMap;
 
 import Vendedor.MainActivityEspera;
+import Vendedor.SolicitudesVendedores;
 import Vendedor.Tiendas_Activity;
 
 public class Registro extends AppCompatActivity {
@@ -40,7 +40,7 @@ public class Registro extends AppCompatActivity {
 
     private AutoCompleteTextView spinner;
 
-    String USUARIOROOT = "Admin", PASSWORDROOT = "Root";
+    String USUARIOROOT = "Admin", PASSWORDROOT = "Administrador";
     ///////////////////////////////
     String nombre = "", correo = "", password = "", confirmarpassword = "", tipoUsuario = "";
 
@@ -89,22 +89,23 @@ public class Registro extends AppCompatActivity {
         confirmarpassword = txt_ConfirmarPassword.getText().toString();
         tipoUsuario = spinner.getText().toString().trim();
 
-        if (TextUtils.isEmpty(nombre)) {
-            Toast.makeText(this, "Ingrese su nombre", Toast.LENGTH_SHORT).show();
-        }
-        else if (!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
-            Toast.makeText(this, "Ingrese un correo valido", Toast.LENGTH_SHORT).show();
-        }
-        else if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Ingrese una contraseña", Toast.LENGTH_SHORT).show();
-        }
-        else if (TextUtils.isEmpty(confirmarpassword)) {
-            Toast.makeText(this, "Confirme su contraseña", Toast.LENGTH_SHORT).show();
-        }
-        else if (!password.equals(confirmarpassword)) {
-            Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
-        }else {
+        if (USUARIOROOT.equals(nombre) && PASSWORDROOT.equals(password) ) {
             CrearCuenta();
+        } else {
+
+            if (TextUtils.isEmpty(nombre)) {
+                Toast.makeText(this, "Ingrese su nombre", Toast.LENGTH_SHORT).show();
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+                Toast.makeText(this, "Ingrese un correo valido", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(password)) {
+                Toast.makeText(this, "Ingrese una contraseña", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(confirmarpassword)) {
+                Toast.makeText(this, "Confirme su contraseña", Toast.LENGTH_SHORT).show();
+            } else if (!password.equals(confirmarpassword)) {
+                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+            } else {
+                CrearCuenta();
+            }
         }
     }
 
@@ -206,7 +207,7 @@ public class Registro extends AppCompatActivity {
 
                     // Iniciar la actividad correspondiente según el tipo de usuario
                     if(USUARIOROOT.equals(nombre) && PASSWORDROOT.equals(password)){
-                        startActivity(new Intent(Registro.this, ActivitySolicitudesVendedoresBinding.class));
+                        startActivity(new Intent(Registro.this, SolicitudesVendedores.class));
                     }else {
                         if ("Cliente".equals(tipoUsuario)) {
                             startActivity(new Intent(Registro.this, Tiendas_Activity.class));

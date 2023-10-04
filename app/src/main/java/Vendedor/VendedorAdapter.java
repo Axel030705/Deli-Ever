@@ -5,9 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.agenda.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -47,6 +51,24 @@ public class VendedorAdapter extends BaseAdapter {
         TextView nombreTextView = convertView.findViewById(R.id.nombreTextView);
         TextView correoTextView = convertView.findViewById(R.id.correoTextView);
         TextView estadoTextView = convertView.findViewById(R.id.estadoTextView);
+        Button buttonAceptarVendedor = convertView.findViewById(R.id.buttonAceptarVendedor);
+        Button buttonRechazarVendedor = convertView.findViewById(R.id.buttonRechazarVendedor);
+
+        buttonAceptarVendedor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Acción para aceptar al vendedor
+                AceptarVendedor(vendedor);
+            }
+        });
+
+        buttonRechazarVendedor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Acción para rechazar al vendedor
+                RechazarVendedor(vendedor);
+            }
+        });
 
         nombreTextView.setText(vendedor.getNombre());
         correoTextView.setText(vendedor.getCorreo());
@@ -54,5 +76,24 @@ public class VendedorAdapter extends BaseAdapter {
 
         return convertView;
     }
+
+    private void AceptarVendedor(ClaseVendedor vendedor) {
+        DatabaseReference vendedorReference = FirebaseDatabase.getInstance().getReference("Usuarios").child(vendedor.getUid());
+        vendedorReference.child("estado").setValue("aprobado");
+
+        // Puedes realizar otras acciones relacionadas con la aceptación aquí
+
+        Toast.makeText(context.getApplicationContext(), "Vendedor aceptado", Toast.LENGTH_SHORT).show();
+    }
+
+    private void RechazarVendedor(ClaseVendedor vendedor) {
+        DatabaseReference vendedorReference = FirebaseDatabase.getInstance().getReference("Usuarios").child(vendedor.getUid());
+        vendedorReference.child("estado").setValue("rechazado");
+
+        // Puedes realizar otras acciones relacionadas con el rechazo aquí
+
+        Toast.makeText(context.getApplicationContext(), "Vendedor rechazado", Toast.LENGTH_SHORT).show();
+    }
+
 }
 

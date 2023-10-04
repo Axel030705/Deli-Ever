@@ -17,8 +17,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import Perfil.MainActivity;
-
 public class MainActivityEspera extends AppCompatActivity {
 
     @Override
@@ -61,7 +59,7 @@ public class MainActivityEspera extends AppCompatActivity {
                 .setMessage("Lo sentimos, su solicitud de registro ha sido rechazada.")
                 .setPositiveButton("OK", (dialog, which) -> {
                     // Redirigir al usuario a una actividad de inicio de sesión o página principal
-                    startActivity(new Intent(MainActivityEspera.this, MainActivity.class));
+                    //startActivity(new Intent(MainActivityEspera.this, MainActivity.class));
                     finish(); // Cerrar la actividad de espera
                 })
                 .show();

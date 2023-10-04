@@ -27,23 +27,9 @@
             android:id="@+id/listViewVendedores"
             android:layout_width="match_parent"
             android:layout_height="600dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp" />
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
+            tools:ignore="NestedScrolling" />
 
-
-        <Button
-            android:id="@+id/buttonAceptar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Aceptar"
-            tools:ignore="HardcodedText" />
-
-
-        <Button
-            android:id="@+id/buttonRechazar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Rechazar"
-            tools:ignore="HardcodedText" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

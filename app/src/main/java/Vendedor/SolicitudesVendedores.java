@@ -23,7 +23,6 @@ public class SolicitudesVendedores extends AppCompatActivity {
     private List<ClaseVendedor> vendedoresList;
     private VendedorAdapter vendedorAdapter; // Puedes seguir utilizando el adaptador ClienteAdapter para vendedores si deseas
     private DatabaseReference vendedoresReference; // Cambia el nombre de la referencia
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +33,7 @@ public class SolicitudesVendedores extends AppCompatActivity {
         vendedorAdapter = new VendedorAdapter(this, vendedoresList); // Cambia el nombre del adaptador si es necesario
         listViewVendedores.setAdapter(vendedorAdapter);
 
-        vendedoresReference = FirebaseDatabase.getInstance().getReference("Vendedores"); // Cambia el nombre de la referencia a "Vendedores"
+        vendedoresReference = FirebaseDatabase.getInstance().getReference("Usuarios"); // Cambia el nombre de la referencia a "Vendedores"
 
         vendedoresReference.orderByChild("estado").equalTo("pendiente")
                 .addValueEventListener(new ValueEventListener() {
@@ -57,5 +56,7 @@ public class SolicitudesVendedores extends AppCompatActivity {
                     }
                 });
     }
+
+
 }
 

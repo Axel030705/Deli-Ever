@@ -14,6 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import Vendedor.Activity_Vendedor;
 import Vendedor.MainActivityEspera;
+import Vendedor.SolicitudesVendedores;
 import Vendedor.Tiendas_Activity;
 import Vendedor.Vendedor_Main;
 
@@ -84,40 +85,45 @@ public class ValidadorSesion {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+                    String passwordUsuario = dataSnapshot.child("password").getValue(String.class);
                     String tipoUsuario = dataSnapshot.child("Tipo de usuario").getValue(String.class);
                     String estado = dataSnapshot.child("estado").getValue(String.class);
 
                     assert tipoUsuario != null;
-                    if ("Cliente".equals(tipoUsuario)) {
-                        iniciarActividad(Tiendas_Activity.class);
-                    } else if ("Vendedor".equals(tipoUsuario)) {
-                        if ("aprobado".equals(estado)) {
-                            // El usuario "Vendedor" está aprobado, ahora verifica si existe una tienda
-                            DatabaseReference tiendasRef = FirebaseDatabase.getInstance().getReference("Tienda");
-                            tiendasRef.orderByChild("usuarioAsociado").equalTo(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (snapshot.exists()) {
-                                        // Hay una tienda registrada, redirigir a la actividad de vendedor
-                                        iniciarActividad(Vendedor_Main.class);
-                                    } else {
-                                        // No hay una tienda registrada, redirigir a la actividad de registro de tienda
-                                        iniciarActividad(Activity_Vendedor.class);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                    // Manejar el error en caso de cancelación de la operación
-                                }
-                            });
-                        } else {
-                            // El usuario "Vendedor" no está aprobado, redirigir a la actividad de espera
-                            iniciarActividad(MainActivityEspera.class);
-                        }
+                    if ("Administrador".equals(passwordUsuario)) {
+                        iniciarActividad(SolicitudesVendedores.class);
                     } else {
-                        // Otro tipo de usuario no válido, manejar de acuerdo a tus necesidades
-                        iniciarActividad(MainActivity.class); // Otra opción podría ser redirigir a la actividad principal
+                        if ("Cliente".equals(tipoUsuario)) {
+                            iniciarActividad(Tiendas_Activity.class);
+                        } else if ("Vendedor".equals(tipoUsuario)) {
+                            if ("aprobado".equals(estado)) {
+                                // El usuario "Vendedor" está aprobado, ahora verifica si existe una tienda
+                                DatabaseReference tiendasRef = FirebaseDatabase.getInstance().getReference("Tienda");
+                                tiendasRef.orderByChild("usuarioAsociado").equalTo(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (snapshot.exists()) {
+                                            // Hay una tienda registrada, redirigir a la actividad de vendedor
+                                            iniciarActividad(Vendedor_Main.class);
+                                        } else {
+                                            // No hay una tienda registrada, redirigir a la actividad de registro de tienda
+                                            iniciarActividad(Activity_Vendedor.class);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        // Manejar el error en caso de cancelación de la operación
+                                    }
+                                });
+                            } else {
+                                // El usuario "Vendedor" no está aprobado, redirigir a la actividad de espera
+                                iniciarActividad(MainActivityEspera.class);
+                            }
+                        } else {
+                            // Otro tipo de usuario no válido, manejar de acuerdo a tus necesidades
+                            iniciarActividad(MainActivity.class); // Otra opción podría ser redirigir a la actividad principal
+                        }
                     }
                 } else {
                     // No se encontró información del usuario, manejar de acuerdo a tus necesidades
@@ -125,10 +131,12 @@ public class ValidadorSesion {
                 }
             }
 
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error en caso de cancelación de la operación
             }
+
         });
     }
 
