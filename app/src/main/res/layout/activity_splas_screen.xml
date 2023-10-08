@@ -24,13 +24,13 @@
         </com.airbnb.lottie.LottieAnimationView> -->
 
         <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/gif_view"
+            android:id="@+id/LogoAnimation"
             android:layout_width="500dp"
             android:layout_height="500dp"
             android:background="@color/white"/>
 
-        <!-- <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/gif_barra"
+        <!--<pl.droidsonroids.gif.GifImageView
+            android:id="@+id/bp"
             android:layout_width="300dp"
             android:layout_height="200dp"
             android:background="@color/white"

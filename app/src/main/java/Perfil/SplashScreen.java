@@ -1,13 +1,13 @@
 package Perfil;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agenda.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashScreen extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
@@ -41,7 +42,7 @@ public class SplashScreen extends AppCompatActivity {
         int tiempo = 3900;
          new Handler().postDelayed(this::VerificarUsuario,tiempo);
 
-        GifImageView gifView = findViewById(R.id.gif_view);
+        GifImageView gifView = findViewById(R.id.LogoAnimation);
         try {
             GifDrawable gifDrawable = new GifDrawable(getResources(), R.raw.logo);
             gifView.setImageDrawable(gifDrawable);
@@ -49,7 +50,7 @@ public class SplashScreen extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        /* GifImageView gifbarra = findViewById(R.id.gif_barra);
+        /*GifImageView gifbarra = findViewById(R.id.bp);
         try {
             GifDrawable gifDrawable = new GifDrawable(getResources(), R.raw.bp);
             gifbarra.setImageDrawable(gifDrawable);
