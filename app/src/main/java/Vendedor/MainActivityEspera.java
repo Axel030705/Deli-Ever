@@ -2,6 +2,7 @@ package Vendedor;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -63,6 +64,11 @@ public class MainActivityEspera extends AppCompatActivity {
                     finish(); // Cerrar la actividad de espera
                 })
                 .show();
+    }
+
+    public void Salir(View view){
+        finish();
+        onDestroy();
     }
 
 }

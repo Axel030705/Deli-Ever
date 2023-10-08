@@ -19,7 +19,7 @@
             android:text="Registrar tienda (Negocio)"
             android:textColor="@color/black"
             android:textSize="25sp"
-            tools:ignore="HardcodedText"></TextView>
+            tools:ignore="HardcodedText" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ImagenTienda"

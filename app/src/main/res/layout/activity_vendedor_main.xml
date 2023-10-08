@@ -95,4 +95,19 @@
         android:layout_marginEnd="20dp">
     </Button>
 
+    <Button
+        android:id="@+id/Btn_EliminarTienda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/azulCielo"
+        android:text="Eliminar Tienda"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        tools:ignore="HardcodedText"
+        android:padding="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+    </Button>
+
 </LinearLayout>
