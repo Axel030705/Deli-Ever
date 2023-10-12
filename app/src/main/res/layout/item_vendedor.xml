@@ -30,6 +30,13 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"/>
 
+    <!-- Tipo de productos que venderá -->
+    <TextView
+        android:id="@+id/TipoPTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"/>
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,9 +1,6 @@
 package Cliente;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,11 +11,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.agenda.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,7 +47,6 @@ public class Perfil_Activity extends AppCompatActivity {
     private TextView txtNombreUsuarioPerfil;
     private TextView txtCorreoPerfil;
     private TextView txtTipoPerfil;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,16 +65,25 @@ public class Perfil_Activity extends AppCompatActivity {
         txtTipoPerfil = findViewById(R.id.TXTTipoPerfil);
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String nombre = dataSnapshot.child("nombre").getValue(String.class);
+                    String password = dataSnapshot.child("password").getValue(String.class);
                     String correo = dataSnapshot.child("correo").getValue(String.class);
                     String tipo = dataSnapshot.child("Tipo de usuario").getValue(String.class);
 
-                    txtNombreUsuarioPerfil.setText(nombre);
-                    txtCorreoPerfil.setText(correo);
-                    txtTipoPerfil.setText(tipo);
+                    if(tipo.equals("") && password.equals("Administrador")){ // Valida si es Administrador
+                        txtNombreUsuarioPerfil.setText(nombre);
+                        txtTipoPerfil.setText("Administrador");
+                        txtCorreoPerfil.setText(correo);
+                    }else{
+                        txtNombreUsuarioPerfil.setText(nombre);
+                        txtCorreoPerfil.setText(correo);
+                        txtTipoPerfil.setText(tipo);
+                    }
+
                 }
             }
 
@@ -97,8 +105,12 @@ public class Perfil_Activity extends AppCompatActivity {
         layoutImagePerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 1);
+                if (txtTipoPerfil.getText().equals("Administrador")){
+                    Toast.makeText(Perfil_Activity.this, "Función solo para clientes y vendedores", Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 1);
+                }
             }
         });
 

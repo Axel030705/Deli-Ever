@@ -53,6 +53,7 @@ public class VendedorAdapter extends BaseAdapter {
         TextView nombreTextView = convertView.findViewById(R.id.nombreTextView);
         TextView correoTextView = convertView.findViewById(R.id.correoTextView);
         TextView estadoTextView = convertView.findViewById(R.id.estadoTextView);
+        TextView TipoPTextView = convertView.findViewById(R.id.TipoPTextView);
         Button buttonAceptarVendedor = convertView.findViewById(R.id.buttonAceptarVendedor);
         Button buttonRechazarVendedor = convertView.findViewById(R.id.buttonRechazarVendedor);
 
@@ -75,7 +76,7 @@ public class VendedorAdapter extends BaseAdapter {
         nombreTextView.setText(vendedor.getNombre());
         correoTextView.setText("Correo: "+ vendedor.getCorreo());
         estadoTextView.setText("Estado: " + vendedor.getEstado());
-
+        TipoPTextView.setText("Venderá: " + vendedor.getVendera());
         return convertView;
     }
 
@@ -84,7 +85,6 @@ public class VendedorAdapter extends BaseAdapter {
         vendedorReference.child("estado").setValue("aprobado");
 
         // Puedes realizar otras acciones relacionadas con la aceptación aquí
-
         Toast.makeText(context.getApplicationContext(), "Vendedor aceptado", Toast.LENGTH_SHORT).show();
     }
 
@@ -93,7 +93,6 @@ public class VendedorAdapter extends BaseAdapter {
         vendedorReference.child("estado").setValue("rechazado");
 
         // Puedes realizar otras acciones relacionadas con el rechazo aquí
-
         Toast.makeText(context.getApplicationContext(), "Vendedor rechazado", Toast.LENGTH_SHORT).show();
     }
 

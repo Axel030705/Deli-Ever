@@ -135,6 +135,26 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:hintEnabled="true"
+            android:textColorHint="@color/black">
+
+            <EditText
+                android:id="@+id/txt_vendera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Cuentanos que venderas"
+                tools:ignore="Autofill,HardcodedText"
+                android:inputType="text"
+                android:padding="20dp"
+                android:drawablePadding="10dp">
+            </EditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
