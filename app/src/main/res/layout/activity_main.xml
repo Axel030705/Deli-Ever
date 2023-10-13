@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Perfil.MainActivity">
+    tools:context="Perfil.MainActivity"
+    android:background="@color/white">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -14,14 +15,14 @@
         android:padding="10dp">
 
         <!--Animacion-->
-        <!--<com.airbnb.lottie.LottieAnimationView
-            android:layout_width="280dp"
-            android:layout_height="280dp"
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             app:lottie_imageAssetsFolder="assets"
-            app:lottie_fileName="Calendario.json"
-            app:lottie_loop="true"
+            app:lottie_fileName="LogoAnim.json"
+            app:lottie_loop="false"
             app:lottie_autoPlay="true">
-        </com.airbnb.lottie.LottieAnimationView> -->
+        </com.airbnb.lottie.LottieAnimationView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,24 +30,29 @@
             android:text="@string/app_name"
             android:textSize="30sp"
             android:layout_marginTop="15dp"
-            android:textColor="@color/black">
+            android:textColor="@color/black"
+            android:textStyle="bold">
         </TextView>
 
         <Button
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:id="@+id/Btn_Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/azulCielo"
-            android:text="Login"
+            android:text="Iniciar sesion"
             android:textSize="20sp"
             tools:ignore="HardcodedText" />
 
         <Button
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:id="@+id/Btn_Registro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Registro"
+            android:text="Registrarse"
             android:layout_marginTop="5dp"
             android:textSize="20sp"
             android:backgroundTint="@color/azulCielo"
