@@ -21,8 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.agenda.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -150,18 +148,12 @@ public class vista_producto extends AppCompatActivity {
         DatabaseReference productoRef = databaseRef.child("Tienda").child(idTienda).child("productos").child(productoId);
 
         // Elimina el producto
-        productoRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                // Producto eliminado con éxito de la base de datos
-                mostrarMensaje("El producto se ha eliminado con éxito.");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Manejar errores si no se pudo eliminar el producto de la base de datos
-                mostrarMensaje("Error al eliminar el producto. Inténtalo de nuevo.");
-            }
+        productoRef.removeValue().addOnSuccessListener(aVoid -> {
+            // Producto eliminado con éxito de la base de datos
+            mostrarMensaje("El producto se ha eliminado con éxito.");
+        }).addOnFailureListener(e -> {
+            // Manejar errores si no se pudo eliminar el producto de la base de datos
+            mostrarMensaje("Error al eliminar el producto. Inténtalo de nuevo.");
         });
     }
 
