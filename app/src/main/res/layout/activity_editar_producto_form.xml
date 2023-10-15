@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Vendedor.agregar_producto">
+    tools:context="Vendedor.editar_producto_form">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,13 +16,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Agregar Producto"
+            android:text="Editar Producto"
             android:textColor="@color/black"
             android:textSize="25sp"
             tools:ignore="HardcodedText" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ImagenProducto"
+            android:id="@+id/ImagenProductoEdit"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_gravity="center"
@@ -37,7 +37,7 @@
             android:textColorHint="@color/black">
 
             <EditText
-                android:id="@+id/txt_NombreProducto"
+                android:id="@+id/txt_NombreProductoEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/tienda"
@@ -56,7 +56,7 @@
             android:textColorHint="@color/black">
 
             <EditText
-                android:id="@+id/txt_DescripcionProducto"
+                android:id="@+id/txt_DescripcionProductoEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/descripcion"
@@ -75,7 +75,7 @@
             android:textColorHint="@color/black">
 
             <EditText
-                android:id="@+id/txt_PrecioProducto"
+                android:id="@+id/txt_PrecioProductoEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/dolar"
@@ -94,7 +94,7 @@
             android:textColorHint="@color/black">
 
             <EditText
-                android:id="@+id/txt_ExtraProducto"
+                android:id="@+id/txt_ExtraProductoEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/extra"
@@ -113,7 +113,7 @@
             android:textColorHint="@color/black">
 
             <EditText
-                android:id="@+id/txt_CantidadProducto"
+                android:id="@+id/txt_CantidadProductoEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/extra"
@@ -126,16 +126,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/Btn_GuardarProducto"
+            android:id="@+id/Btn_GuardarCambios_EP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Guardar Producto"
+            android:text="Guardar Cambios"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />
 
         <Button
-            android:id="@+id/Btn_Salir"
+            android:id="@+id/Btn_Salir_EP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"

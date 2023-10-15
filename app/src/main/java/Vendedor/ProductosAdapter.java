@@ -1,12 +1,9 @@
 package Vendedor;
 
-import static android.content.Intent.getIntent;
-
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +13,6 @@ import com.example.agenda.R;
 import java.util.List;
 
 public class ProductosAdapter extends RecyclerView.Adapter<ProductosViewHolder> {
-
 
     private final List<Producto> productos;
     private final String tiendaId;
@@ -45,13 +41,14 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosViewHolder> 
             // Redirigir a otra actividad
             Intent intent = new Intent(v.getContext(), vista_producto.class);
             // Pasar datos adicionales a la otra actividad utilizando putExtra()
+            intent.putExtra("productoId", producto.getId());
             intent.putExtra("productoNombre", producto.getNombre());
             intent.putExtra("productoDescripcion", producto.getDescripcion());
             intent.putExtra("productoPrecio", producto.getPrecio());
             intent.putExtra("productoExtra", producto.getExtra());
             intent.putExtra("productoImg", producto.getImagenUrl());
             intent.putExtra("tiendaId", tiendaId);
-            //Toast.makeText(v.getContext(), producto.getNombre(), Toast.LENGTH_SHORT).show();
+            intent.putExtra("productoCantidad", producto.getCantidad());
             v.getContext().startActivity(intent);
         });
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="nuevo_margin_top">-60dp</dimen>
+    <dimen name="nuevo_margin_top">-30dp</dimen>
 
 </resources>

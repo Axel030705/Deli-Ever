@@ -1,8 +1,5 @@
 package Perfil;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +7,9 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agenda.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -82,7 +82,7 @@ public class MenuPrincipal extends AppCompatActivity {
                     TextViewCorreo.setVisibility(View.VISIBLE);
 
                     //Obtener datos
-                    String nombre = ""+snapshot.child("nombres").getValue();
+                    String nombre = ""+snapshot.child("nombre").getValue();
                     String correo = ""+snapshot.child("correo").getValue();
 
                     //Setear datos en text view

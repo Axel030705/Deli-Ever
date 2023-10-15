@@ -35,7 +35,7 @@ public class agregar_producto extends AppCompatActivity {
 
     private DatabaseReference tiendaRef;
     private DatabaseReference productosRef;
-    private EditText txtNombreProducto, txtDescripcionProducto, txtPrecioProducto, txtExtraProducto;
+    private EditText txtNombreProducto, txtDescripcionProducto, txtPrecioProducto, txtExtraProducto, txtCantidadProducto;
     private Button btnGuardarProducto, btnSalir;
     private CircleImageView imgProducto;
     private String usuarioId;
@@ -65,6 +65,7 @@ public class agregar_producto extends AppCompatActivity {
         txtDescripcionProducto = findViewById(R.id.txt_DescripcionProducto);
         txtPrecioProducto = findViewById(R.id.txt_PrecioProducto);
         txtExtraProducto = findViewById(R.id.txt_ExtraProducto);
+        txtCantidadProducto = findViewById(R.id.txt_CantidadProducto);
         btnGuardarProducto = findViewById(R.id.Btn_GuardarProducto);
         btnSalir = findViewById(R.id.Btn_Salir);
         imgProducto = findViewById(R.id.ImagenProducto);
@@ -127,6 +128,7 @@ public class agregar_producto extends AppCompatActivity {
         String descripcionProducto = txtDescripcionProducto.getText().toString();
         String precioProducto = txtPrecioProducto.getText().toString();
         String extraProducto = txtExtraProducto.getText().toString();
+        String cantidadProducto = txtCantidadProducto.getText().toString();
 
         // Validar que se hayan ingresado valores para los campos obligatorios
         if (TextUtils.isEmpty(nombreProducto) || TextUtils.isEmpty(descripcionProducto) || TextUtils.isEmpty(precioProducto)) {
@@ -140,14 +142,14 @@ public class agregar_producto extends AppCompatActivity {
             return;
         }
 
-        // Crear un objeto Producto con los valores ingresados
-        Producto producto = new Producto(nombreProducto, descripcionProducto, precioProducto, extraProducto);
-
         // Generar un nuevo identificador único para el producto
-        String nuevoProductoId = productosRef.push().getKey();
+        String idProducto = productosRef.push().getKey();
+
+        // Crear un objeto Producto con los valores ingresados
+        Producto producto = new Producto(idProducto, nombreProducto, descripcionProducto, precioProducto, extraProducto, cantidadProducto);
 
         // Subir la imagen a Firebase Storage
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("productos").child(nuevoProductoId);
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("productos").child(idProducto);
         storageRef.putFile(imagenSeleccionada)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -160,7 +162,7 @@ public class agregar_producto extends AppCompatActivity {
                                 // Agregar la URL de la imagen al objeto Producto
                                 producto.setImagenUrl(imagenUrl);
                                 // Guardar el producto en la base de datos bajo el identificador generado
-                                productosRef.child(nuevoProductoId).setValue(producto)
+                                productosRef.child(idProducto).setValue(producto)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {

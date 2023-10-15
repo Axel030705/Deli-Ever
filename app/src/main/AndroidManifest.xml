@@ -21,6 +21,9 @@
         android:theme="@style/Theme.AgendaApp"
         tools:targetApi="31">
         <activity
+            android:name="Vendedor.editar_producto_form"
+            android:exported="false" />
+        <activity
             android:name="Vendedor.SolicitudesVendedores"
             android:exported="false" />
         <activity

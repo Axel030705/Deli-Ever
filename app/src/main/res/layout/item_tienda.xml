@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="150dp"
     android:layout_margin="18dp"
     android:padding="8dp"
     app:cardCornerRadius="25dp"
@@ -12,10 +13,10 @@
 
     <ImageView
         android:id="@+id/ImagenTienda"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:layout_gravity="center_vertical"
-        android:layout_margin="10dp"  />
+        android:layout_margin="10dp" />
 
     <TextView
         android:id="@+id/TXTView_NombreTienda"
@@ -23,11 +24,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:text="Nombre de la tienda"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/TXTView_DescripcionTienda"
@@ -35,10 +37,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="50dp"
         android:text="Descripcion"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/TXTView_DireccionTienda"
@@ -46,10 +49,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="85dp"
+        android:layout_marginTop="80dp"
         android:text="Dirección"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/TXTView_ExtraTienda"
@@ -57,9 +61,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="115dp"
+        android:layout_marginTop="110dp"
         android:text="Extra"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:ignore="HardcodedText"/>
 
 </com.google.android.material.card.MaterialCardView>

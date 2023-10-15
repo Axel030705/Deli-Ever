@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,8 +7,12 @@
     android:layout_height="match_parent"
     tools:context="Vendedor.vista_producto"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView"
@@ -85,6 +89,17 @@
         app:layout_constraintTop_toBottomOf="@+id/textPrecioProducto"
         tools:ignore="ContentDescription,HardcodedText" />
 
+    <TextView
+        android:id="@+id/textCantidadProducto"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textExtraProducto"
+        tools:ignore="ContentDescription,HardcodedText" />
+
     <Button
         android:id="@+id/Btn_comprarProducto"
         android:layout_width="match_parent"
@@ -93,9 +108,42 @@
         android:onClick="mostrarDetallesDelProducto"
         android:text="Seguir con la compra"
         android:textSize="18sp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textExtraProducto"
+        app:layout_constraintTop_toBottomOf="@+id/textCantidadProducto"
         tools:ignore="HardcodedText" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/Btn_EditarProducto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:onClick="EditarProductoActivity"
+        android:text="Editar el producto"
+        android:textSize="18sp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Btn_comprarProducto"
+        tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/Btn_EliminarProducto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="EliminarProducto"
+            android:text="Eliminar producto"
+            android:textSize="18sp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Btn_EditarProducto"
+            tools:ignore="HardcodedText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

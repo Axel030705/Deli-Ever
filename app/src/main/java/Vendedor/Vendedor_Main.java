@@ -77,7 +77,7 @@ public class Vendedor_Main extends AppCompatActivity {
             }
         });
 
-        tiendaRef.addValueEventListener(new ValueEventListener() {
+        tiendaRef.orderByChild("usuarioAsociado").equalTo(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 tiendas.clear();

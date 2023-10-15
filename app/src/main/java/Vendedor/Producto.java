@@ -1,17 +1,25 @@
 package Vendedor;
 
 public class Producto {
+    private String id;
     private String nombre;
     private String descripcion;
     private String precio;
     private String extra;
     private String imagenUrl;
+    private String cantidad;
 
-    public Producto(String nombre, String descripcion, String precio, String extra) {
+    public Producto(String id, String nombre, String descripcion, String precio, String extra, String cantidad) {
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.extra = extra;
+        this.cantidad = cantidad;
+    }
+
+    public Producto(){
+
     }
 
     public String getNombre() {
@@ -52,5 +60,20 @@ public class Producto {
 
     public void setImagenUrl(String imagenUrl) {
         this.imagenUrl = imagenUrl;
+    }
+
+    public String getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(String cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
 }

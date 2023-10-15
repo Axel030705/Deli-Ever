@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.agenda.R;
 
+
 public class comprar_producto extends AppCompatActivity {
 
     public TextView textNombreProducto2, textPrecioProducto2;
@@ -54,6 +55,7 @@ public class comprar_producto extends AppCompatActivity {
 
         // Llama a cargar_producto inicialmente (puedes omitir esta línea si no deseas cargarlo al inicio)
         cargar_producto();
+
     }
 
     @SuppressLint("SetTextI18n")

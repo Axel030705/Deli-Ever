@@ -1,31 +1,23 @@
 package Vendedor;
 
 
+import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 import com.example.agenda.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import Cliente.Perfil_Activity;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class productos_tienda extends AppCompatActivity {
 
@@ -58,12 +50,14 @@ public class productos_tienda extends AppCompatActivity {
                         productosList.clear();
 
                         for (DataSnapshot productoSnapshot : productosSnapshot.getChildren()) {
+                            String id = productoSnapshot.getKey();
                             String nombre = productoSnapshot.child("nombre").getValue(String.class);
                             String descripcion = productoSnapshot.child("descripcion").getValue(String.class);
                             String precio = productoSnapshot.child("precio").getValue(String.class);
                             String extra = productoSnapshot.child("extra").getValue(String.class);
                             String imagenUrl = productoSnapshot.child("imagenUrl").getValue(String.class);
-                            Producto producto = new Producto(nombre, descripcion, precio, extra);
+                            String cantidad = productoSnapshot.child("cantidad").getValue(String.class);
+                            Producto producto = new Producto(id, nombre, descripcion, precio, extra, cantidad);
                             producto.setImagenUrl(imagenUrl); // Agregar la URL de la imagen al producto
                             productosList.add(producto);
 

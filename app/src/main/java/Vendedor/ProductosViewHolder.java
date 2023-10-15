@@ -1,7 +1,7 @@
 package Vendedor;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.agenda.R;
@@ -36,6 +35,7 @@ public class ProductosViewHolder extends RecyclerView.ViewHolder {
         ImagenProductoItem = itemView.findViewById(R.id.ImagenProductoItem);
     }
 
+    @SuppressLint("SetTextI18n")
     public void bind(Producto producto){
         if (producto != null) {
             if (producto.getNombre() != null) {
@@ -44,11 +44,11 @@ public class ProductosViewHolder extends RecyclerView.ViewHolder {
                 TXTView_NombreProducto.setText("");
             }
 
-            /*if (producto.getDescripcion() != null) {
+            if (producto.getDescripcion() != null) {
                 TXTView_DescripcionProducto.setText(producto.getDescripcion());
             } else {
                 TXTView_DescripcionProducto.setText("");
-            } */
+            }
 
             if (producto.getPrecio() != null) {
                 TXTView_PrecioProducto.setText("MX$ " + producto.getPrecio());
@@ -56,11 +56,11 @@ public class ProductosViewHolder extends RecyclerView.ViewHolder {
                 TXTView_PrecioProducto.setText("");
             }
 
-            /*if (producto.getExtra() != null) {
+            if (producto.getExtra() != null) {
                 TXTView_ExtraProducto.setText(producto.getExtra());
             } else {
                 TXTView_ExtraProducto.setText("");
-            } */
+            }
 
             // Cargar la imagen con Glide y agregar un listener de carga
             Glide.with(itemView.getContext())
