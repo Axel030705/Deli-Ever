@@ -12,8 +12,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -170,6 +172,7 @@ public class vista_producto extends AppCompatActivity {
         TextView textNombreProducto2 = bottomSheetView.findViewById(R.id.textNombreProducto2);
         TextView textPrecioProducto2 = bottomSheetView.findViewById(R.id.textPrecioProducto2);
         AutoCompleteTextView cantidad = bottomSheetView.findViewById(R.id.cantidad2);
+        EditText txt_ubicacion = bottomSheetView.findViewById(R.id.txt_ubicacion);
         Button Btn_finalizarProducto2 = bottomSheetView.findViewById(R.id.Btn_finalizarProducto2);
         cantidad.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressLint("SetTextI18n")
@@ -205,11 +208,6 @@ public class vista_producto extends AppCompatActivity {
         textNombreProducto2.setText(productoNombre);
         textPrecioProducto2.setText("MX $" + productoPrecio);
 
-        // Aquí debes configurar las opciones de cantidad y un ArrayAdapter
-        /*String[] opcionesCantidad = {productoCantidad};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, opcionesCantidad);
-        cantidad.setAdapter(adapter);*/
-
         //Spinner con la cantidad de productos disponibles
         int cantidadInt = Integer.parseInt(productoCantidad);
         List<String> opcionesCantidad = new ArrayList<>();
@@ -222,6 +220,21 @@ public class vista_producto extends AppCompatActivity {
         bottomSheetDialog.setContentView(bottomSheetView);
         // Muestra el BottomSheet
         bottomSheetDialog.show();
+
+        Btn_finalizarProducto2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Obtener la cantidad seleccionada del AutoCompleteTextView
+                String cantidadSeleccionada = cantidad.getText().toString();
+                if(cantidadSeleccionada.isEmpty()){
+                    Toast.makeText(vista_producto.this, "Selecciona una cantidad", Toast.LENGTH_SHORT).show();
+                }else if(txt_ubicacion.getText().toString().isEmpty()){
+                    Toast.makeText(vista_producto.this, "Indica una dirección", Toast.LENGTH_SHORT).show();
+                }else{
+
+                }
+            }
+        });
 
     }
 
