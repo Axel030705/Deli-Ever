@@ -56,8 +56,6 @@ public class agregar_producto extends AppCompatActivity {
         if (currentUser != null) {
             usuarioId = currentUser.getUid();
             cargarTienda();
-        } else {
-            // Manejar el caso en el que el usuario no esté autenticado
         }
 
         // Inicializar vistas
