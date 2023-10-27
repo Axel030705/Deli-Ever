@@ -28,6 +28,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -205,27 +206,54 @@ public class EditarTiendaForm extends AppCompatActivity {
 
     // Método para actualizar los demás datos de la tienda sin cambiar la imagen
     private void actualizarDatosTienda() {
-        // Actualiza los demás datos de la tienda
-        tienda.setNombre(txtNombreTiendaEditar.getText().toString());
-        tienda.setDescripcion(txtDescripcionTiendaEditar.getText().toString());
-        tienda.setDireccion(txtDireccionTiendaEditar.getText().toString());
-        tienda.setExtra(txtExtraTiendaEditar.getText().toString());
+        // Crea un objeto HashMap para almacenar los campos que han cambiado
+        HashMap<String, Object> tiendaActualizada = new HashMap<>();
 
-        // Guarda los cambios en la base de datos
-        tiendaRef.child(tiendaId).setValue(tienda).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                // Manejo de éxito al guardar los cambios
-                Toast.makeText(EditarTiendaForm.this, "Cambios guardados con éxito", Toast.LENGTH_SHORT).show();
-                finish(); // Cierra la actividad de edición de tienda
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Manejo de error al guardar los cambios
-                Toast.makeText(EditarTiendaForm.this, "Error al guardar los cambios", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // Verifica si el nombre de la tienda ha cambiado
+        if (!tienda.getNombre().equals(txtNombreTiendaEditar.getText().toString())) {
+            tienda.setNombre(txtNombreTiendaEditar.getText().toString());
+            tiendaActualizada.put("nombre", tienda.getNombre());
+        }
+
+        // Verifica si la descripción de la tienda ha cambiado
+        if (!tienda.getDescripcion().equals(txtDescripcionTiendaEditar.getText().toString())) {
+            tienda.setDescripcion(txtDescripcionTiendaEditar.getText().toString());
+            tiendaActualizada.put("descripcion", tienda.getDescripcion());
+        }
+
+        // Verifica si la dirección de la tienda ha cambiado
+        if (!tienda.getDireccion().equals(txtDireccionTiendaEditar.getText().toString())) {
+            tienda.setDireccion(txtDireccionTiendaEditar.getText().toString());
+            tiendaActualizada.put("direccion", tienda.getDireccion());
+        }
+
+        // Verifica si el campo extra de la tienda ha cambiado
+        if (!tienda.getExtra().equals(txtExtraTiendaEditar.getText().toString())) {
+            tienda.setExtra(txtExtraTiendaEditar.getText().toString());
+            tiendaActualizada.put("extra", tienda.getExtra());
+        }
+
+        // Si hay algún cambio, actualiza solo los campos que han cambiado
+        if (!tiendaActualizada.isEmpty()) {
+            tiendaRef.child(tiendaId).updateChildren(tiendaActualizada).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    // Manejo de éxito al guardar los cambios
+                    Toast.makeText(EditarTiendaForm.this, "Cambios guardados con éxito", Toast.LENGTH_SHORT).show();
+                    finish(); // Cierra la actividad de edición de tienda
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Manejo de error al guardar los cambios
+                    Toast.makeText(EditarTiendaForm.this, "Error al guardar los cambios", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            // Si no hay cambios, muestra un mensaje al usuario
+            Toast.makeText(EditarTiendaForm.this, "No se han realizado cambios", Toast.LENGTH_SHORT).show();
+            finish(); // Cierra la actividad de edición de tienda
+        }
     }
 }
 

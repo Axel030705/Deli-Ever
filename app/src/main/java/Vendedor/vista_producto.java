@@ -230,7 +230,7 @@ public class vista_producto extends AppCompatActivity {
                     Toast.makeText(vista_producto.this, "Selecciona una cantidad", Toast.LENGTH_SHORT).show();
                 }else if(txt_ubicacion.getText().toString().isEmpty()){
                     Toast.makeText(vista_producto.this, "Indica una dirección", Toast.LENGTH_SHORT).show();
-                }else{
+                }else {
 
                 }
             }
