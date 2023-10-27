@@ -158,11 +158,13 @@ public class Activity_Vendedor extends AppCompatActivity {
                         DatabaseReference tiendaRef = FirebaseDatabase.getInstance().getReference("Tienda");
                         String tiendaId = tiendaRef.push().getKey();
                         tienda.setId(tiendaId);
+                        assert tiendaId != null;
                         tiendaRef.child(tiendaId).setValue(tienda).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 progressDialog.dismiss();
                                 Intent intent = new Intent(Activity_Vendedor.this, Vendedor_Main.class);
+                                intent.putExtra("tiendaId", tiendaId);
                                 startActivity(intent);
                             }
                         }).addOnFailureListener(new OnFailureListener() {

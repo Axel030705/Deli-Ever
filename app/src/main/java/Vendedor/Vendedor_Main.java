@@ -44,6 +44,7 @@ public class Vendedor_Main extends AppCompatActivity {
     private DatabaseReference tiendaRef = database.getReference("Tienda");
     public FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     public FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+    private String tiendaId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class Vendedor_Main extends AppCompatActivity {
         Button Btn_EditarTienda = findViewById(R.id.Btn_EditarTienda);
         Button Btn_AgregarProducto = findViewById(R.id.Btn_AgregarProducto);
         Button Btn_EliminarTienda = findViewById(R.id.Btn_EliminarTienda);
+        tiendaId = getIntent().getStringExtra("tiendaId");
 
         Btn_EditarTienda.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +75,7 @@ public class Vendedor_Main extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Vendedor_Main.this, agregar_producto.class);
+                intent.putExtra("tiendaId", tiendaId);
                 startActivity(intent);
             }
         });

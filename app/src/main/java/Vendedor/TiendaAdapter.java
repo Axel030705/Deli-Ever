@@ -38,7 +38,7 @@ public class TiendaAdapter extends RecyclerView.Adapter<TiendaViewHolder> {
             // Redirigir a otra actividad
             Intent intent = new Intent(v.getContext(), productos_tienda.class);
             // Puedes pasar datos adicionales a la otra actividad utilizando putExtra()
-            intent.putExtra("tiendaId", tienda.getId()); // Ejemplo de pasar el nombre de la tienda
+            intent.putExtra("tiendaId", tienda.getId()); // Ejemplo de pasar el id de la tienda
             //Toast.makeText(v.getContext(), tienda.getNombre(), Toast.LENGTH_SHORT).show();
             v.getContext().startActivity(intent);
         });
