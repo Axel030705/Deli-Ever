@@ -118,8 +118,8 @@ public class EditarTiendaForm extends AppCompatActivity {
                 guardarCambios();
             }
         });
-    }
 
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -130,9 +130,8 @@ public class EditarTiendaForm extends AppCompatActivity {
         }
     }
 
-
     // Método para guardar los cambios en la tienda
-    public void guardarCambios() {
+   public void guardarCambios() {
         // Verifica que la referencia de la tienda y los datos no sean nulos
         if (tiendaRef != null && tienda != null) {
             // Verifica si se seleccionó una nueva foto y si había una imagen anterior en Firebase Storage

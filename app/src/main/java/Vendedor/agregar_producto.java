@@ -1,5 +1,6 @@
 package Vendedor;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -32,7 +33,7 @@ import com.google.firebase.storage.UploadTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class agregar_producto extends AppCompatActivity {
-
+    private ProgressDialog progressDialog;
     private DatabaseReference tiendaRef;
     private DatabaseReference productosRef;
     private EditText txtNombreProducto, txtDescripcionProducto, txtPrecioProducto, txtExtraProducto, txtCantidadProducto;
@@ -99,13 +100,11 @@ public class agregar_producto extends AppCompatActivity {
                     } else {
                         // Manejar el caso en el que no se encuentre la tienda del usuario
                     }
-                } else {
-                    // Manejar el caso en el que no se encuentre la tienda del usuario
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de la consulta
             }
         });
@@ -115,6 +114,41 @@ public class agregar_producto extends AppCompatActivity {
         btnGuardarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Obtener los valores ingresados por el vendedor
+                String nombreProducto = txtNombreProducto.getText().toString();
+                String descripcionProducto = txtDescripcionProducto.getText().toString();
+                String precioProducto = txtPrecioProducto.getText().toString();
+                String cantidadProducto = txtCantidadProducto.getText().toString();
+
+                // Validar que se hayan ingresado valores para los campos obligatorios
+                if (TextUtils.isEmpty(nombreProducto) || TextUtils.isEmpty(descripcionProducto) || TextUtils.isEmpty(precioProducto) || TextUtils.isEmpty(cantidadProducto)){
+                    Toast.makeText(agregar_producto.this, "Por favor, completa todos los campos obligatorios", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Validar que el precio sea un número
+                if (!esNumero(precioProducto)) {
+                    Toast.makeText(agregar_producto.this, "El precio debe ser un número válido", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Validar que la cantidad del producto sea un número
+                if (!esNumero(cantidadProducto)) {
+                    Toast.makeText(agregar_producto.this, "La cantidad del producto debe ser un número válido", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Verificar si se ha seleccionado una imagen
+                if (imagenSeleccionada == null) {
+                    Toast.makeText(agregar_producto.this, "Por favor, selecciona una imagen del producto", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                progressDialog = new ProgressDialog(agregar_producto.this);
+                progressDialog.setMessage("Cargando producto...");
+                progressDialog.setIndeterminate(true);
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 guardarProducto();
             }
         });
@@ -128,18 +162,6 @@ public class agregar_producto extends AppCompatActivity {
         String extraProducto = txtExtraProducto.getText().toString();
         String cantidadProducto = txtCantidadProducto.getText().toString();
 
-        // Validar que se hayan ingresado valores para los campos obligatorios
-        if (TextUtils.isEmpty(nombreProducto) || TextUtils.isEmpty(descripcionProducto) || TextUtils.isEmpty(precioProducto)) {
-            Toast.makeText(agregar_producto.this, "Por favor, completa todos los campos obligatorios", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Verificar si se ha seleccionado una imagen
-        if (imagenSeleccionada == null) {
-            Toast.makeText(agregar_producto.this, "Por favor, selecciona una imagen del producto", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         // Generar un nuevo identificador único para el producto
         String idProducto = productosRef.push().getKey();
 
@@ -147,6 +169,7 @@ public class agregar_producto extends AppCompatActivity {
         Producto producto = new Producto(idProducto, nombreProducto, descripcionProducto, precioProducto, extraProducto, cantidadProducto);
 
         // Subir la imagen a Firebase Storage
+        assert idProducto != null;
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("productos").child(idProducto);
         storageRef.putFile(imagenSeleccionada)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -164,6 +187,7 @@ public class agregar_producto extends AppCompatActivity {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
+                                                progressDialog.dismiss();
                                                 Toast.makeText(agregar_producto.this, "Producto agregado exitosamente", Toast.LENGTH_SHORT).show();
                                                 limpiarCampos();
 
@@ -209,6 +233,7 @@ public class agregar_producto extends AppCompatActivity {
         txtDescripcionProducto.setText("");
         txtPrecioProducto.setText("");
         txtExtraProducto.setText("");
+        txtCantidadProducto.setText("");
         imgProducto.setImageResource(colorAzulCielo);
     }
 
@@ -226,4 +251,14 @@ public class agregar_producto extends AppCompatActivity {
             imgProducto.setImageURI(imagenSeleccionada);
         }
     }
+
+    private boolean esNumero(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
 }

@@ -80,4 +80,5 @@ public class TiendaClase {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
 }
