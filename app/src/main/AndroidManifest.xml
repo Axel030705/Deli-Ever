@@ -19,6 +19,9 @@
         android:theme="@style/Theme.AgendaApp"
         tools:targetApi="31">
         <activity
+            android:name="Chat.MainActivityChat"
+            android:exported="false" />
+        <activity
             android:name="Vendedor.editar_producto_form"
             android:exported="false" />
         <activity
@@ -82,13 +85,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="Vendedor.MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

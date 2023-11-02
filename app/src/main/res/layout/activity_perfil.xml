@@ -36,7 +36,8 @@
             android:contentDescription="Imagen del usuario"
             android:src="@drawable/icono_persona"
             app:civ_border_color="@color/azulCielo"
-            app:civ_border_width="2dp" />
+            app:civ_border_width="2dp"
+            tools:ignore="HardcodedText" />
 
         <LinearLayout
             android:layout_width="0dp"

@@ -87,6 +87,7 @@ public class vista_producto extends AppCompatActivity {
                     String correo = dataSnapshot.child("correo").getValue(String.class);
                     String tipo = dataSnapshot.child("Tipo de usuario").getValue(String.class);
 
+                    assert tipo != null;
                     if(tipo.equals("Vendedor")){ // Valida si es Administrador
                         Btn_EditarProducto.setVisibility(View.VISIBLE);
                         Btn_EliminarProducto.setVisibility(View.VISIBLE);
