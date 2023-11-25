@@ -31,6 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
 
+import Chat.MainActivityChat;
 import Perfil.MainActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -194,4 +195,11 @@ public class Perfil_Activity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    public void LlamarChat(View view) {
+        FirebaseAuth.getInstance().getCurrentUser();
+        Intent intent = new Intent(Perfil_Activity.this, MainActivityChat.class);
+        startActivity(intent);
+    }
+
 }
