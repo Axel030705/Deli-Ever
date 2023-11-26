@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:cardview = "http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    cardview:cardCornerRadius="10sp"
-    android:layout_marginTop="5dp"
     android:layout_marginStart="5dp"
-    android:layout_marginEnd="5dp">
-    
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp"
+    android:orientation="vertical"
+    cardview:cardCornerRadius="10sp">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,8 +32,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -40,26 +43,28 @@
                     android:id="@+id/nombreMensaje"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Axel"
-                    tools:ignore="HardcodedText"
-                    android:layout_weight="1">
-                </TextView>
+                    android:visibility="gone"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
 
-        <TextView
-            android:id="@+id/mensajeMensaje"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hola bienvenido"
-            tools:ignore="HardcodedText">
-        </TextView>
-        <ImageView
-            android:id="@+id/msj_foto"
-            android:layout_width="350sp"
-            android:layout_height="350sp"
-            tools:ignore="ContentDescription"
-            android:visibility="gone">
-        </ImageView>
+
+            <TextView
+                android:id="@+id/mensajeMensaje"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Hola bienvenido"
+                tools:ignore="HardcodedText" />
+
+
+            <ImageView
+                android:id="@+id/msj_foto"
+                android:layout_width="350sp"
+                android:layout_height="350sp"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"/>
 
         </LinearLayout>
 

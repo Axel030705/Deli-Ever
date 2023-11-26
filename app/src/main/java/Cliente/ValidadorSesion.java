@@ -1,4 +1,4 @@
-package Perfil;
+package Cliente;
 
 import android.content.Context;
 import android.content.Intent;

@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="18dp"
-    tools:context="Cliente.Perfil_Activity">
+    tools:context="Perfil.Perfil_Activity">
 
     <TextView
         android:layout_width="match_parent"

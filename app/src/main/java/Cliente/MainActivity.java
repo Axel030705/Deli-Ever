@@ -1,4 +1,4 @@
-package Perfil;
+package Cliente;
 
 import androidx.appcompat.app.AppCompatActivity;
 

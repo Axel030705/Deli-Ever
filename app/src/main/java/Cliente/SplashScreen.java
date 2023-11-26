@@ -1,4 +1,4 @@
-package Perfil;
+package Cliente;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

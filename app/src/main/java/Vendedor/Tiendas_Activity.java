@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import Cliente.Perfil_Activity;
+import Perfil.Perfil_Activity;
 import com.example.agenda.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

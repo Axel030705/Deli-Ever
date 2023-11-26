@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +35,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import Cliente.ImageInfo;
+import Perfil.ImageInfo;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivityChat extends AppCompatActivity {
@@ -66,6 +68,7 @@ public class MainActivityChat extends AppCompatActivity {
         rvMensajes = findViewById(R.id.rvMensajes);
         txt_Mensaje = findViewById(R.id.txt_Mensaje);
         Button btnEnviar = findViewById(R.id.BtnEnviar);
+        Button Btn_menu_chat = findViewById(R.id.Btn_menu_chat);
         BtnEnviarFoto = findViewById(R.id.BtnEnviarFoto);
         adapter = new AdapterMensajes(this);
         LinearLayoutManager l = new LinearLayoutManager(this);
@@ -124,6 +127,39 @@ public class MainActivityChat extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Maneja cualquier error en la recuperación de la URL de la imagen
+            }
+        });
+
+        Btn_menu_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Creamos el objeto PupupMenu
+                PopupMenu popupMenu = new PopupMenu(MainActivityChat.this, view);
+                //Infla el menu desde el archivo XML
+                popupMenu.getMenuInflater().inflate(R.menu.menu_opt_chat, popupMenu.getMenu());
+                //Configura el listener para manejar las opciones del menu
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+
+                        int itemId = menuItem.getItemId();
+
+                        if (itemId == R.id.opcion1) {
+                            // Acción para la opción 1
+                            Toast.makeText(MainActivityChat.this, "Seleccionaste Opción 1", Toast.LENGTH_SHORT).show();
+                            return true;
+                        } else if (itemId == R.id.opcion2) {
+                            // Acción para la opción 2
+                            Toast.makeText(MainActivityChat.this, "Seleccionaste Opción 2", Toast.LENGTH_SHORT).show();
+                            return true;
+                        } else {
+                            // Otros casos si es necesario
+                            return false;
+                        }
+                    }
+                });
+                //Muestra el PupupMenu
+                popupMenu.show();
             }
         });
 
@@ -198,7 +234,7 @@ public class MainActivityChat extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri downloadUrl) {
                             String imageUrl = downloadUrl.toString();
-                            MensajeEnviar m = new MensajeEnviar("(Nombre) te ha enviado una foto",nombreUsr.getText().toString(),"","2",imageUrl);
+                            MensajeEnviar m = new MensajeEnviar(nombreUsr.getText().toString() + "te ha enviado una foto",nombreUsr.getText().toString(),"2",imageUrl);
                             databaseReference.push().setValue(m);
                         }
                     }).addOnFailureListener(new OnFailureListener() {

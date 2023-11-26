@@ -17,7 +17,7 @@ public class Mensaje {
         this.type_mensaje = type_mensaje;
     }
 
-    public Mensaje(String mensaje, String nombre, String fotoPerfil, String type_mensaje,String urlFoto) {
+    public Mensaje(String mensaje, String nombre, String fotoPerfil, String type_mensaje, String urlFoto) {
         this.mensaje = mensaje;
         this.nombre = nombre;
         this.fotoPerfil = fotoPerfil;
@@ -40,7 +40,6 @@ public class Mensaje {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
     public String getFotoPerfil() {
         return fotoPerfil;
     }
@@ -48,7 +47,6 @@ public class Mensaje {
     public void setFotoPerfil(String fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
     }
-
     public String getType_mensaje() {
         return type_mensaje;
     }

@@ -1,4 +1,4 @@
-package Cliente;
+package Perfil;
 
 public class ImageInfo {
     private String url;

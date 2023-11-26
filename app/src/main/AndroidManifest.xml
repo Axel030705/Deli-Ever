@@ -46,7 +46,7 @@
             android:name="Vendedor.EditarTiendaForm"
             android:exported="false" />
         <activity
-            android:name="Cliente.Perfil_Activity"
+            android:name="Perfil.Perfil_Activity"
             android:exported="false" />
         <activity
             android:name="Vendedor.Vendedor_Main"
@@ -58,16 +58,16 @@
             android:name="Vendedor.Activity_Vendedor"
             android:exported="false" />
         <activity
-            android:name="Perfil.MenuPrincipal"
+            android:name="Cliente.MenuPrincipal"
             android:exported="false" />
         <activity
-            android:name="Perfil.Registro"
+            android:name="Cliente.Registro"
             android:exported="false" />
         <activity
-            android:name="Perfil.Login"
+            android:name="Cliente.Login"
             android:exported="false" />
         <activity
-            android:name="Perfil.SplashScreen"
+            android:name="Cliente.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,7 +76,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="Perfil.MainActivity"
+            android:name="Cliente.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
