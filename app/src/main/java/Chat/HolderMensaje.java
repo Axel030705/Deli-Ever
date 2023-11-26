@@ -13,7 +13,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HolderMensaje extends RecyclerView.ViewHolder {
 
     private TextView nombre, mensaje;
-    private CircleImageView fotoMensajePerfil;
+    public CircleImageView fotoMensajePerfil;
     ImageView MandarFoto;
 
     public HolderMensaje(View itemView){
@@ -36,4 +36,9 @@ public class HolderMensaje extends RecyclerView.ViewHolder {
     public ImageView getMandarFoto() {
         return MandarFoto;
     }
+
+    public CircleImageView getFotoMensajePerfil() {
+        return fotoMensajePerfil;
+    }
+
 }

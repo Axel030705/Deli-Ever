@@ -42,6 +42,7 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
         if(listMensaje.get(position).getType_mensaje().equals("2")){
             holder.getMandarFoto().setVisibility(View.VISIBLE);
             holder.getMensaje().setVisibility(View.VISIBLE);
+            holder.getFotoMensajePerfil().setVisibility(View.GONE);
             Glide.with(c).load(listMensaje.get(position).getUrlFoto()).into(holder.getMandarFoto());
         }else if(listMensaje.get(position).getType_mensaje().equals("1")){
             holder.getMandarFoto().setVisibility(View.GONE);
@@ -53,6 +54,10 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
     @Override
     public int getItemCount() {
         return listMensaje.size();
+    }
+
+    public void clear() {
+        listMensaje.clear();
     }
 
 }

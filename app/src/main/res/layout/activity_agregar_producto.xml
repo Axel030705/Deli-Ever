@@ -28,7 +28,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:src="@color/azulCielo" />
+            android:src="@color/azulCielo">
+        </de.hdodenhof.circleimageview.CircleImageView>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

@@ -56,13 +56,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Hola bienvenido"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"/>
 
 
             <ImageView
                 android:id="@+id/msj_foto"
-                android:layout_width="350sp"
-                android:layout_height="350sp"
+                android:layout_width="350dp"
+                android:layout_height="350dp"
                 android:visibility="gone"
                 tools:ignore="ContentDescription"/>
 

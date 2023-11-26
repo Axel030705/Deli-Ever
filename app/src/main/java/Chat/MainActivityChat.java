@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -118,7 +119,6 @@ public class MainActivityChat extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     ImageInfo imageInfo = dataSnapshot.getValue(ImageInfo.class);
                     String imageUrl = imageInfo.getUrl();
-
                     // Carga la imagen almacenada en el CircleImageView
                     Picasso.get().load(imageUrl).into(fotoPerfil);
                 }
@@ -139,6 +139,7 @@ public class MainActivityChat extends AppCompatActivity {
                 popupMenu.getMenuInflater().inflate(R.menu.menu_opt_chat, popupMenu.getMenu());
                 //Configura el listener para manejar las opciones del menu
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
 
@@ -146,13 +147,17 @@ public class MainActivityChat extends AppCompatActivity {
 
                         if (itemId == R.id.opcion1) {
                             // Acción para la opción 1
-                            Toast.makeText(MainActivityChat.this, "Seleccionaste Opción 1", Toast.LENGTH_SHORT).show();
+                            // Borra todos los elementos del adaptador
+                            adapter.clear();
+                            // Notifica al RecyclerView que los datos han cambiado
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(MainActivityChat.this, "Borraste la conversación", Toast.LENGTH_SHORT).show();
                             return true;
-                        } else if (itemId == R.id.opcion2) {
+                        }/* else if (itemId == R.id.opcion2) {
                             // Acción para la opción 2
                             Toast.makeText(MainActivityChat.this, "Seleccionaste Opción 2", Toast.LENGTH_SHORT).show();
                             return true;
-                        } else {
+                        }*/ else {
                             // Otros casos si es necesario
                             return false;
                         }
@@ -166,17 +171,20 @@ public class MainActivityChat extends AppCompatActivity {
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                databaseReference.push().setValue(new MensajeEnviar(txt_Mensaje.getText().toString(), nombreUsr.getText().toString(),"","1"));
-                txt_Mensaje.setText("");
+                //Validar si el campo txt_mensaje esta vacio
+                if(txt_Mensaje.getText().toString().isEmpty()){
+
+                }else{
+                    databaseReference.push().setValue(new MensajeEnviar(txt_Mensaje.getText().toString(), nombreUsr.getText().toString(),"","1"));
+                    txt_Mensaje.setText("");
+                }
             }
         });
 
         BtnEnviarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.setType("image/jpeg");
-                i.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(Intent.createChooser(i,"Selecciona una foto"),PHOTO_SEND);
             }
         });
@@ -234,7 +242,7 @@ public class MainActivityChat extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri downloadUrl) {
                             String imageUrl = downloadUrl.toString();
-                            MensajeEnviar m = new MensajeEnviar(nombreUsr.getText().toString() + "te ha enviado una foto",nombreUsr.getText().toString(),"2",imageUrl);
+                            MensajeEnviar m = new MensajeEnviar(nombreUsr.getText().toString() + " te ha enviado una foto",nombreUsr.getText().toString(),"","2",imageUrl);
                             databaseReference.push().setValue(m);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
