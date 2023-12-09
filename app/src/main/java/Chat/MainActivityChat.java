@@ -1,8 +1,13 @@
 package Chat;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
@@ -59,6 +64,11 @@ public class MainActivityChat extends AppCompatActivity {
     private String userId;
     private DatabaseReference userRef;
 
+    //Noti
+    private static final String CHANNEL_ID = "my_channel";
+    private static final int NOTIFICATION_ID = 1;
+    private NotificationManager notificationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +94,10 @@ public class MainActivityChat extends AppCompatActivity {
         usersRef = FirebaseDatabase.getInstance().getReference("Usuarios");
         userId = firebaseAuth.getCurrentUser().getUid();
         userRef = usersRef.child(userId);
+
+        //Noti
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        createNotificationChannel();
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -172,11 +186,12 @@ public class MainActivityChat extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Validar si el campo txt_mensaje esta vacio
-                if(txt_Mensaje.getText().toString().isEmpty()){
+                if (txt_Mensaje.getText().toString().isEmpty()) {
 
-                }else{
-                    databaseReference.push().setValue(new MensajeEnviar(txt_Mensaje.getText().toString(), nombreUsr.getText().toString(),"","1"));
+                } else {
+                    databaseReference.push().setValue(new MensajeEnviar(txt_Mensaje.getText().toString(), nombreUsr.getText().toString(), "", "1"));
                     txt_Mensaje.setText("");
+                    showNotification();
                 }
             }
         });
@@ -185,7 +200,7 @@ public class MainActivityChat extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(Intent.createChooser(i,"Selecciona una foto"),PHOTO_SEND);
+                startActivityForResult(Intent.createChooser(i, "Selecciona una foto"), PHOTO_SEND);
             }
         });
 
@@ -203,18 +218,22 @@ public class MainActivityChat extends AppCompatActivity {
                 MensajeRecibir m = snapshot.getValue(MensajeRecibir.class);
                 adapter.addMensaje(m);
             }
+
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
+
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
             }
+
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -222,15 +241,16 @@ public class MainActivityChat extends AppCompatActivity {
         });
 
     }
-    private void setScroll(){
-        rvMensajes.scrollToPosition(adapter.getItemCount()-1);
+
+    private void setScroll() {
+        rvMensajes.scrollToPosition(adapter.getItemCount() - 1);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == PHOTO_SEND && resultCode == RESULT_OK){
+        if (requestCode == PHOTO_SEND && resultCode == RESULT_OK) {
             Uri u = data.getData();
             storageReference = storage.getReference("imagenes chat");
             final StorageReference fotoReferencia = storageReference.child(u.getLastPathSegment());
@@ -242,7 +262,7 @@ public class MainActivityChat extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri downloadUrl) {
                             String imageUrl = downloadUrl.toString();
-                            MensajeEnviar m = new MensajeEnviar(nombreUsr.getText().toString() + " te ha enviado una foto",nombreUsr.getText().toString(),"","2",imageUrl);
+                            MensajeEnviar m = new MensajeEnviar(nombreUsr.getText().toString() + " te ha enviado una foto", nombreUsr.getText().toString(), "", "2", imageUrl);
                             databaseReference.push().setValue(m);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -253,8 +273,45 @@ public class MainActivityChat extends AppCompatActivity {
                     });
                 }
             });
-        }else {
+        } else {
             Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
         }
     }
+
+    //Noti
+    public void showNotification() {
+        Intent intent = new Intent(this, MainActivityChat.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent, PendingIntent.FLAG_IMMUTABLE);
+        Notification.Builder builder = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder = new Notification.Builder(this,CHANNEL_ID)
+                    .setSmallIcon(R.drawable.icono_correo)
+                    .setContentTitle("Nuevo mensaje")
+                    .setContentText("")
+                    .setPriority(Notification.PRIORITY_DEFAULT)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true);
+        }
+
+        Notification notification;
+        notification = builder.build();
+        notificationManager.notify(NOTIFICATION_ID,notification);
+
+    }
+
+    private void createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            CharSequence channelName = "Mi canal";
+            String channelDiscription = "Mi descripcion del canal";
+
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,channelName,importance);
+            channel.setDescription(channelDiscription);
+
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
 }

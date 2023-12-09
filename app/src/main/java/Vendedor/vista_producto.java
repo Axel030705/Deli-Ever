@@ -33,8 +33,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
+import Cliente.PedidoClase;
 
 public class vista_producto extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
@@ -45,6 +50,10 @@ public class vista_producto extends AppCompatActivity {
     public ImageView imgProducto;
     public String productoImg, productoNombre, productoDescripcion, productoPrecio, productoExtra, idTienda, productoCantidad, productoId;
     public Button Btn_comprarProducto, Btn_EditarProducto, Btn_EliminarProducto;
+    //Usuario
+    public String nombreUsr;
+    //Variables pedido
+    public double precioTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +71,13 @@ public class vista_producto extends AppCompatActivity {
         Btn_EditarProducto = findViewById(R.id.Btn_EditarProducto);
         Btn_EliminarProducto = findViewById(R.id.Btn_EliminarProducto);
         productoId = getIntent().getStringExtra("productoId");
-        productoImg= getIntent().getStringExtra("productoImg");
-        productoNombre= getIntent().getStringExtra("productoNombre");
-        productoDescripcion= getIntent().getStringExtra("productoDescripcion");
-        productoPrecio= getIntent().getStringExtra("productoPrecio");
-        productoExtra= getIntent().getStringExtra("productoExtra");
-        idTienda= getIntent().getStringExtra("tiendaId");
-        productoCantidad= getIntent().getStringExtra("productoCantidad");
+        productoImg = getIntent().getStringExtra("productoImg");
+        productoNombre = getIntent().getStringExtra("productoNombre");
+        productoDescripcion = getIntent().getStringExtra("productoDescripcion");
+        productoPrecio = getIntent().getStringExtra("productoPrecio");
+        productoExtra = getIntent().getStringExtra("productoExtra");
+        idTienda = getIntent().getStringExtra("tiendaId");
+        productoCantidad = getIntent().getStringExtra("productoCantidad");
         CargarProducto();
         Logicas();
         obtenerToken();
@@ -82,16 +91,14 @@ public class vista_producto extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    String nombre = dataSnapshot.child("nombre").getValue(String.class);
-                    String password = dataSnapshot.child("password").getValue(String.class);
-                    String correo = dataSnapshot.child("correo").getValue(String.class);
+                    nombreUsr = dataSnapshot.child("nombre").getValue(String.class);
                     String tipo = dataSnapshot.child("Tipo de usuario").getValue(String.class);
 
                     assert tipo != null;
-                    if(tipo.equals("Vendedor")){ // Valida si es Administrador
+                    if (tipo.equals("Vendedor")) { // Valida si es Administrador
                         Btn_EditarProducto.setVisibility(View.VISIBLE);
                         Btn_EliminarProducto.setVisibility(View.VISIBLE);
-                    }else if (tipo.equals("Cliente")){
+                    } else if (tipo.equals("Cliente")) {
                         Btn_EditarProducto.setVisibility(View.GONE);
                         Btn_EliminarProducto.setVisibility(View.GONE);
                     }
@@ -124,19 +131,19 @@ public class vista_producto extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    public void CargarProducto(){
+    public void CargarProducto() {
 
         textNombreProducto.setText(productoNombre);
         textDescripcionProducto.setText(productoDescripcion);
         textPrecioProducto.setText("MX $" + productoPrecio);
         textExtraProducto.setText(productoExtra);
-        textCantidadProducto.setText("Cantidad: "+productoCantidad);
+        textCantidadProducto.setText("Cantidad: " + productoCantidad);
         Glide.with(imgProducto.getContext())
                 .load(productoImg)
                 .into(imgProducto);
     }
 
-    public void EditarProductoActivity(View view){
+    public void EditarProductoActivity(View view) {
         Intent i = new Intent(this, editar_producto_form.class);
         i.putExtra("productoId", productoId);
         i.putExtra("tiendaId", idTienda);
@@ -193,13 +200,12 @@ public class vista_producto extends AppCompatActivity {
 
                 // Calcula el precio total multiplicando la cantidad por el precio unitario
                 double precioUnitario = Double.parseDouble(productoPrecio);
-                double precioTotal = cantidad * precioUnitario;
+                precioTotal = cantidad * precioUnitario;
 
                 // Establece el texto del botón con el precio total
                 Btn_finalizarProducto2.setText("Comprar MX $" + precioTotal);
             }
         });
-
 
 
         //Aquí puedes cargar la imagen del producto si está disponible:
@@ -227,12 +233,63 @@ public class vista_producto extends AppCompatActivity {
             public void onClick(View view) {
                 // Obtener la cantidad seleccionada del AutoCompleteTextView
                 String cantidadSeleccionada = cantidad.getText().toString();
-                if(cantidadSeleccionada.isEmpty()){
+                if (cantidadSeleccionada.isEmpty()) {
                     Toast.makeText(vista_producto.this, "Selecciona una cantidad", Toast.LENGTH_SHORT).show();
-                }else if(txt_ubicacion.getText().toString().isEmpty()){
+                } else if (txt_ubicacion.getText().toString().isEmpty()) {
                     Toast.makeText(vista_producto.this, "Indica una dirección", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
+                    firebaseAuth = FirebaseAuth.getInstance();
+                    usersRef = FirebaseDatabase.getInstance().getReference("Usuarios");
+                    userId = firebaseAuth.getCurrentUser().getUid();
+                    userRef = usersRef.child(userId);
 
+                    // Obtener la fecha y hora actual
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    String fechaHoraActual = sdf.format(new Date());
+
+                    // Obtén el ID único para el nuevo pedido
+                    String nuevoPedidoId = userRef.child("Pedidos").push().getKey();
+
+                    //Convertir de Double a String
+                    String PreciototalString = String.valueOf(precioTotal);
+
+                    // Crea una instancia del modelo de PedidoClase con datos reales
+                    PedidoClase nuevoPedido = new PedidoClase(
+                            nuevoPedidoId,
+                            fechaHoraActual,
+                            nombreUsr,
+                            txt_ubicacion.getText().toString(),
+                            productoNombre,
+                            PreciototalString,
+                            "Pendiente",
+                            "Ninguna",
+                            idTienda,
+                            productoImg,
+                            cantidadSeleccionada
+                    );
+                    // Guarda el nuevo pedido en la base de datos bajo el nodo del usuario
+                    userRef.child("Pedidos").child(nuevoPedidoId).setValue(nuevoPedido)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    int nuevaCantidad = cantidadInt - Integer.parseInt(cantidadSeleccionada);
+                                    String nuevaCantidadString = String.valueOf(nuevaCantidad);
+                                    // Obtén una referencia a la base de datos de Firebase
+                                    DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+                                    // Ubica la entrada del producto en la base de datos utilizando su tiendaId y productoId
+                                    DatabaseReference productosRef = databaseRef.child("Tienda");
+                                    productosRef.child(idTienda).child("productos").child(productoId).child("cantidad").setValue(nuevaCantidadString)
+                                            .addOnCompleteListener(task1-> {
+                                                if (task1.isSuccessful()) {
+                                                    // Éxito al actualizar la cantidad del producto
+                                                    Toast.makeText(vista_producto.this, "Pedido realizado con éxito", Toast.LENGTH_SHORT).show();
+                                                    bottomSheetDialog.dismiss();
+                                                }
+                                            });
+                                } else {
+                                    Toast.makeText(vista_producto.this, "Error al realizar el pedido", Toast.LENGTH_SHORT).show();
+                                    Log.e("PedidoError", task.getException().toString());
+                                }
+                            });
                 }
             }
         });
@@ -240,21 +297,32 @@ public class vista_producto extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    public void Logicas(){
+    public void Logicas() {
 
         // Verificar si el textView de extra esta vacio
-        if(textExtraProducto.getText().toString().isEmpty()){
+        if (textExtraProducto.getText().toString().isEmpty()) {
             textExtraProducto.setVisibility(View.GONE);
         }
         // Verificar si el textView de cantidad esta vacio
-        if(textCantidadProducto.getText().toString().equals("Cantidad: ")){
+        if (textCantidadProducto.getText().toString().equals("Cantidad: 0")) {
             textCantidadProducto.setText("Sin stock");
+
         }
     }
 
     private void mostrarMensaje(String mensaje) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Mensaje")
+                .setMessage(mensaje)
+                .setPositiveButton("Aceptar", (dialog, which) -> {
+                    startActivity(new Intent(vista_producto.this, Tiendas_Activity.class));
+                })
+                .show();
+    }
+
+    private void mostrarMensajePedido(String mensaje) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Aviso")
                 .setMessage(mensaje)
                 .setPositiveButton("Aceptar", (dialog, which) -> {
                     startActivity(new Intent(vista_producto.this, Tiendas_Activity.class));
