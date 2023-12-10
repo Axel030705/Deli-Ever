@@ -1,6 +1,8 @@
-package Cliente;
+package Cliente.Pedidos;
 
-public class PedidoClase {
+import java.io.Serializable;
+
+public class PedidoClase implements Serializable {
 
     private String idPedido;
     private String Fecha_Hora;

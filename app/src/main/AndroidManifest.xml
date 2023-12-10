@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
@@ -16,6 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AgendaApp"
         tools:targetApi="31">
+        <activity
+            android:name="Cliente.Pedidos.detalles_pedido"
+            android:exported="false" />
+        <activity
+            android:name="Cliente.Pedidos.pedidos"
+            android:exported="false" />
         <activity
             android:name="Chat.MainActivityChat"
             android:exported="false" />
@@ -82,7 +89,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

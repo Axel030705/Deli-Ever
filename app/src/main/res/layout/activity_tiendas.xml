@@ -69,7 +69,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Negocios disponibles"
+            android:text="Tiendas disponibles"
             android:textSize="25sp"
             android:textColor="@color/black"
             tools:ignore="HardcodedText"

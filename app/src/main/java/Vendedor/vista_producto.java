@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import Cliente.PedidoClase;
+import Cliente.Pedidos.PedidoClase;
 
 public class vista_producto extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
@@ -95,7 +95,7 @@ public class vista_producto extends AppCompatActivity {
                     String tipo = dataSnapshot.child("Tipo de usuario").getValue(String.class);
 
                     assert tipo != null;
-                    if (tipo.equals("Vendedor")) { // Valida si es Administrador
+                    if (tipo.equals("Vendedor")) {
                         Btn_EditarProducto.setVisibility(View.VISIBLE);
                         Btn_EliminarProducto.setVisibility(View.VISIBLE);
                     } else if (tipo.equals("Cliente")) {
@@ -137,7 +137,7 @@ public class vista_producto extends AppCompatActivity {
         textDescripcionProducto.setText(productoDescripcion);
         textPrecioProducto.setText("MX $" + productoPrecio);
         textExtraProducto.setText(productoExtra);
-        textCantidadProducto.setText("Cantidad: " + productoCantidad);
+        textCantidadProducto.setText("Cantidad disponible: " + productoCantidad);
         Glide.with(imgProducto.getContext())
                 .load(productoImg)
                 .into(imgProducto);

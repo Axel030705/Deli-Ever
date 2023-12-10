@@ -33,6 +33,7 @@ import java.util.UUID;
 
 import Chat.MainActivityChat;
 import Cliente.MainActivity;
+import Cliente.Pedidos.pedidos;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Perfil_Activity extends AppCompatActivity {
@@ -198,6 +199,11 @@ public class Perfil_Activity extends AppCompatActivity {
 
     public void LlamarChat(View view) {
         Intent intent = new Intent(Perfil_Activity.this, MainActivityChat.class);
+        startActivity(intent);
+    }
+
+    public void LlamarPedidos(View view) {
+        Intent intent = new Intent(Perfil_Activity.this, pedidos.class);
         startActivity(intent);
     }
 

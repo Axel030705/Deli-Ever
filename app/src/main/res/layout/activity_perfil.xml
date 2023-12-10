@@ -185,6 +185,19 @@
         android:text="CHAT"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
+        tools:ignore="HardcodedText"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/Btn_pedidos"
+        android:onClick="LlamarPedidos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:backgroundTint="@color/azulCielo"
+        android:text="Pedidos"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
         tools:ignore="HardcodedText"/>
 
 </LinearLayout>
