@@ -36,7 +36,7 @@ public class PedidoAdapter extends RecyclerView.Adapter<PedidoAdapter.PedidoView
     @NonNull
     @Override
     public PedidoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pedido, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pedido_cliente, parent, false);
         return new PedidoViewHolder(view);
     }
 

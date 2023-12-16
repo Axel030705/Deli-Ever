@@ -250,8 +250,8 @@ public class vista_producto extends AppCompatActivity {
                     // Obtén el ID único para el nuevo pedido
                     String nuevoPedidoId = userRef.child("Pedidos").push().getKey();
 
-                    //Convertir de Double a String
-                    String PreciototalString = String.valueOf(precioTotal);
+                    // Convertir de Double a String
+                    String precioTotalString = String.valueOf(precioTotal);
 
                     // Crea una instancia del modelo de PedidoClase con datos reales
                     PedidoClase nuevoPedido = new PedidoClase(
@@ -260,29 +260,56 @@ public class vista_producto extends AppCompatActivity {
                             nombreUsr,
                             txt_ubicacion.getText().toString(),
                             productoNombre,
-                            PreciototalString,
+                            precioTotalString,
                             "Pendiente",
-                            "Ninguna",
+                            "Ninguno",
                             idTienda,
                             productoImg,
-                            cantidadSeleccionada
+                            cantidadSeleccionada,
+                            userId
                     );
+
                     // Guarda el nuevo pedido en la base de datos bajo el nodo del usuario
                     userRef.child("Pedidos").child(nuevoPedidoId).setValue(nuevoPedido)
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
-                                    int nuevaCantidad = cantidadInt - Integer.parseInt(cantidadSeleccionada);
-                                    String nuevaCantidadString = String.valueOf(nuevaCantidad);
-                                    // Obtén una referencia a la base de datos de Firebase
+                                    // Actualiza correctamente el pedido del usuario
+
+                                    // Actualiza la información del pedido en la tienda
                                     DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
-                                    // Ubica la entrada del producto en la base de datos utilizando su tiendaId y productoId
-                                    DatabaseReference productosRef = databaseRef.child("Tienda");
-                                    productosRef.child(idTienda).child("productos").child(productoId).child("cantidad").setValue(nuevaCantidadString)
-                                            .addOnCompleteListener(task1-> {
-                                                if (task1.isSuccessful()) {
-                                                    // Éxito al actualizar la cantidad del producto
+                                    DatabaseReference storeOrdersRef = databaseRef.child("Tienda").child(idTienda).child("Pedidos");
+                                    storeOrdersRef.child(nuevoPedidoId).setValue(nuevoPedido)
+                                            .addOnCompleteListener(storeTask -> {
+                                                if (storeTask.isSuccessful()) {
+                                                    // Éxito al actualizar la información del pedido en la tienda
+
+                                                    // Actualiza la cantidad disponible en la base de datos
+                                                    int cantidadComprada = Integer.parseInt(cantidadSeleccionada);
+                                                    DatabaseReference productRef = databaseRef.child("Tienda").child(idTienda).child("productos").child(productoId);
+                                                    productRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                            if (dataSnapshot.exists()) {
+                                                                int cantidadDisponible = Integer.parseInt(dataSnapshot.child("cantidad").getValue(String.class));
+                                                                int nuevaCantidadDisponible = cantidadDisponible - cantidadComprada;
+                                                                String nuevaCantidadDisponibleString = String.valueOf(nuevaCantidadDisponible);
+                                                                productRef.child("cantidad").setValue(nuevaCantidadDisponibleString);
+                                                                // Aquí puedes hacer algo más si es necesario
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                            // Manejar errores de la consulta
+                                                            Log.e("FirebaseError", "Error al leer datos del producto: " + databaseError.getMessage());
+                                                        }
+                                                    });
+
                                                     Toast.makeText(vista_producto.this, "Pedido realizado con éxito", Toast.LENGTH_SHORT).show();
                                                     bottomSheetDialog.dismiss();
+                                                } else {
+                                                    Toast.makeText(vista_producto.this, "Error al actualizar la información del pedido en la tienda", Toast.LENGTH_SHORT).show();
+                                                    Log.e("StoreOrderError", storeTask.getException().toString());
                                                 }
                                             });
                                 } else {
@@ -293,6 +320,7 @@ public class vista_producto extends AppCompatActivity {
                 }
             }
         });
+
 
     }
 

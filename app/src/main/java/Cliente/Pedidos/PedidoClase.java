@@ -3,7 +3,6 @@ package Cliente.Pedidos;
 import java.io.Serializable;
 
 public class PedidoClase implements Serializable {
-
     private String idPedido;
     private String Fecha_Hora;
     private String Nombre_Cliente;
@@ -11,16 +10,17 @@ public class PedidoClase implements Serializable {
     private String Producto;
     private String Monto;
     private String Estado;
-    private String Promocion;
+    private String Descuento;
     private String idTienda;
     private String ImgProducto;
     private String Cantidad;
+    private String idCliente;
 
     public PedidoClase() {
 
     }
 
-    public PedidoClase(String idPedido, String fecha_Hora, String nombre_Cliente, String direccion, String producto, String monto, String estado, String promocion, String idTienda, String imgProducto, String cantidad) {
+    public PedidoClase(String idPedido, String fecha_Hora, String nombre_Cliente, String direccion, String producto, String monto, String estado, String descuento, String idTienda, String imgProducto, String cantidad, String idCliente) {
         this.idPedido = idPedido;
         Fecha_Hora = fecha_Hora;
         Nombre_Cliente = nombre_Cliente;
@@ -28,12 +28,12 @@ public class PedidoClase implements Serializable {
         Producto = producto;
         Monto = monto;
         Estado = estado;
-        Promocion = promocion;
+        Descuento = descuento;
         this.idTienda = idTienda;
         ImgProducto = imgProducto;
         Cantidad = cantidad;
+        this.idCliente = idCliente;
     }
-
     public String getIdPedido() {
         return idPedido;
     }
@@ -90,12 +90,12 @@ public class PedidoClase implements Serializable {
         Estado = estado;
     }
 
-    public String getPromocion() {
-        return Promocion;
+    public String getDescuento() {
+        return Descuento;
     }
 
-    public void setPromocion(String promocion) {
-        Promocion = promocion;
+    public void setDescuento(String promocion) {
+        Descuento = promocion;
     }
 
     public String getIdTienda() {
@@ -120,6 +120,14 @@ public class PedidoClase implements Serializable {
 
     public void setCantidad(String cantidad) {
         Cantidad = cantidad;
+    }
+
+    public String getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
     }
 }
 

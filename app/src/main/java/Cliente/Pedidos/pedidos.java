@@ -3,7 +3,6 @@ package Cliente.Pedidos;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -32,8 +31,7 @@ public class pedidos extends AppCompatActivity {
     private String userId;
     private DatabaseReference userRef;
     //Variables usuario
-    public String nombreUsr, tipoUsr;
-    //Variables pedido
+    public String nombreUsr;
     // Crear lista de pedidos
     private ArrayList<PedidoClase> listaPedidos = new ArrayList<>();
     private PedidoAdapter pedidoAdapter;
@@ -47,6 +45,7 @@ public class pedidos extends AppCompatActivity {
         //XML
         sinPedidos = findViewById(R.id.sinPedidos);
         conPedidos = findViewById(R.id.conPedidos);
+
         //Firebase Usuario
         firebaseAuth = FirebaseAuth.getInstance();
         usersRef = FirebaseDatabase.getInstance().getReference("Usuarios");
@@ -72,68 +71,157 @@ public class pedidos extends AppCompatActivity {
             }
         });
 
-        ValidarPedidos(); //Validar si el usuario tiene pedidos realizados
+        ValidarPedidosCliente(); //Validar si el usuario tiene pedidos realizados
+        ValidarPedidosTienda(); //Validar si la tienda tiene pedidos realizados
     }
 
-    private void ValidarPedidos() {
+    private void ValidarPedidosCliente() {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     nombreUsr = dataSnapshot.child("nombre").getValue(String.class);
-                    tipoUsr = dataSnapshot.child("Tipo de usuario").getValue(String.class);
                     DataSnapshot pedidosSnapshot = dataSnapshot.child("Pedidos");
 
                     if (pedidosSnapshot.exists()) {
                         sinPedidos.setVisibility(View.GONE);
                         conPedidos.setVisibility(View.VISIBLE);
 
-                        // Validar el tipo de usuario que es
-                        assert tipoUsr != null;
-                        if (tipoUsr.equals("Cliente")) {
-                            // Limpiar la lista antes de agregar nuevos pedidos
-                            listaPedidos.clear();
+                        // Limpiar la lista antes de agregar nuevos pedidos
+                        listaPedidos.clear();
 
-                            // Obtener información de los pedidos
-                            for (DataSnapshot pedidoDataSnapshot : pedidosSnapshot.getChildren()) {
-                                String Producto = pedidoDataSnapshot.child("producto").getValue(String.class);
-                                String cantidad = pedidoDataSnapshot.child("cantidad").getValue(String.class);
-                                String monto = pedidoDataSnapshot.child("monto").getValue(String.class);
-                                String estado = pedidoDataSnapshot.child("estado").getValue(String.class);
-                                String imgProducto = pedidoDataSnapshot.child("imgProducto").getValue(String.class);
-                                // Crear objeto Pedido y agregar a la lista
-                                PedidoClase pedido = new PedidoClase();
-                                pedido.setProducto(Producto);
-                                pedido.setCantidad(cantidad);
-                                pedido.setMonto(monto);
-                                pedido.setEstado(estado);
-                                pedido.setImgProducto(imgProducto);
-                                listaPedidos.add(pedido);
-                            }
-
-                            // Notificar al adaptador que los datos han cambiado en el hilo principal de la interfaz de usuario
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    pedidoAdapter.notifyDataSetChanged();
-                                }
-                            });
+                        // Obtener información de los pedidos
+                        for (DataSnapshot pedidoDataSnapshot : pedidosSnapshot.getChildren()) {
+                            String idPedido = pedidoDataSnapshot.child("idPedido").getValue(String.class);
+                            String idCliente = pedidoDataSnapshot.child("idCliente").getValue(String.class);
+                            String idTienda = pedidoDataSnapshot.child("idTienda").getValue(String.class);
+                            String Producto = pedidoDataSnapshot.child("producto").getValue(String.class);
+                            String cantidad = pedidoDataSnapshot.child("cantidad").getValue(String.class);
+                            String direccion = pedidoDataSnapshot.child("direccion").getValue(String.class);
+                            String monto = pedidoDataSnapshot.child("monto").getValue(String.class);
+                            String estado = pedidoDataSnapshot.child("estado").getValue(String.class);
+                            String fecha_hora = pedidoDataSnapshot.child("fecha_hora").getValue(String.class);
+                            String imgProducto = pedidoDataSnapshot.child("imgProducto").getValue(String.class);
+                            String nombre_Cliente = pedidoDataSnapshot.child("nombre_Cliente").getValue(String.class);
+                            String descuento = pedidoDataSnapshot.child("descuento").getValue(String.class);
+                            // Crear objeto Pedido y agregar a la lista
+                            PedidoClase pedido = new PedidoClase();
+                            pedido.setProducto(Producto);
+                            pedido.setCantidad(cantidad);
+                            pedido.setMonto(monto);
+                            pedido.setEstado(estado);
+                            pedido.setImgProducto(imgProducto);
+                            pedido.setIdPedido(idPedido);
+                            pedido.setIdCliente(idCliente);
+                            pedido.setIdTienda(idTienda);
+                            pedido.setDireccion(direccion);
+                            pedido.setFecha_Hora(fecha_hora);
+                            pedido.setNombre_Cliente(nombre_Cliente);
+                            pedido.setDescuento(descuento);
+                            listaPedidos.add(pedido);
                         }
-                    } else {
-                        conPedidos.setVisibility(View.GONE);
-                        sinPedidos.setVisibility(View.VISIBLE);
+
+                        // Notificar al adaptador que los datos han cambiado en el hilo principal de la interfaz de usuario
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pedidoAdapter.notifyDataSetChanged();
+                            }
+                        });
                     }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Maneja cualquier error en la lectura de datos
-                Log.e("FirebaseError", "Error al leer datos: " + databaseError.getMessage());
+
             }
         });
     }
 
+    public void ValidarPedidosTienda() {
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+
+                    String tipoU = snapshot.child("Tipo de usuario").getValue(String.class);
+                    String idTienda = snapshot.child("tiendaId").getValue(String.class);
+
+                    assert tipoU != null;
+                    if (tipoU.equals("Vendedor")) {
+
+                        // Crear una referencia a la tienda en la base de datos
+                        assert idTienda != null;
+                        DatabaseReference tiendaRef = FirebaseDatabase.getInstance().getReference("Tienda").child(idTienda).child("Pedidos");
+
+                        tiendaRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                if(snapshot.exists()) {
+                                    sinPedidos.setVisibility(View.GONE);
+                                    conPedidos.setVisibility(View.VISIBLE);
+                                    // Limpiar la lista antes de agregar nuevos pedidos
+                                    listaPedidos.clear();
+                                    for (DataSnapshot pedidoSnapshot : snapshot.getChildren()) {
+                                        String idPedido = pedidoSnapshot.child("idPedido").getValue(String.class);
+                                        String idCliente = pedidoSnapshot.child("idCliente").getValue(String.class);
+                                        String idTienda = pedidoSnapshot.child("idTienda").getValue(String.class);
+                                        String Producto = pedidoSnapshot.child("producto").getValue(String.class);
+                                        String cantidad = pedidoSnapshot.child("cantidad").getValue(String.class);
+                                        String direccion = pedidoSnapshot.child("direccion").getValue(String.class);
+                                        String monto = pedidoSnapshot.child("monto").getValue(String.class);
+                                        String estado = pedidoSnapshot.child("estado").getValue(String.class);
+                                        String fecha_hora = pedidoSnapshot.child("fecha_hora").getValue(String.class);
+                                        String imgProducto = pedidoSnapshot.child("imgProducto").getValue(String.class);
+                                        String nombre_Cliente = pedidoSnapshot.child("nombre_Cliente").getValue(String.class);
+                                        String descuento = pedidoSnapshot.child("descuento").getValue(String.class);
+                                        // Crear objeto Pedido y agregar a la lista
+                                        PedidoClase pedido = new PedidoClase();
+                                        pedido.setProducto(Producto);
+                                        pedido.setCantidad(cantidad);
+                                        pedido.setMonto(monto);
+                                        pedido.setEstado(estado);
+                                        pedido.setImgProducto(imgProducto);
+                                        pedido.setIdPedido(idPedido);
+                                        pedido.setIdCliente(idCliente);
+                                        pedido.setIdTienda(idTienda);
+                                        pedido.setDireccion(direccion);
+                                        pedido.setFecha_Hora(fecha_hora);
+                                        pedido.setNombre_Cliente(nombre_Cliente);
+                                        pedido.setDescuento(descuento);
+                                        listaPedidos.add(pedido);
+                                    }
+                                }
+                                // Notificar al adaptador que los datos han cambiado en el hilo principal de la interfaz de usuario
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        pedidoAdapter.notifyDataSetChanged();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
 
 }
+

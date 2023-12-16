@@ -116,14 +116,12 @@ public class Activity_Vendedor extends AppCompatActivity {
     }
 
     private void uploadImageToFirebaseStorage(StorageReference imageRef, ProgressDialog progressDialog, String nombreTienda, String descripcionTienda, String direccionTienda, String extraTienda) {
-        // Crea un ProgressDialog
         progressDialog.setTitle("Cargando imagen");
         progressDialog.setMessage("Por favor, espera...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setIndeterminate(false);
         progressDialog.setCancelable(false);
 
-        // Carga la imagen al Storage
         imageRef.putFile(imageUri).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
@@ -134,31 +132,28 @@ public class Activity_Vendedor extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progressDialog.dismiss();
-                // Aquí puedes obtener la URL de descarga de la imagen
                 imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         String imageUrl = uri.toString();
-                        // Aquí puedes hacer uso de la URL de descarga de la imagen
-                        // por ejemplo, guardarla en la base de datos asociada a tu tienda
-
-                        // Crea una instancia de TiendaClase y establece los valores
                         TiendaClase tienda = new TiendaClase(null, nombreTienda, descripcionTienda, direccionTienda, extraTienda, usuarioId, imageUrl);
 
-                        // Después de cargar la imagen con éxito, puedes mostrarla en el CircleImageView
                         CircleImageView imagenTienda = findViewById(R.id.ImagenTienda);
                         Glide.with(Activity_Vendedor.this)
                                 .load(imageUrl)
                                 .apply(RequestOptions.circleCropTransform())
                                 .into(imagenTienda);
 
-                        // Establece ImagenCargada como true
                         ImagenCargada = true;
 
                         DatabaseReference tiendaRef = FirebaseDatabase.getInstance().getReference("Tienda");
                         String tiendaId = tiendaRef.push().getKey();
                         tienda.setId(tiendaId);
-                        assert tiendaId != null;
+
+                        // Asociar la tienda con el usuario en la base de datos
+                        DatabaseReference usuarioTiendaRef = FirebaseDatabase.getInstance().getReference("Usuarios").child(usuarioId).child("tiendaId");
+                        usuarioTiendaRef.setValue(tiendaId);
+
                         tiendaRef.child(tiendaId).setValue(tienda).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -69,6 +70,9 @@ public class MainActivityChat extends AppCompatActivity {
     private static final int NOTIFICATION_ID = 1;
     private NotificationManager notificationManager;
 
+    //Sala
+    private String salaId, idCliente, idVendedor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +90,12 @@ public class MainActivityChat extends AppCompatActivity {
         rvMensajes.setLayoutManager(l);
         rvMensajes.setAdapter(adapter);
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("chat"); //Sala de chat
+        //Sala del chat
+        salaId = getIntent().getStringExtra("salaId");
+        databaseReference = database.getReference("chat").child(salaId).child("mensajes");
         storage = FirebaseStorage.getInstance();
+        idCliente = getIntent().getStringExtra("idUsuario1");
+        idVendedor = getIntent().getStringExtra("idUsuario2");
 
         //Perfil del Usuario
         firebaseAuth = FirebaseAuth.getInstance();
@@ -105,17 +113,57 @@ public class MainActivityChat extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String nombre = dataSnapshot.child("nombre").getValue(String.class);
-                    String password = dataSnapshot.child("password").getValue(String.class);
-                    String correo = dataSnapshot.child("correo").getValue(String.class);
                     String tipo = dataSnapshot.child("Tipo de usuario").getValue(String.class);
 
-                    /*if(tipo.equals("Vendedor")){ // Valida si es Vendedor
+                    assert tipo != null;
+                    if (tipo.equals("Vendedor")) { // Valida si es Vendedor
 
-                    }else{
+                        //Perfil del Cliente
+                        firebaseAuth = FirebaseAuth.getInstance();
+                        usersRef = FirebaseDatabase.getInstance().getReference("Usuarios");
+                        userRef = usersRef.child(idCliente);
+                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    String nombreC = dataSnapshot.child("nombre").getValue(String.class);
+                                    nombreUsr.setText(nombreC);
 
-                    }*/
+                                }
+                            }
 
-                    nombreUsr.setText(nombre);
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }else if (tipo.equals("Cliente")) { // Valida si es cliente
+
+                        DatabaseReference vendedorRef = FirebaseDatabase.getInstance().getReference("Usuarios").child(idVendedor);
+                        vendedorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    String nombreV = snapshot.child("nombre").getValue(String.class);
+                                    String imageUrl = snapshot.child("imagenPerfil").child("url").getValue(String.class);
+                                    nombreUsr.setText(nombreV);
+
+                                    if (imageUrl != null) {
+                                        Picasso.get().load(imageUrl).into(fotoPerfil);
+                                    }else{
+                                        fotoPerfil.setImageResource(R.drawable.icono_persona);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }
 
                 }
             }
@@ -186,12 +234,38 @@ public class MainActivityChat extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Validar si el campo txt_mensaje esta vacio
-                if (txt_Mensaje.getText().toString().isEmpty()) {
+                if (TextUtils.isEmpty(txt_Mensaje.getText().toString().trim())) {
 
                 } else {
-                    databaseReference.push().setValue(new MensajeEnviar(txt_Mensaje.getText().toString(), nombreUsr.getText().toString(), "", "1"));
-                    txt_Mensaje.setText("");
-                    showNotification();
+
+                    //Perfil del Usuario
+                    firebaseAuth = FirebaseAuth.getInstance();
+                    usersRef = FirebaseDatabase.getInstance().getReference("Usuarios");
+                    userId = firebaseAuth.getCurrentUser().getUid();
+                    userRef = usersRef.child(userId);
+
+                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                String nombre = snapshot.child("nombre").getValue(String.class);
+                                String tipo = snapshot.child("Tipo de usuario").getValue(String.class);
+                                assert tipo != null;
+                                if(tipo.equals("Vendedor")){
+                                    EnviarMensajeVendedor(nombre);
+
+                                }else if(tipo.equals("Cliente")){
+                                    EnviarMensajeCliente(nombre);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                 }
             }
         });
@@ -281,11 +355,11 @@ public class MainActivityChat extends AppCompatActivity {
     //Noti
     public void showNotification() {
         Intent intent = new Intent(this, MainActivityChat.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent, PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         Notification.Builder builder = null;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder = new Notification.Builder(this,CHANNEL_ID)
+            builder = new Notification.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.icono_correo)
                     .setContentTitle("Nuevo mensaje")
                     .setContentText("")
@@ -296,22 +370,44 @@ public class MainActivityChat extends AppCompatActivity {
 
         Notification notification;
         notification = builder.build();
-        notificationManager.notify(NOTIFICATION_ID,notification);
+        notificationManager.notify(NOTIFICATION_ID, notification);
 
     }
 
-    private void createNotificationChannel(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             CharSequence channelName = "Mi canal";
             String channelDiscription = "Mi descripcion del canal";
 
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,channelName,importance);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channelName, importance);
             channel.setDescription(channelDiscription);
 
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+    private void EnviarMensajeVendedor(String nombreUsuario) {
+        // Obtener el texto del mensaje
+        String mensaje = txt_Mensaje.getText().toString().trim();
+        // Crear un objeto MensajeEnviar y enviarlo a la base de datos
+        MensajeEnviar mensajeEnviar = new MensajeEnviar(mensaje, nombreUsuario, "", "1");
+        databaseReference.push().setValue(mensajeEnviar);
+        // Limpiar el campo de texto después de enviar el mensaje
+        txt_Mensaje.setText("");
+        showNotification();
+    }
+    private void EnviarMensajeCliente(String nombreUsuario) {
+        // Obtener el texto del mensaje
+        String mensaje = txt_Mensaje.getText().toString().trim();
+        // Crear un objeto MensajeEnviar y enviarlo a la base de datos
+        MensajeEnviar mensajeEnviar = new MensajeEnviar(mensaje, nombreUsuario, "", "1");
+        databaseReference.push().setValue(mensajeEnviar);
+        // Limpiar el campo de texto después de enviar el mensaje
+        txt_Mensaje.setText("");
+        showNotification();
+    }
+
 
 }
