@@ -79,7 +79,7 @@
 
     <LinearLayout
         android:id="@+id/BotonesVendedor"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -107,7 +107,7 @@
 
     <LinearLayout
         android:id="@+id/LayoutFinalizar"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
