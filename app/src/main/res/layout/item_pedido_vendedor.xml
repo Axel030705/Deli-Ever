@@ -79,7 +79,7 @@
 
     <LinearLayout
         android:id="@+id/BotonesVendedor"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -88,7 +88,7 @@
         android:layout_marginBottom="10dp">
 
         <Button
-            android:id="@+id/Btn_preparación"
+            android:id="@+id/Btn_preparacion"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:text="En preparación"/>
@@ -102,6 +102,25 @@
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:text="En camino"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LayoutFinalizar"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="160dp"
+        android:gravity="center"
+        android:layout_marginBottom="10dp">
+
+        <Button
+            android:id="@+id/Btn_finalizarPedido"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:text="Finalizar pedido"
+            android:backgroundTint="@color/green"/>
 
     </LinearLayout>
 

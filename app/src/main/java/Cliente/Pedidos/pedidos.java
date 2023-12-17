@@ -34,7 +34,10 @@ public class pedidos extends AppCompatActivity {
     public String nombreUsr;
     // Crear lista de pedidos
     private ArrayList<PedidoClase> listaPedidos = new ArrayList<>();
+    private ArrayList<PedidoClase> listaPedidosVendedor = new ArrayList<>();
     private PedidoAdapter pedidoAdapter;
+    private PedidoAdapterVendedor pedidoAdapterVendedor;
+    public RecyclerView recyclerViewPedidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +55,31 @@ public class pedidos extends AppCompatActivity {
         userId = firebaseAuth.getCurrentUser().getUid();
         userRef = usersRef.child(userId);
 
-        //OnclickEnPedido
-        RecyclerView recyclerViewPedidos = findViewById(R.id.recyclerViewPedidos);
-        pedidoAdapter = new PedidoAdapter(listaPedidos);
-        recyclerViewPedidos.setAdapter(pedidoAdapter);
+        recyclerViewPedidos = findViewById(R.id.recyclerViewPedidos);
         recyclerViewPedidos.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        //Pedidos cliente
+        pedidoAdapter = new PedidoAdapter(listaPedidos);
+        //Pedidos Vendedor
+        pedidoAdapterVendedor = new PedidoAdapterVendedor(listaPedidosVendedor);
         pedidoAdapter.setOnItemClickListener(new PedidoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 // Accede al pedido seleccionado usando el adaptador
                 PedidoClase pedidoSeleccionado = pedidoAdapter.getPedidoAt(position);
+
+                // Ahora puedes hacer lo que necesitas con el pedido seleccionado
+                // Por ejemplo, puedes abrir una nueva actividad y pasar el pedido como extra
+                Intent intent = new Intent(getApplicationContext(), detalles_pedido.class);
+                intent.putExtra("pedido", pedidoSeleccionado);
+                startActivity(intent);
+            }
+        });
+
+        pedidoAdapterVendedor.setOnItemClickListener(new PedidoAdapterVendedor.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                // Accede al pedido seleccionado usando el adaptador
+                PedidoClase pedidoSeleccionado = pedidoAdapterVendedor.getPedidoAt(position);
 
                 // Ahora puedes hacer lo que necesitas con el pedido seleccionado
                 // Por ejemplo, puedes abrir una nueva actividad y pasar el pedido como extra
@@ -87,10 +105,9 @@ public class pedidos extends AppCompatActivity {
                     if (pedidosSnapshot.exists()) {
                         sinPedidos.setVisibility(View.GONE);
                         conPedidos.setVisibility(View.VISIBLE);
-
+                        recyclerViewPedidos.setAdapter(pedidoAdapter);
                         // Limpiar la lista antes de agregar nuevos pedidos
                         listaPedidos.clear();
-
                         // Obtener información de los pedidos
                         for (DataSnapshot pedidoDataSnapshot : pedidosSnapshot.getChildren()) {
                             String idPedido = pedidoDataSnapshot.child("idPedido").getValue(String.class);
@@ -164,8 +181,9 @@ public class pedidos extends AppCompatActivity {
                                 if(snapshot.exists()) {
                                     sinPedidos.setVisibility(View.GONE);
                                     conPedidos.setVisibility(View.VISIBLE);
+                                    recyclerViewPedidos.setAdapter(pedidoAdapterVendedor);
                                     // Limpiar la lista antes de agregar nuevos pedidos
-                                    listaPedidos.clear();
+                                    listaPedidosVendedor.clear();
                                     for (DataSnapshot pedidoSnapshot : snapshot.getChildren()) {
                                         String idPedido = pedidoSnapshot.child("idPedido").getValue(String.class);
                                         String idCliente = pedidoSnapshot.child("idCliente").getValue(String.class);
@@ -193,14 +211,14 @@ public class pedidos extends AppCompatActivity {
                                         pedido.setFecha_Hora(fecha_hora);
                                         pedido.setNombre_Cliente(nombre_Cliente);
                                         pedido.setDescuento(descuento);
-                                        listaPedidos.add(pedido);
+                                        listaPedidosVendedor.add(pedido);
                                     }
                                 }
                                 // Notificar al adaptador que los datos han cambiado en el hilo principal de la interfaz de usuario
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        pedidoAdapter.notifyDataSetChanged();
+                                        pedidoAdapterVendedor.notifyDataSetChanged();
                                     }
                                 });
                             }
