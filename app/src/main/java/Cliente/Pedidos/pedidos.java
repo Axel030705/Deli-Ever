@@ -22,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import Vendedor.Pedidos.detalles_pedido_vendedor;
+
 public class pedidos extends AppCompatActivity {
     //XML
     private LinearLayout sinPedidos, conPedidos;
@@ -83,7 +85,7 @@ public class pedidos extends AppCompatActivity {
 
                 // Ahora puedes hacer lo que necesitas con el pedido seleccionado
                 // Por ejemplo, puedes abrir una nueva actividad y pasar el pedido como extra
-                Intent intent = new Intent(getApplicationContext(), detalles_pedido.class);
+                Intent intent = new Intent(getApplicationContext(), detalles_pedido_vendedor.class);
                 intent.putExtra("pedido", pedidoSeleccionado);
                 startActivity(intent);
             }

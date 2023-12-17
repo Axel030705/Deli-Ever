@@ -55,6 +55,14 @@ public class PedidoAdapterVendedor extends RecyclerView.Adapter<PedidoAdapterVen
     public void onBindViewHolder(@NonNull PedidoViewHolderV holder, int position) {
         PedidoClase pedido = listaPedidosVendedor.get(position);
         holder.bind(pedido, position);
+
+        // Configurar el click listener
+        holder.itemView.setOnClickListener(view -> {
+            if (listenerV != null) {
+                listenerV.onItemClick(position);
+            }
+        });
+
     }
 
     @Override
