@@ -141,6 +141,9 @@ public class detalles_pedido extends AppCompatActivity {
             } else if (pedido.getEstado().equals("Camino")) {
                 TextoEstado.setText("Tu pedido está en camino no te desesperes");
                 ImgEstado.setImageResource(R.drawable.svg3);
+            }else if(pedido.getEstado().equals("Finalizado")){
+                TextoEstado.setText("Tu pedido fue entregado puedes darle una puntuación al producto si así lo deseas");
+                ImgEstado.setImageResource(R.drawable.svg4);
             }
         }
     }
