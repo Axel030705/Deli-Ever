@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agenda.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +35,8 @@ public class detalles_pedido extends AppCompatActivity {
     //Firebase
     private DatabaseReference usuarioRef;
     private DatabaseReference pedidoRef;
+    //Chat
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,42 +86,61 @@ public class detalles_pedido extends AppCompatActivity {
             }
         });
 
+        //Ingresar al chat con el cliente
         LayoutMsj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Obtener el ID de la tienda asociada al usuario vendedor
-                String idTienda = pedido.getIdTienda();
-                // Obtener el ID del usuario actual
-                String idUsuarioActual = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                // Crear una referencia a la tienda en la base de datos
-                DatabaseReference tiendaRef = FirebaseDatabase.getInstance().getReference("Tienda").child(idTienda);
-                // Realizar la consulta para obtener los IDs de usuario asociados a la sala
-                tiendaRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                // Obtener la referencia a la base de datos
+                databaseReference = FirebaseDatabase.getInstance().getReference("chat");
+                //Pasar id del pedido
+                String idPedido = pedido.getIdPedido();
+
+                String idSala = pedido.getIdTienda() + "_" + pedido.getIdPedido();
+
+                //Obtener la referencia a la ubicación del pedido
+                DatabaseReference pedidoRef = databaseReference.child(idSala);
+
+                pedidoRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        // Verificar si existen mensajes para este pedido
                         if (dataSnapshot.exists()) {
-                            // Obtener IDs de usuario asociados a la sala
-                            String idUsuario2 = dataSnapshot.child("usuarioAsociado").getValue(String.class);
 
-                            DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("chat");
-                            String idSala = idTienda + "_" + idUsuarioActual;
-
-                            // Crear la sala de chat
-                            chatRef.child(idSala).child("usuario1").setValue(idUsuarioActual);
-                            chatRef.child(idSala).child("usuario2").setValue(idUsuario2);
+                            // Obtener el ID del usuario actual
+                            /*String idUsuarioActual = FirebaseAuth.getInstance().getCurrentUser().getUid();*/
 
                             // Navegar a la actividad de chat
                             Intent intent = new Intent(detalles_pedido.this, MainActivityChat.class);
                             intent.putExtra("salaId", idSala);
-                            intent.putExtra("idUsuario1", idUsuarioActual);
-                            intent.putExtra("idUsuario2", idUsuario2);
+                            /*intent.putExtra("idUsuario1", idUsuarioActual);
+                            intent.putExtra("idUsuario2", idUsuario2);*/
+                            intent.putExtra("idPedido", pedido.getIdPedido());
                             startActivity(intent);
+
+                        } else {
+
+                            DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("chat");
+                            String idSala = pedido.getIdTienda() + "_" + pedido.getIdPedido();
+
+                            // Crear la sala de chat
+                            /*chatRef.child(idSala).child("usuario1").setValue(idUsuarioActual);
+                            chatRef.child(idSala).child("usuario2").setValue(idUsuario2);*/
+                            chatRef.child(idSala).child("idPedido").setValue(pedido.getIdPedido());
+
+                            // Navegar a la actividad de chat
+                            Intent intent = new Intent(detalles_pedido.this, MainActivityChat.class);
+                            intent.putExtra("salaId", idSala);
+                            /*intent.putExtra("idUsuario1", idUsuarioActual);
+                            intent.putExtra("idUsuario2", idUsuario2);*/
+                            intent.putExtra("idPedido", pedido.getIdPedido());
+                            startActivity(intent);
+
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Manejar errores de la consulta
+                        // Manejar errores de Firebase, si es necesario
                     }
                 });
             }

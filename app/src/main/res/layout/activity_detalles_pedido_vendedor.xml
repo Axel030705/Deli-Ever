@@ -317,7 +317,7 @@
                     android:background="@android:color/darker_gray" />
 
                 <LinearLayout
-                    android:id="@+id/LayoutMsj"
+                    android:id="@+id/LayoutMsjV"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"

@@ -2,6 +2,7 @@ package Vendedor.Pedidos;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,13 +12,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agenda.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import Chat.MainActivityChat;
 import Cliente.Pedidos.PedidoClase;
 
 public class detalles_pedido_vendedor extends AppCompatActivity {
@@ -25,11 +31,13 @@ public class detalles_pedido_vendedor extends AppCompatActivity {
     //XML
     EditText txt_descuento;
     TextView txt_productosV, txt_precio, txt_envio, txt_precioTotal, txt_direccion;
-    LinearLayout layout_btn_descuento;
+    LinearLayout layout_btn_descuento, LayoutMsjV;
     Button btn_descuento;
 
     //Variables
-    private int descuento;
+
+    //Chat
+    private DatabaseReference databaseReference;
 
     //Pedido//
     private PedidoClase pedidoV;
@@ -48,6 +56,7 @@ public class detalles_pedido_vendedor extends AppCompatActivity {
         txt_precioTotal = findViewById(R.id.txt_precioTotalV);
         txt_direccion = findViewById(R.id.txt_direccionV);
         btn_descuento = findViewById(R.id.btn_descuento);
+        LayoutMsjV = findViewById(R.id.LayoutMsjV);
 
         //Pedido
         pedidoV = (PedidoClase) getIntent().getSerializableExtra("pedido");
@@ -110,6 +119,65 @@ public class detalles_pedido_vendedor extends AppCompatActivity {
 
         });
 
+        //Ingresar al chat con el cliente
+        LayoutMsjV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Obtener la referencia a la base de datos
+                databaseReference = FirebaseDatabase.getInstance().getReference("chat");
+                //Pasar id del pedido
+                String idPedido = pedidoV.getIdPedido();
+
+                String idSala = pedidoV.getIdTienda() + "_" + pedidoV.getIdPedido();
+
+                //Obtener la referencia a la ubicación del pedido
+                DatabaseReference pedidoRef = databaseReference.child(idSala);
+
+                pedidoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        // Verificar si existen mensajes para este pedido
+                        if (dataSnapshot.exists()) {
+
+                            // Obtener el ID del usuario actual
+                            /*String idUsuarioActual = FirebaseAuth.getInstance().getCurrentUser().getUid();*/
+
+                            // Navegar a la actividad de chat
+                            Intent intent = new Intent(detalles_pedido_vendedor.this, MainActivityChat.class);
+                            intent.putExtra("salaId", idSala);
+                            /*intent.putExtra("idUsuario1", idUsuarioActual);
+                            intent.putExtra("idUsuario2", idUsuario2);*/
+                            intent.putExtra("idPedido", pedidoV.getIdPedido());
+                            startActivity(intent);
+
+                        } else {
+
+                            DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("chat");
+                            String idSala = pedidoV.getIdTienda() + "_" + pedidoV.getIdPedido();
+
+                            // Crear la sala de chat
+                            /*chatRef.child(idSala).child("usuario1").setValue(idUsuarioActual);
+                            chatRef.child(idSala).child("usuario2").setValue(idUsuario2);*/
+                            chatRef.child(idSala).child("idPedido").setValue(pedidoV.getIdPedido());
+
+                            // Navegar a la actividad de chat
+                            Intent intent = new Intent(detalles_pedido_vendedor.this, MainActivityChat.class);
+                            intent.putExtra("salaId", idSala);
+                            /*intent.putExtra("idUsuario1", idUsuarioActual);
+                            intent.putExtra("idUsuario2", idUsuario2);*/
+                            intent.putExtra("idPedido", pedidoV.getIdPedido());
+                            startActivity(intent);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Manejar errores de Firebase, si es necesario
+                    }
+                });
+            }
+        });
 
         //Funciones
         InformacionPedido();
@@ -132,14 +200,6 @@ public class detalles_pedido_vendedor extends AppCompatActivity {
             txt_descuento.setTextColor(colorVerde);
             txt_descuento.setText("- $ " + pedidoV.getDescuento());
         }
-        //Validar si tiene envio gratis
-        /*if(pedido.getEnvio.equals("Gratis")){
-            int colorVerde = getResources().getColor(R.color.green);
-            txt_envio.setTextColor(colorVerde);
-            txt_envio.setText(pedido.getEnvio);
-        }else{
-
-        }*/
         //Precio total - Descuento
         if (pedidoV.getDescuento().equals("Ninguno")) {
             txt_precioTotal.setText("$ " + pedidoV.getMonto());
