@@ -18,6 +18,9 @@
         android:theme="@style/Theme.AgendaApp"
         tools:targetApi="31">
         <activity
+            android:name="Cliente.Pedidos.pedidos_finalizados"
+            android:exported="false" />
+        <activity
             android:name="Vendedor.Pedidos.detalles_pedido_vendedor"
             android:exported="false" />
         <activity

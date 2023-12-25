@@ -3,8 +3,11 @@ package Cliente.Pedidos;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import Vendedor.Pedidos.PedidoAdapterVendedor;
 import Vendedor.Pedidos.detalles_pedido_vendedor;
 
 public class pedidos extends AppCompatActivity {
@@ -40,6 +44,7 @@ public class pedidos extends AppCompatActivity {
     private PedidoAdapter pedidoAdapter;
     private PedidoAdapterVendedor pedidoAdapterVendedor;
     public RecyclerView recyclerViewPedidos;
+    private Button Btn_menu_pedidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class pedidos extends AppCompatActivity {
         //XML
         sinPedidos = findViewById(R.id.sinPedidos);
         conPedidos = findViewById(R.id.conPedidos);
+        Btn_menu_pedidos = findViewById(R.id.Btn_menu_pedidos);
 
         //Firebase Usuario
         firebaseAuth = FirebaseAuth.getInstance();
@@ -91,12 +97,44 @@ public class pedidos extends AppCompatActivity {
             }
         });
 
+        Btn_menu_pedidos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Creamos el objeto PupupMenu
+                PopupMenu popupMenu = new PopupMenu(pedidos.this, view);
+                //Infla el menu desde el archivo XML
+                popupMenu.getMenuInflater().inflate(R.menu.menu_opt_pedidos, popupMenu.getMenu());
+                //Configura el listener para manejar las opciones del menu
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+
+                        int itemId = menuItem.getItemId();
+
+                        if (itemId == R.id.opcion1_pedidos) {
+                            // Acción para la opción 1
+                            Intent i = new Intent(pedidos.this, pedidos_finalizados.class);
+                            startActivity(i);
+                            return true;
+                        } else {
+                            // Otros casos si es necesario
+                            return false;
+                        }
+                    }
+                });
+                //Muestra el PupupMenu
+                popupMenu.show();
+            }
+        });
+
+
         ValidarPedidosCliente(); //Validar si el usuario tiene pedidos realizados
         ValidarPedidosTienda(); //Validar si la tienda tiene pedidos realizados
     }
 
     private void ValidarPedidosCliente() {
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        userRef.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -111,6 +149,7 @@ public class pedidos extends AppCompatActivity {
                         // Limpiar la lista antes de agregar nuevos pedidos
                         listaPedidos.clear();
                         // Obtener información de los pedidos
+                        boolean hayPedidosConEstadosValidos = false, hayPedidosFinalizados = false;
                         for (DataSnapshot pedidoDataSnapshot : pedidosSnapshot.getChildren()) {
                             String idPedido = pedidoDataSnapshot.child("idPedido").getValue(String.class);
                             String idCliente = pedidoDataSnapshot.child("idCliente").getValue(String.class);
@@ -124,21 +163,40 @@ public class pedidos extends AppCompatActivity {
                             String imgProducto = pedidoDataSnapshot.child("imgProducto").getValue(String.class);
                             String nombre_Cliente = pedidoDataSnapshot.child("nombre_Cliente").getValue(String.class);
                             String descuento = pedidoDataSnapshot.child("descuento").getValue(String.class);
-                            // Crear objeto Pedido y agregar a la lista
-                            PedidoClase pedido = new PedidoClase();
-                            pedido.setProducto(Producto);
-                            pedido.setCantidad(cantidad);
-                            pedido.setMonto(monto);
-                            pedido.setEstado(estado);
-                            pedido.setImgProducto(imgProducto);
-                            pedido.setIdPedido(idPedido);
-                            pedido.setIdCliente(idCliente);
-                            pedido.setIdTienda(idTienda);
-                            pedido.setDireccion(direccion);
-                            pedido.setFecha_Hora(fecha_hora);
-                            pedido.setNombre_Cliente(nombre_Cliente);
-                            pedido.setDescuento(descuento);
-                            listaPedidos.add(pedido);
+
+                            // Agregar condición para filtrar por estado
+                            if ("Pendiente".equals(estado) || "Camino".equals(estado) || "Preparando".equals(estado)) {
+                                // Crear objeto Pedido y agregar a la lista
+                                PedidoClase pedido = new PedidoClase();
+                                pedido.setProducto(Producto);
+                                pedido.setCantidad(cantidad);
+                                pedido.setMonto(monto);
+                                pedido.setEstado(estado);
+                                pedido.setImgProducto(imgProducto);
+                                pedido.setIdPedido(idPedido);
+                                pedido.setIdCliente(idCliente);
+                                pedido.setIdTienda(idTienda);
+                                pedido.setDireccion(direccion);
+                                pedido.setFecha_Hora(fecha_hora);
+                                pedido.setNombre_Cliente(nombre_Cliente);
+                                pedido.setDescuento(descuento);
+                                listaPedidos.add(pedido);
+
+                                // Marcamos que hay pedidos con estados válidos
+                                hayPedidosConEstadosValidos = true;
+                            } else if ("Finalizado".equals(estado)) {
+                                Btn_menu_pedidos.setVisibility(View.VISIBLE);
+                                hayPedidosFinalizados = true;
+                            }
+
+                        }
+
+                        // Verificar si no hay pedidos con estados válidos
+                        if (!hayPedidosConEstadosValidos) {
+                            sinPedidos.setVisibility(View.VISIBLE);
+                            conPedidos.setVisibility(View.GONE);
+                        }else if (!hayPedidosFinalizados){
+                            Btn_menu_pedidos.setVisibility(View.GONE);
                         }
 
                         // Notificar al adaptador que los datos han cambiado en el hilo principal de la interfaz de usuario
@@ -154,10 +212,11 @@ public class pedidos extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // Manejar error de base de datos, si es necesario
             }
         });
     }
+
 
     public void ValidarPedidosTienda() {
 
@@ -179,7 +238,7 @@ public class pedidos extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                if(snapshot.exists()) {
+                                if (snapshot.exists()) {
                                     recyclerViewPedidos.setAdapter(pedidoAdapterVendedor);
                                     // Limpiar la lista antes de agregar nuevos pedidos
                                     listaPedidosVendedor.clear();
@@ -238,6 +297,7 @@ public class pedidos extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

@@ -1,0 +1,63 @@
+    private void ValidarPedidosCliente() {
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    nombreUsr = dataSnapshot.child("nombre").getValue(String.class);
+                    DataSnapshot pedidosSnapshot = dataSnapshot.child("Pedidos");
+
+                    if (pedidosSnapshot.exists()) {
+                        sinPedidos.setVisibility(View.GONE);
+                        conPedidos.setVisibility(View.VISIBLE);
+                        recyclerViewPedidos.setAdapter(pedidoAdapter);
+                        // Limpiar la lista antes de agregar nuevos pedidos
+                        listaPedidos.clear();
+                        // Obtener información de los pedidos
+                        for (DataSnapshot pedidoDataSnapshot : pedidosSnapshot.getChildren()) {
+                            String idPedido = pedidoDataSnapshot.child("idPedido").getValue(String.class);
+                            String idCliente = pedidoDataSnapshot.child("idCliente").getValue(String.class);
+                            String idTienda = pedidoDataSnapshot.child("idTienda").getValue(String.class);
+                            String Producto = pedidoDataSnapshot.child("producto").getValue(String.class);
+                            String cantidad = pedidoDataSnapshot.child("cantidad").getValue(String.class);
+                            String direccion = pedidoDataSnapshot.child("direccion").getValue(String.class);
+                            String monto = pedidoDataSnapshot.child("monto").getValue(String.class);
+                            String estado = pedidoDataSnapshot.child("estado").getValue(String.class);
+                            String fecha_hora = pedidoDataSnapshot.child("fecha_hora").getValue(String.class);
+                            String imgProducto = pedidoDataSnapshot.child("imgProducto").getValue(String.class);
+                            String nombre_Cliente = pedidoDataSnapshot.child("nombre_Cliente").getValue(String.class);
+                            String descuento = pedidoDataSnapshot.child("descuento").getValue(String.class);
+                            // Crear objeto Pedido y agregar a la lista
+                            PedidoClase pedido = new PedidoClase();
+                            pedido.setProducto(Producto);
+                            pedido.setCantidad(cantidad);
+                            pedido.setMonto(monto);
+                            pedido.setEstado(estado);
+                            pedido.setImgProducto(imgProducto);
+                            pedido.setIdPedido(idPedido);
+                            pedido.setIdCliente(idCliente);
+                            pedido.setIdTienda(idTienda);
+                            pedido.setDireccion(direccion);
+                            pedido.setFecha_Hora(fecha_hora);
+                            pedido.setNombre_Cliente(nombre_Cliente);
+                            pedido.setDescuento(descuento);
+                            listaPedidos.add(pedido);
+                        }
+
+                        // Notificar al adaptador que los datos han cambiado en el hilo principal de la interfaz de usuario
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pedidoAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }

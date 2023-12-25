@@ -1,4 +1,4 @@
-package Cliente.Pedidos;
+package Vendedor.Pedidos;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+
+import Cliente.Pedidos.PedidoClase;
 
 public class PedidoAdapterVendedor extends RecyclerView.Adapter<PedidoAdapterVendedor.PedidoViewHolderV> {
 
