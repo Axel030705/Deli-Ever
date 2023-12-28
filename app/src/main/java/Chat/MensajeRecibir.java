@@ -6,7 +6,7 @@ public class MensajeRecibir extends Mensaje{
     }
 
     public MensajeRecibir(String mensaje, String nombre,String fotoPerfil, String type_mensaje, String urlFoto) {
-        super(mensaje, nombre, fotoPerfil, type_mensaje, urlFoto);
+        super(mensaje, type_mensaje, urlFoto);
     }
 
 }

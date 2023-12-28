@@ -30,19 +30,17 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
     @NonNull
     @Override
     public HolderMensaje onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(c).inflate(R.layout.card_view_mensajes, parent, false);
+        View v = LayoutInflater.from(c).inflate(R.layout.card_view_mensajes_nvo, parent, false);
         return new HolderMensaje(v);
     }
 
     @Override
     public void onBindViewHolder(HolderMensaje holder, int position) {
-        holder.getNombre().setText(listMensaje.get(position).getNombre());
         holder.getMensaje().setText(listMensaje.get(position).getMensaje());
 
         if(listMensaje.get(position).getType_mensaje().equals("2")){
             holder.getMandarFoto().setVisibility(View.VISIBLE);
             holder.getMensaje().setVisibility(View.VISIBLE);
-            holder.getFotoMensajePerfil().setVisibility(View.GONE);
             Glide.with(c).load(listMensaje.get(position).getUrlFoto()).into(holder.getMandarFoto());
         }else if(listMensaje.get(position).getType_mensaje().equals("1")){
             holder.getMandarFoto().setVisibility(View.GONE);

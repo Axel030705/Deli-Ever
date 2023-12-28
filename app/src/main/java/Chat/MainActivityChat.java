@@ -105,91 +105,6 @@ public class MainActivityChat extends AppCompatActivity {
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         createNotificationChannel();
 
-/*        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String nombre = dataSnapshot.child("nombre").getValue(String.class);
-                    String tipo = dataSnapshot.child("Tipo de usuario").getValue(String.class);
-
-                    assert tipo != null;
-                    if (tipo.equals("Vendedor")) { // Valida si es Vendedor
-
-                        //Perfil del Cliente
-                        firebaseAuth = FirebaseAuth.getInstance();
-                        usersRef = FirebaseDatabase.getInstance().getReference("Usuarios");
-                        userRef = usersRef.child(idCliente);
-                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists()){
-                                    String nombreC = dataSnapshot.child("nombre").getValue(String.class);
-                                    nombreUsr.setText(nombreC);
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-                    }else if (tipo.equals("Cliente")) { // Valida si es cliente
-
-                        DatabaseReference vendedorRef = FirebaseDatabase.getInstance().getReference("Usuarios").child(idVendedor);
-                        vendedorRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists()){
-                                    String nombreV = snapshot.child("nombre").getValue(String.class);
-                                    String imageUrl = snapshot.child("imagenPerfil").child("url").getValue(String.class);
-                                    nombreUsr.setText(nombreV);
-
-                                    if (imageUrl != null) {
-                                        Picasso.get().load(imageUrl).into(fotoPerfil);
-                                    }else{
-                                        fotoPerfil.setImageResource(R.drawable.icono_persona);
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Maneja cualquier error en la lectura de datos
-            }
-        });
-
-        // Recupera la URL de la imagen almacenada en Firebase Database
-        userRef.child("imagenPerfil").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    ImageInfo imageInfo = dataSnapshot.getValue(ImageInfo.class);
-                    String imageUrl = imageInfo.getUrl();
-                    // Carga la imagen almacenada en el CircleImageView
-                    Picasso.get().load(imageUrl).into(fotoPerfil);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Maneja cualquier error en la recuperación de la URL de la imagen
-            }
-        });*/
-
         Btn_menu_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -334,7 +249,7 @@ public class MainActivityChat extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri downloadUrl) {
                             String imageUrl = downloadUrl.toString();
-                            MensajeEnviar m = new MensajeEnviar(nombreUsr.getText().toString() + " te ha enviado una foto", nombreUsr.getText().toString(), "", "2", imageUrl);
+                            MensajeEnviar m = new MensajeEnviar(nombreUsr.getText().toString() + " te ha enviado una foto", "2", imageUrl);
                             databaseReference.push().setValue(m);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -390,7 +305,7 @@ public class MainActivityChat extends AppCompatActivity {
         // Obtener el texto del mensaje
         String mensaje = txt_Mensaje.getText().toString().trim();
         // Crear un objeto MensajeEnviar y enviarlo a la base de datos
-        MensajeEnviar mensajeEnviar = new MensajeEnviar(mensaje, nombreUsuario, "", "1");
+        MensajeEnviar mensajeEnviar = new MensajeEnviar(mensaje, "1");
         databaseReference.push().setValue(mensajeEnviar);
         // Limpiar el campo de texto después de enviar el mensaje
         txt_Mensaje.setText("");
@@ -400,7 +315,7 @@ public class MainActivityChat extends AppCompatActivity {
         // Obtener el texto del mensaje
         String mensaje = txt_Mensaje.getText().toString().trim();
         // Crear un objeto MensajeEnviar y enviarlo a la base de datos
-        MensajeEnviar mensajeEnviar = new MensajeEnviar(mensaje, nombreUsuario, "", "1");
+        MensajeEnviar mensajeEnviar = new MensajeEnviar(mensaje, "1");
         databaseReference.push().setValue(mensajeEnviar);
         // Limpiar el campo de texto después de enviar el mensaje
         txt_Mensaje.setText("");
