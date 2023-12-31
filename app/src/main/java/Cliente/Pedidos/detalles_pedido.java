@@ -45,6 +45,7 @@ public class detalles_pedido extends AppCompatActivity {
 
         //Obtén el pedido de los extras || Variables
         pedido = (PedidoClase) getIntent().getSerializableExtra("pedido");
+        assert pedido != null;
         idUsr = pedido.getIdCliente();
 
         //XML
@@ -199,7 +200,7 @@ public class detalles_pedido extends AppCompatActivity {
             double monto = Double.parseDouble(pedido.getMonto());
             double descuento = Double.parseDouble(pedido.getDescuento());
             double precioTotal = monto - descuento;
-            String precioTotalString = String.format("$ %.2f", precioTotal);
+            @SuppressLint("DefaultLocale") String precioTotalString = String.format("$ %.2f", precioTotal);
             txt_precioTotal.setText(precioTotalString);
         }
         //Setear la ubicación
