@@ -16,13 +16,18 @@ import java.util.List;
 
 public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
 
-    private final List<MensajeRecibir> listMensaje = new ArrayList<>();
+    public static final int Mensaje_izquierda = 0;
+    public static final int Mensaje_derecha = 1;
+    private final List<Mensaje> listMensaje = new ArrayList<>();
     private final Context c;
+    private final String currentUserUid;
 
-    public AdapterMensajes(Context c) {
+    public AdapterMensajes(Context c, String currentUserUid) {
         this.c = c;
+        this.currentUserUid = currentUserUid;
     }
-    public void addMensaje(MensajeRecibir m){
+
+    public void addMensaje(Mensaje m) {
         listMensaje.add(m);
         notifyItemInserted(listMensaje.size());
     }
@@ -30,23 +35,29 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
     @NonNull
     @Override
     public HolderMensaje onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(c).inflate(R.layout.card_view_mensajes_nvo, parent, false);
-        return new HolderMensaje(v);
+        View view;
+        if (viewType == Mensaje_derecha) {
+            view = LayoutInflater.from(c).inflate(R.layout.item_mensaje_derecha, parent, false);
+        } else {
+            view = LayoutInflater.from(c).inflate(R.layout.item_mensaje_izquierda, parent, false);
+        }
+        return new HolderMensaje(view);
     }
 
     @Override
     public void onBindViewHolder(HolderMensaje holder, int position) {
-        holder.getMensaje().setText(listMensaje.get(position).getMensaje());
+        Mensaje mensaje = listMensaje.get(position);
 
-        if(listMensaje.get(position).getType_mensaje().equals("2")){
+        holder.getMensaje().setText(mensaje.getMensaje());
+
+        if (mensaje.getType_mensaje().equals("2")) {
             holder.getMandarFoto().setVisibility(View.VISIBLE);
             holder.getMensaje().setVisibility(View.VISIBLE);
-            Glide.with(c).load(listMensaje.get(position).getUrlFoto()).into(holder.getMandarFoto());
-        }else if(listMensaje.get(position).getType_mensaje().equals("1")){
+            Glide.with(c).load(mensaje.getUrlFoto()).into(holder.getMandarFoto());
+        } else if (mensaje.getType_mensaje().equals("1")) {
             holder.getMandarFoto().setVisibility(View.GONE);
             holder.getMensaje().setVisibility(View.VISIBLE);
         }
-
     }
 
     @Override
@@ -54,8 +65,19 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
         return listMensaje.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        Mensaje mensaje = listMensaje.get(position);
+        if (mensaje != null && mensaje.getSender() != null && mensaje.getSender().equals(currentUserUid)) {
+            return Mensaje_derecha;
+        } else {
+            return Mensaje_izquierda;
+        }
+    }
+
     public void clear() {
         listMensaje.clear();
     }
-
 }
+
+

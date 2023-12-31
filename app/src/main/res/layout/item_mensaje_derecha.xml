@@ -17,48 +17,37 @@
         android:layout_marginStart="40dp"
         android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
+            android:background="@color/azulCielo"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/mensajeMensaje"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Axel"
-                    android:visibility="gone"
+                    android:gravity="center"
+                    android:text="Hola bienvenido"
+                    android:textColor="@color/white"
                     tools:ignore="HardcodedText" />
+
+                <ImageView
+                    android:id="@+id/msj_foto"
+                    android:layout_width="350dp"
+                    android:layout_height="350dp"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription" />
+
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/mensajeMensaje"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Hola bienvenido"
-                tools:ignore="HardcodedText"/>
-
-            <ImageView
-                android:id="@+id/msj_foto"
-                android:layout_width="350dp"
-                android:layout_height="350dp"
-                android:visibility="gone"
-                tools:ignore="ContentDescription"/>
-
         </LinearLayout>
-
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
-    </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

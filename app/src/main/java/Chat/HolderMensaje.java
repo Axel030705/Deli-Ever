@@ -20,7 +20,6 @@ public class HolderMensaje extends RecyclerView.ViewHolder {
         MandarFoto = itemView.findViewById(R.id.msj_foto);
     }
 
-
     public TextView getMensaje() {
         return mensaje;
     }
@@ -28,5 +27,4 @@ public class HolderMensaje extends RecyclerView.ViewHolder {
     public ImageView getMandarFoto() {
         return MandarFoto;
     }
-
 }

@@ -63,12 +63,21 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/btnEmoji"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_emoji"
+            android:layout_marginStart="5dp"
+            android:contentDescription="Emoji Button"/>
+
+        <ImageButton
             android:id="@+id/BtnEnviarFoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:drawable/ic_menu_gallery"
             android:layout_marginStart="5dp"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
             tools:ignore="ContentDescription">
         </ImageButton>
 

@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +38,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -83,10 +84,6 @@ public class MainActivityChat extends AppCompatActivity {
         Button btnEnviar = findViewById(R.id.BtnEnviar);
         Button Btn_menu_chat = findViewById(R.id.Btn_menu_chat);
         BtnEnviarFoto = findViewById(R.id.BtnEnviarFoto);
-        adapter = new AdapterMensajes(this);
-        LinearLayoutManager l = new LinearLayoutManager(this);
-        rvMensajes.setLayoutManager(l);
-        rvMensajes.setAdapter(adapter);
         database = FirebaseDatabase.getInstance();
         //Sala del chat
         salaId = getIntent().getStringExtra("salaId");
@@ -100,7 +97,10 @@ public class MainActivityChat extends AppCompatActivity {
         usersRef = FirebaseDatabase.getInstance().getReference("Usuarios");
         userId = firebaseAuth.getCurrentUser().getUid();
         userRef = usersRef.child(userId);
-
+        LinearLayoutManager l = new LinearLayoutManager(this);
+        rvMensajes.setLayoutManager(l);
+        adapter = new AdapterMensajes(this, userId);
+        rvMensajes.setAdapter(adapter);
         //Noti
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         createNotificationChannel();
@@ -128,12 +128,7 @@ public class MainActivityChat extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
                             Toast.makeText(MainActivityChat.this, "Borraste la conversación", Toast.LENGTH_SHORT).show();
                             return true;
-                        }/* else if (itemId == R.id.opcion2) {
-                            // Acción para la opción 2
-                            Toast.makeText(MainActivityChat.this, "Seleccionaste Opción 2", Toast.LENGTH_SHORT).show();
-                            return true;
-                        }*/ else {
-                            // Otros casos si es necesario
+                        }else {
                             return false;
                         }
                     }
@@ -146,39 +141,17 @@ public class MainActivityChat extends AppCompatActivity {
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Validar si el campo txt_mensaje esta vacio
+                // Validar si el campo txt_mensaje está vacío
                 if (TextUtils.isEmpty(txt_Mensaje.getText().toString().trim())) {
 
                 } else {
-
-                    //Perfil del Usuario
-                    firebaseAuth = FirebaseAuth.getInstance();
-                    usersRef = FirebaseDatabase.getInstance().getReference("Usuarios");
-                    userId = firebaseAuth.getCurrentUser().getUid();
-                    userRef = usersRef.child(userId);
-
-                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists()){
-                                String nombre = snapshot.child("nombre").getValue(String.class);
-                                String tipo = snapshot.child("Tipo de usuario").getValue(String.class);
-                                assert tipo != null;
-                                if(tipo.equals("Vendedor")){
-                                    EnviarMensajeVendedor(nombre);
-
-                                }else if(tipo.equals("Cliente")){
-                                    EnviarMensajeCliente(nombre);
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
+                    // Crear un objeto Mensaje y enviarlo a la base de datos
+                    String mensajeText = txt_Mensaje.getText().toString().trim();
+                    Mensaje mensaje = new Mensaje(mensajeText, "1", null, userId);
+                    databaseReference.push().setValue(mensaje);
+                    // Limpiar el campo de texto después de enviar el mensaje
+                    txt_Mensaje.setText("");
+                    showNotification();
                 }
             }
         });
@@ -188,6 +161,16 @@ public class MainActivityChat extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(Intent.createChooser(i, "Selecciona una foto"), PHOTO_SEND);
+            }
+        });
+
+        ImageButton btnEmoji = findViewById(R.id.btnEmoji);
+        btnEmoji.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Aquí puedes abrir un cuadro de diálogo con emojis o cualquier otra lógica que prefieras
+                // Por ejemplo, puedes mostrar un cuadro de diálogo con emojis para que el usuario seleccione uno y luego lo insertes en el campo de texto.
+                showEmojiDialog();
             }
         });
 
@@ -202,7 +185,7 @@ public class MainActivityChat extends AppCompatActivity {
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                MensajeRecibir m = snapshot.getValue(MensajeRecibir.class);
+                Mensaje m = snapshot.getValue(Mensaje.class);
                 adapter.addMensaje(m);
             }
 
@@ -249,7 +232,7 @@ public class MainActivityChat extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri downloadUrl) {
                             String imageUrl = downloadUrl.toString();
-                            MensajeEnviar m = new MensajeEnviar(nombreUsr.getText().toString() + " te ha enviado una foto", "2", imageUrl);
+                            Mensaje m = new Mensaje(nombreUsr.getText().toString() + " te ha enviado una foto", "2", imageUrl, userId);
                             databaseReference.push().setValue(m);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -301,26 +284,28 @@ public class MainActivityChat extends AppCompatActivity {
         }
     }
 
-    private void EnviarMensajeVendedor(String nombreUsuario) {
-        // Obtener el texto del mensaje
-        String mensaje = txt_Mensaje.getText().toString().trim();
-        // Crear un objeto MensajeEnviar y enviarlo a la base de datos
-        MensajeEnviar mensajeEnviar = new MensajeEnviar(mensaje, "1");
-        databaseReference.push().setValue(mensajeEnviar);
-        // Limpiar el campo de texto después de enviar el mensaje
-        txt_Mensaje.setText("");
-        showNotification();
-    }
-    private void EnviarMensajeCliente(String nombreUsuario) {
-        // Obtener el texto del mensaje
-        String mensaje = txt_Mensaje.getText().toString().trim();
-        // Crear un objeto MensajeEnviar y enviarlo a la base de datos
-        MensajeEnviar mensajeEnviar = new MensajeEnviar(mensaje, "1");
-        databaseReference.push().setValue(mensajeEnviar);
-        // Limpiar el campo de texto después de enviar el mensaje
-        txt_Mensaje.setText("");
-        showNotification();
-    }
+    private void showEmojiDialog() {
+        // Puedes implementar un cuadro de diálogo con emojis aquí
+        // Por ejemplo, puedes usar un cuadro de diálogo de emojis personalizado o una biblioteca de emojis.
+        // Después de que el usuario selecciona un emoji, puedes agregarlo al campo de texto.
 
+        // Aquí hay un ejemplo simple usando un AlertDialog con emojis de Android:
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivityChat.this);
+        builder.setTitle("Selecciona un emoji");
+
+        final String[] emojis = {"😊", "😂", "❤️", "😍", "👍"};
+        builder.setItems(emojis, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String selectedEmoji = emojis[which];
+                String currentText = txt_Mensaje.getText().toString();
+                String newText = currentText + selectedEmoji;
+                txt_Mensaje.setText(newText);
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
+    }
 
 }
