@@ -268,7 +268,8 @@ public class vista_producto extends AppCompatActivity {
                             productoImg,
                             cantidadSeleccionada,
                             userId,
-                            productoId
+                            productoId,
+                            "No"
                     );
 
                     // Guarda el nuevo pedido en la base de datos bajo el nodo del usuario

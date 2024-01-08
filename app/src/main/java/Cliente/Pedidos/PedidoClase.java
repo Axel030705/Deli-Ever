@@ -16,12 +16,13 @@ public class PedidoClase implements Serializable {
     private String Cantidad;
     private String idCliente;
     private String idProducto;
+    private String Calificado;
 
     public PedidoClase() {
 
     }
 
-    public PedidoClase(String idPedido, String fecha_Hora, String nombre_Cliente, String direccion, String producto, String monto, String estado, String descuento, String idTienda, String imgProducto, String cantidad, String idCliente, String idProducto) {
+    public PedidoClase(String idPedido, String fecha_Hora, String nombre_Cliente, String direccion, String producto, String monto, String estado, String descuento, String idTienda, String imgProducto, String cantidad, String idCliente, String idProducto, String calificado) {
         this.idPedido = idPedido;
         Fecha_Hora = fecha_Hora;
         Nombre_Cliente = nombre_Cliente;
@@ -35,6 +36,7 @@ public class PedidoClase implements Serializable {
         Cantidad = cantidad;
         this.idCliente = idCliente;
         this.idProducto = idProducto;
+        Calificado = calificado;
     }
     public String getIdPedido() {
         return idPedido;
@@ -138,6 +140,14 @@ public class PedidoClase implements Serializable {
 
     public void setIdProducto(String idProducto) {
         this.idProducto = idProducto;
+    }
+
+    public String getCalificado() {
+        return Calificado;
+    }
+
+    public void setCalificado(String calificado) {
+        Calificado = calificado;
     }
 }
 

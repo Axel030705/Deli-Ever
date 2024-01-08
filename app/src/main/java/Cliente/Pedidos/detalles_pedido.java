@@ -2,14 +2,20 @@ package Cliente.Pedidos;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.agenda.R;
 import com.google.firebase.database.DataSnapshot;
@@ -164,9 +170,14 @@ public class detalles_pedido extends AppCompatActivity {
                 TextoEstado.setText("Tu pedido está en camino");
                 ImgEstado.setImageResource(R.drawable.svg3);
             }else if(pedido.getEstado().equals("Finalizado")){
-                TextoEstado.setText("Tu pedido fue entregado puedes darle una puntuación al producto si así lo deseas");
+                TextoEstado.setText("Tu pedido fue entregado disfrutalo!");
                 ImgEstado.setImageResource(R.drawable.svg4);
-                TextoInfo.setText("Para cualquier aclaración no ovides ponerte en contacto con el vendedor");
+                TextoInfo.setText("Para cualquier duda o aclaración no ovides ponerte en contacto con el vendedor");
+
+                //Validar si el producto ya se califico
+                if(pedido.getCalificado().equals("No")){
+                    mostrarFinalizadoDialog(pedido.getIdPedido());
+                }
             }
         }
     }
@@ -207,6 +218,97 @@ public class detalles_pedido extends AppCompatActivity {
         }
         //Setear la ubicación
         txt_direccion.setText(pedido.getDireccion());
+    }
+
+    private void mostrarFinalizadoDialog(String id_pedido){
+        ConstraintLayout finalizado_constraint = findViewById(R.id.finalizado_constraint);
+        View view = LayoutInflater.from(detalles_pedido.this).inflate(R.layout.finalizado_dialog, finalizado_constraint);
+
+        //XML
+        ImageView estrella1 = view.findViewById(R.id.estrella1);
+        ImageView estrella2 = view.findViewById(R.id.estrella2);
+        ImageView estrella3 = view.findViewById(R.id.estrella3);
+        ImageView estrella4 = view.findViewById(R.id.estrella4);
+        ImageView estrella5 = view.findViewById(R.id.estrella5);
+        LinearLayout layout_btn_hecho = view.findViewById(R.id.layout_btn_hecho);
+        Button btn_hecho = view.findViewById(R.id.btn_hecho);
+
+        //Configuracion del AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(detalles_pedido.this);
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+
+        estrella1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                estrella1.setImageResource(R.drawable.estrella_2);
+                layout_btn_hecho.setVisibility(View.VISIBLE);
+            }
+        });
+
+        estrella2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                estrella1.setImageResource(R.drawable.estrella_2);
+                estrella2.setImageResource(R.drawable.estrella_2);
+                layout_btn_hecho.setVisibility(View.VISIBLE);
+            }
+        });
+
+        estrella3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                estrella1.setImageResource(R.drawable.estrella_2);
+                estrella2.setImageResource(R.drawable.estrella_2);
+                estrella3.setImageResource(R.drawable.estrella_2);
+                layout_btn_hecho.setVisibility(View.VISIBLE);
+            }
+        });
+
+        estrella4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                estrella1.setImageResource(R.drawable.estrella_2);
+                estrella2.setImageResource(R.drawable.estrella_2);
+                estrella3.setImageResource(R.drawable.estrella_2);
+                estrella4.setImageResource(R.drawable.estrella_2);
+                layout_btn_hecho.setVisibility(View.VISIBLE);
+            }
+        });
+
+        estrella5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                estrella1.setImageResource(R.drawable.estrella_2);
+                estrella2.setImageResource(R.drawable.estrella_2);
+                estrella3.setImageResource(R.drawable.estrella_2);
+                estrella4.setImageResource(R.drawable.estrella_2);
+                estrella5.setImageResource(R.drawable.estrella_2);
+                layout_btn_hecho.setVisibility(View.VISIBLE);
+            }
+        });
+
+        btn_hecho.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+                Toast.makeText(detalles_pedido.this, "Agracedemos tu opinión", Toast.LENGTH_SHORT).show();
+
+                //Actualiza el pedido a calificado ("Si")
+                DatabaseReference clientePedidoRef = FirebaseDatabase.getInstance().getReference("Usuarios")
+                        .child(idUsr)
+                        .child("Pedidos")
+                        .child(id_pedido);
+
+                clientePedidoRef.child("calificado").setValue("Si");
+
+            }
+        });
+        if(alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        alertDialog.show();
     }
 
 }
