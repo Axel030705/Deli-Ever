@@ -1,4 +1,4 @@
-package Vendedor;
+package Vendedor.Productos;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -30,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import Vendedor.Vendedor_Main;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class agregar_producto extends AppCompatActivity {
@@ -166,7 +167,7 @@ public class agregar_producto extends AppCompatActivity {
         String idProducto = productosRef.push().getKey();
 
         // Crear un objeto Producto con los valores ingresados
-        Producto producto = new Producto(idProducto, nombreProducto, descripcionProducto, precioProducto, extraProducto, cantidadProducto);
+        Producto producto = new Producto(idProducto, nombreProducto, descripcionProducto, precioProducto, extraProducto, cantidadProducto, "0");
 
         // Subir la imagen a Firebase Storage
         assert idProducto != null;

@@ -33,7 +33,7 @@
             android:name="Chat.MainActivityChat"
             android:exported="false" />
         <activity
-            android:name="Vendedor.editar_producto_form"
+            android:name="Vendedor.Productos.editar_producto_form"
             android:exported="false" />
         <activity
             android:name="Vendedor.SolicitudesVendedores"
@@ -42,19 +42,19 @@
             android:name="Vendedor.MainActivityEspera"
             android:exported="false" />
         <activity
-            android:name="Vendedor.comprar_producto"
+            android:name="Vendedor.Productos.comprar_producto"
             android:exported="false" />
         <activity
-            android:name="Vendedor.vista_producto"
+            android:name="Vendedor.Productos.vista_producto"
             android:exported="false" />
         <activity
-            android:name="Vendedor.productos_tienda"
+            android:name="Vendedor.Productos.productos_tienda"
             android:exported="false" />
         <activity
-            android:name="Vendedor.agregar_producto"
+            android:name="Vendedor.Productos.agregar_producto"
             android:exported="false" />
         <activity
-            android:name="Vendedor.EditarTiendaForm"
+            android:name="Vendedor.Tiendas.EditarTiendaForm"
             android:exported="false" />
         <activity
             android:name="Perfil.Perfil_Activity"
@@ -63,7 +63,7 @@
             android:name="Vendedor.Vendedor_Main"
             android:exported="false" />
         <activity
-            android:name="Vendedor.Tiendas_Activity"
+            android:name="Vendedor.Tiendas.Tiendas_Activity"
             android:exported="false" />
         <activity
             android:name="Vendedor.Activity_Vendedor"

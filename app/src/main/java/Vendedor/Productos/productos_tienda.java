@@ -1,4 +1,4 @@
-package Vendedor;
+package Vendedor.Productos;
 
 
 import android.os.Bundle;
@@ -41,7 +41,7 @@ public class productos_tienda extends AppCompatActivity {
         if (tiendaId != null) {
             DatabaseReference tiendaRef = FirebaseDatabase.getInstance().getReference("Tienda").child(tiendaId);
 
-            tiendaRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            tiendaRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -57,7 +57,8 @@ public class productos_tienda extends AppCompatActivity {
                             String extra = productoSnapshot.child("extra").getValue(String.class);
                             String imagenUrl = productoSnapshot.child("imagenUrl").getValue(String.class);
                             String cantidad = productoSnapshot.child("cantidad").getValue(String.class);
-                            Producto producto = new Producto(id, nombre, descripcion, precio, extra, cantidad);
+                            String puntaje = productoSnapshot.child("puntaje").getValue(String.class);
+                            Producto producto = new Producto(id, nombre, descripcion, precio, extra, cantidad, puntaje);
                             producto.setImagenUrl(imagenUrl); // Agregar la URL de la imagen al producto
                             productosList.add(producto);
 
@@ -70,11 +71,8 @@ public class productos_tienda extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
-            Toast.makeText(getApplicationContext(), "No se proporcionó el ID de la tienda", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -29,7 +29,7 @@ import java.util.HashMap;
 
 import Vendedor.MainActivityEspera;
 import Vendedor.SolicitudesVendedores;
-import Vendedor.Tiendas_Activity;
+import Vendedor.Tiendas.Tiendas_Activity;
 
 public class Registro extends AppCompatActivity {
 

@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import Vendedor.Activity_Vendedor;
-import Vendedor.Tiendas_Activity;
+import Vendedor.Tiendas.Tiendas_Activity;
 
 public class MenuPrincipal extends AppCompatActivity {
 

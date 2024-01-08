@@ -1,4 +1,4 @@
-package Vendedor;
+package Vendedor.Productos;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

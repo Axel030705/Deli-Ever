@@ -27,7 +27,7 @@ public class detalles_pedido extends AppCompatActivity {
 
     //XML//
     ImageView ImgEstado;
-    TextView TextoEstado, txt_productos, txt_precio, txt_descuento, txt_envio, txt_precioTotal, txt_direccion;
+    TextView TextoEstado, txt_productos, txt_precio, txt_descuento, txt_envio, txt_precioTotal, txt_direccion, TextoInfo;
     LinearLayout LayoutMsj;
     //Variables
     private String idUsr;
@@ -58,6 +58,7 @@ public class detalles_pedido extends AppCompatActivity {
         txt_precioTotal= findViewById(R.id.txt_precioTotal);
         txt_direccion = findViewById(R.id.txt_direccion);
         LayoutMsj = findViewById(R.id.LayoutMsj);
+        TextoInfo = findViewById(R.id.TextoInfo);
 
         //Firebase
         // Referencia al nodo del usuario
@@ -160,11 +161,12 @@ public class detalles_pedido extends AppCompatActivity {
                 TextoEstado.setText("Tu pedido está en preparación");
                 ImgEstado.setImageResource(R.drawable.svg2);
             } else if (pedido.getEstado().equals("Camino")) {
-                TextoEstado.setText("Tu pedido está en camino no te desesperes");
+                TextoEstado.setText("Tu pedido está en camino");
                 ImgEstado.setImageResource(R.drawable.svg3);
             }else if(pedido.getEstado().equals("Finalizado")){
                 TextoEstado.setText("Tu pedido fue entregado puedes darle una puntuación al producto si así lo deseas");
                 ImgEstado.setImageResource(R.drawable.svg4);
+                TextoInfo.setText("Para cualquier aclaración no ovides ponerte en contacto con el vendedor");
             }
         }
     }

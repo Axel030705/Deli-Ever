@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Vendedor.productos_tienda"
+    tools:context="Vendedor.Productos.productos_tienda"
     android:background="@color/white"
     android:orientation="vertical">
 

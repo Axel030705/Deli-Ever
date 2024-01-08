@@ -1,4 +1,4 @@
-package Vendedor;
+package Vendedor.Productos;
 
 import android.content.Intent;
 import android.net.Uri;

@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import Vendedor.Activity_Vendedor;
 import Vendedor.MainActivityEspera;
 import Vendedor.SolicitudesVendedores;
-import Vendedor.Tiendas_Activity;
+import Vendedor.Tiendas.Tiendas_Activity;
 import Vendedor.Vendedor_Main;
 
 public class ValidadorSesion {

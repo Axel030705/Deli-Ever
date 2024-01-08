@@ -1,4 +1,4 @@
-package Vendedor;
+package Vendedor.Tiendas;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.agenda.R;
 
 import java.util.List;
+
+import Vendedor.Productos.productos_tienda;
 
 public class TiendaAdapter extends RecyclerView.Adapter<TiendaViewHolder> {
     private final List<TiendaClase> tiendas;

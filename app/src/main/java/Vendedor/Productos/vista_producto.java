@@ -1,4 +1,4 @@
-package Vendedor;
+package Vendedor.Productos;
 
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 import Cliente.Pedidos.PedidoClase;
+import Vendedor.Tiendas.Tiendas_Activity;
 
 public class vista_producto extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
@@ -266,7 +267,8 @@ public class vista_producto extends AppCompatActivity {
                             idTienda,
                             productoImg,
                             cantidadSeleccionada,
-                            userId
+                            userId,
+                            productoId
                     );
 
                     // Guarda el nuevo pedido en la base de datos bajo el nodo del usuario
@@ -295,13 +297,15 @@ public class vista_producto extends AppCompatActivity {
                                                                 String nuevaCantidadDisponibleString = String.valueOf(nuevaCantidadDisponible);
                                                                 productRef.child("cantidad").setValue(nuevaCantidadDisponibleString);
                                                                 // Aquí puedes hacer algo más si es necesario
+
+                                                                textCantidadProducto.setText("Cantidad disponible: " + nuevaCantidadDisponibleString);
+
                                                             }
                                                         }
 
                                                         @Override
                                                         public void onCancelled(@NonNull DatabaseError databaseError) {
                                                             // Manejar errores de la consulta
-                                                            Log.e("FirebaseError", "Error al leer datos del producto: " + databaseError.getMessage());
                                                         }
                                                     });
 
@@ -309,12 +313,10 @@ public class vista_producto extends AppCompatActivity {
                                                     bottomSheetDialog.dismiss();
                                                 } else {
                                                     Toast.makeText(vista_producto.this, "Error al actualizar la información del pedido en la tienda", Toast.LENGTH_SHORT).show();
-                                                    Log.e("StoreOrderError", storeTask.getException().toString());
                                                 }
                                             });
                                 } else {
                                     Toast.makeText(vista_producto.this, "Error al realizar el pedido", Toast.LENGTH_SHORT).show();
-                                    Log.e("PedidoError", task.getException().toString());
                                 }
                             });
                 }
@@ -334,7 +336,6 @@ public class vista_producto extends AppCompatActivity {
         // Verificar si el textView de cantidad esta vacio
         if (textCantidadProducto.getText().toString().equals("Cantidad: 0")) {
             textCantidadProducto.setText("Sin stock");
-
         }
     }
 
@@ -348,14 +349,5 @@ public class vista_producto extends AppCompatActivity {
                 .show();
     }
 
-    private void mostrarMensajePedido(String mensaje) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Aviso")
-                .setMessage(mensaje)
-                .setPositiveButton("Aceptar", (dialog, which) -> {
-                    startActivity(new Intent(vista_producto.this, Tiendas_Activity.class));
-                })
-                .show();
-    }
 
 }

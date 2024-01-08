@@ -1,4 +1,4 @@
-package Vendedor;
+package Vendedor.Tiendas;
 
 public class TiendaClase {
     private String id;

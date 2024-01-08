@@ -29,6 +29,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.UUID;
 
+import Vendedor.Tiendas.TiendaClase;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Activity_Vendedor extends AppCompatActivity {

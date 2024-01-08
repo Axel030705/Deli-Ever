@@ -1,4 +1,4 @@
-package Vendedor;
+package Vendedor.Productos;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -25,7 +25,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosViewHolder> 
     @Override
     public ProductosViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_producto, parent, false);
+                .inflate(R.layout.item_producto_nvo, parent, false);
         return new ProductosViewHolder(itemView);
 
 

@@ -1,4 +1,4 @@
-package Vendedor;
+package Vendedor.Productos;
 
 public class Producto {
     private String id;
@@ -8,14 +8,16 @@ public class Producto {
     private String extra;
     private String imagenUrl;
     private String cantidad;
+    private String puntaje;
 
-    public Producto(String id, String nombre, String descripcion, String precio, String extra, String cantidad) {
+    public Producto(String id, String nombre, String descripcion, String precio, String extra, String cantidad, String puntaje) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.extra = extra;
         this.cantidad = cantidad;
+        this.puntaje = puntaje;
     }
 
     public Producto(){
@@ -77,4 +79,11 @@ public class Producto {
         this.id = id;
     }
 
+    public String getPuntaje() {
+        return puntaje;
+    }
+
+    public void setPuntaje(String puntaje) {
+        this.puntaje = puntaje;
+    }
 }

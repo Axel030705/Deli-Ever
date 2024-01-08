@@ -7,7 +7,7 @@
     android:background="#FFFFFF"
     android:backgroundTint="#FFFFFF"
     android:orientation="vertical"
-    tools:context="Vendedor.Tiendas_Activity">
+    tools:context="Vendedor.Tiendas.Tiendas_Activity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

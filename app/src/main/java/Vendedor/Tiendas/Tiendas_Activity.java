@@ -1,4 +1,4 @@
-package Vendedor;
+package Vendedor.Tiendas;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
