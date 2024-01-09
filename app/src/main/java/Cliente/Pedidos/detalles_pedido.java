@@ -31,6 +31,9 @@ public class detalles_pedido extends AppCompatActivity {
     //Pedido//
     private PedidoClase pedido;
 
+    //Variables pedido finalizado
+    Float puntajeDado = 0.0f;
+
     //XML//
     ImageView ImgEstado;
     TextView TextoEstado, txt_productos, txt_precio, txt_descuento, txt_envio, txt_precioTotal, txt_direccion, TextoInfo;
@@ -61,7 +64,7 @@ public class detalles_pedido extends AppCompatActivity {
         txt_precio = findViewById(R.id.txt_precio);
         txt_descuento = findViewById(R.id.txt_descuento);
         txt_envio = findViewById(R.id.txt_envio);
-        txt_precioTotal= findViewById(R.id.txt_precioTotal);
+        txt_precioTotal = findViewById(R.id.txt_precioTotal);
         txt_direccion = findViewById(R.id.txt_direccion);
         LayoutMsj = findViewById(R.id.LayoutMsj);
         TextoInfo = findViewById(R.id.TextoInfo);
@@ -169,13 +172,13 @@ public class detalles_pedido extends AppCompatActivity {
             } else if (pedido.getEstado().equals("Camino")) {
                 TextoEstado.setText("Tu pedido está en camino");
                 ImgEstado.setImageResource(R.drawable.svg3);
-            }else if(pedido.getEstado().equals("Finalizado")){
+            } else if (pedido.getEstado().equals("Finalizado")) {
                 TextoEstado.setText("Tu pedido fue entregado disfrutalo!");
                 ImgEstado.setImageResource(R.drawable.svg4);
                 TextoInfo.setText("Para cualquier duda o aclaración no ovides ponerte en contacto con el vendedor");
 
                 //Validar si el producto ya se califico
-                if(pedido.getCalificado().equals("No")){
+                if (pedido.getCalificado().equals("No")) {
                     mostrarFinalizadoDialog(pedido.getIdPedido());
                 }
             }
@@ -183,20 +186,20 @@ public class detalles_pedido extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void InformacionPedido(){
+    private void InformacionPedido() {
 
         //Setear la cantidad de productos y el precio de ellos
-        txt_productos.setText("Productos ("+ pedido.getCantidad() +")");
-        txt_precio.setText("$ "+pedido.getMonto());
+        txt_productos.setText("Productos (" + pedido.getCantidad() + ")");
+        txt_precio.setText("$ " + pedido.getMonto());
         //Validar si tiene descuento
-        if(pedido.getDescuento().equals("Ninguno")){
+        if (pedido.getDescuento().equals("Ninguno")) {
             int colorRojo = getResources().getColor(R.color.red);
             txt_descuento.setTextColor(colorRojo);
             txt_descuento.setText("Ninguno");
-        }else{
+        } else {
             int colorVerde = getResources().getColor(R.color.green);
             txt_descuento.setTextColor(colorVerde);
-            txt_descuento.setText("- $ "+pedido.getDescuento());
+            txt_descuento.setText("- $ " + pedido.getDescuento());
         }
         //Validar si tiene envio gratis
         /*if(pedido.getEnvio.equals("Gratis")){
@@ -207,9 +210,9 @@ public class detalles_pedido extends AppCompatActivity {
 
         }*/
         //Precio total - Descuento
-        if(pedido.getDescuento().equals("Ninguno")){
-            txt_precioTotal.setText("$ "+pedido.getMonto());
-        }else{
+        if (pedido.getDescuento().equals("Ninguno")) {
+            txt_precioTotal.setText("$ " + pedido.getMonto());
+        } else {
             double monto = Double.parseDouble(pedido.getMonto());
             double descuento = Double.parseDouble(pedido.getDescuento());
             double precioTotal = monto - descuento;
@@ -220,7 +223,7 @@ public class detalles_pedido extends AppCompatActivity {
         txt_direccion.setText(pedido.getDireccion());
     }
 
-    private void mostrarFinalizadoDialog(String id_pedido){
+    private void mostrarFinalizadoDialog(String id_pedido) {
         ConstraintLayout finalizado_constraint = findViewById(R.id.finalizado_constraint);
         View view = LayoutInflater.from(detalles_pedido.this).inflate(R.layout.finalizado_dialog, finalizado_constraint);
 
@@ -242,8 +245,18 @@ public class detalles_pedido extends AppCompatActivity {
         estrella1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Poner la estrella seleccionada azul
                 estrella1.setImageResource(R.drawable.estrella_2);
                 layout_btn_hecho.setVisibility(View.VISIBLE);
+
+                //Poner las demas estrellas grises
+                estrella2.setImageResource(R.drawable.estrella);
+                estrella3.setImageResource(R.drawable.estrella);
+                estrella4.setImageResource(R.drawable.estrella);
+                estrella5.setImageResource(R.drawable.estrella);
+
+                puntajeDado = 0.2f;
+
             }
         });
 
@@ -253,6 +266,13 @@ public class detalles_pedido extends AppCompatActivity {
                 estrella1.setImageResource(R.drawable.estrella_2);
                 estrella2.setImageResource(R.drawable.estrella_2);
                 layout_btn_hecho.setVisibility(View.VISIBLE);
+
+                //Poner las demas estrellas grises
+                estrella3.setImageResource(R.drawable.estrella);
+                estrella4.setImageResource(R.drawable.estrella);
+                estrella5.setImageResource(R.drawable.estrella);
+
+                puntajeDado = 0.4f;
             }
         });
 
@@ -263,6 +283,12 @@ public class detalles_pedido extends AppCompatActivity {
                 estrella2.setImageResource(R.drawable.estrella_2);
                 estrella3.setImageResource(R.drawable.estrella_2);
                 layout_btn_hecho.setVisibility(View.VISIBLE);
+
+                //Poner las demas estrellas grises
+                estrella4.setImageResource(R.drawable.estrella);
+                estrella5.setImageResource(R.drawable.estrella);
+
+                puntajeDado = 0.6f;
             }
         });
 
@@ -274,6 +300,11 @@ public class detalles_pedido extends AppCompatActivity {
                 estrella3.setImageResource(R.drawable.estrella_2);
                 estrella4.setImageResource(R.drawable.estrella_2);
                 layout_btn_hecho.setVisibility(View.VISIBLE);
+
+                //Poner las demas estrellas grises
+                estrella5.setImageResource(R.drawable.estrella);
+
+                puntajeDado = 0.8f;
             }
         });
 
@@ -286,6 +317,8 @@ public class detalles_pedido extends AppCompatActivity {
                 estrella4.setImageResource(R.drawable.estrella_2);
                 estrella5.setImageResource(R.drawable.estrella_2);
                 layout_btn_hecho.setVisibility(View.VISIBLE);
+
+                puntajeDado = 1.0f;
             }
         });
 
@@ -295,7 +328,7 @@ public class detalles_pedido extends AppCompatActivity {
                 alertDialog.dismiss();
                 Toast.makeText(detalles_pedido.this, "Agracedemos tu opinión", Toast.LENGTH_SHORT).show();
 
-                //Actualiza el pedido a calificado ("Si")
+                //Actualiza el pedido del cliente a calificado ("Si")
                 DatabaseReference clientePedidoRef = FirebaseDatabase.getInstance().getReference("Usuarios")
                         .child(idUsr)
                         .child("Pedidos")
@@ -303,12 +336,62 @@ public class detalles_pedido extends AppCompatActivity {
 
                 clientePedidoRef.child("calificado").setValue("Si");
 
+                //Actualiza el pedido de la tienda a calificado ("Si")
+                DatabaseReference tiendaPedidoRef = FirebaseDatabase.getInstance().getReference("Tienda")
+                        .child(pedido.getIdTienda())
+                        .child("Pedidos")
+                        .child(id_pedido);
+
+                tiendaPedidoRef.child("calificado").setValue("Si");
+
+                //Obtener el puntaje del producto
+                DatabaseReference tiendaProductoRef = FirebaseDatabase.getInstance().getReference("Tienda")
+                        .child(pedido.getIdTienda())
+                        .child("productos")
+                        .child(pedido.getIdProducto());
+
+                tiendaProductoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.child("puntaje").exists()) {
+                            String puntajeActualString = snapshot.child("puntaje").getValue(String.class);
+
+                            if (puntajeActualString != null && !puntajeActualString.isEmpty()) {
+                                Float puntajeActualFloat = Float.valueOf(puntajeActualString);
+                                setPuntaje(puntajeActualFloat, puntajeDado);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
             }
         });
-        if(alertDialog.getWindow() != null){
+        if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
         alertDialog.show();
+
+
+    }
+
+    private void setPuntaje(Float puntajeActual, Float puntajeAsignado) {
+
+        float puntajeTotal = puntajeAsignado + puntajeActual;
+        String puntajeTotalString = Float.toString(puntajeTotal);
+
+        // Actualiza el puntaje del producto en la base de datos
+        DatabaseReference tiendaProductoRef = FirebaseDatabase.getInstance().getReference("Tienda")
+                .child(pedido.getIdTienda())
+                .child("productos")
+                .child(pedido.getIdProducto());
+
+        tiendaProductoRef.child("puntaje").setValue(puntajeTotalString);
+
     }
 
 }
