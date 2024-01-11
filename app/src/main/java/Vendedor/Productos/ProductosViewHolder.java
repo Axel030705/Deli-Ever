@@ -77,7 +77,11 @@ public class ProductosViewHolder extends RecyclerView.ViewHolder {
             }
 
             if(producto.getPuntaje() != null){
-                if(producto.getPuntaje().equals("0")){
+
+                String puntajeString = producto.getPuntaje();
+                int puntajeEntero = (int) Double.parseDouble(puntajeString);
+
+                if(puntajeEntero == 0){
                     //Ocultar el layout de puntaje
                     LayoutPuntaje.setVisibility(View.GONE);
                     //Cambiar el tamaño del card view
@@ -85,29 +89,29 @@ public class ProductosViewHolder extends RecyclerView.ViewHolder {
                     ViewGroup.LayoutParams layoutParams = cardViewProducto.getLayoutParams();
                     layoutParams.height = nuevoAlto;
                     cardViewProducto.setLayoutParams(layoutParams);
-                } else if (producto.getPuntaje().equals("1")) {
+                } else if (puntajeEntero == 1 && puntajeEntero < 2) {
                     //Mostrar el layout de puntaje
                     LayoutPuntaje.setVisibility(View.VISIBLE);
                     estrella1.setImageResource(R.drawable.estrella_2);
-                } else if (producto.getPuntaje().equals("2")) {
+                } else if (puntajeEntero == 2 && puntajeEntero < 3) {
                     //Mostrar el layout de puntaje
                     LayoutPuntaje.setVisibility(View.VISIBLE);
                     estrella1.setImageResource(R.drawable.estrella_2);
                     estrella2.setImageResource(R.drawable.estrella_2);
-                } else if (producto.getPuntaje().equals("3")) {
+                } else if (puntajeEntero == 3 && puntajeEntero < 4) {
                     //Mostrar el layout de puntaje
                     LayoutPuntaje.setVisibility(View.VISIBLE);
                     estrella1.setImageResource(R.drawable.estrella_2);
                     estrella2.setImageResource(R.drawable.estrella_2);
                     estrella3.setImageResource(R.drawable.estrella_2);
-                } else if (producto.getPuntaje().equals("4")) {
+                } else if (puntajeEntero == 4 && puntajeEntero < 5) {
                     //Mostrar el layout de puntaje
                     LayoutPuntaje.setVisibility(View.VISIBLE);
                     estrella1.setImageResource(R.drawable.estrella_2);
                     estrella2.setImageResource(R.drawable.estrella_2);
                     estrella3.setImageResource(R.drawable.estrella_2);
                     estrella4.setImageResource(R.drawable.estrella_2);
-                } else if (producto.getPuntaje().equals("5")) {
+                } else if (puntajeEntero >= 5) {
                     //Mostrar el layout de puntaje
                     LayoutPuntaje.setVisibility(View.VISIBLE);
                     estrella1.setImageResource(R.drawable.estrella_2);

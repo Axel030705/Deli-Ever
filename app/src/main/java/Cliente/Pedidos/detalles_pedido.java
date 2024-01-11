@@ -228,6 +228,7 @@ public class detalles_pedido extends AppCompatActivity {
         View view = LayoutInflater.from(detalles_pedido.this).inflate(R.layout.finalizado_dialog, finalizado_constraint);
 
         //XML
+        TextView txt_nombre_producto = view.findViewById(R.id.txt_nameProducto);
         ImageView estrella1 = view.findViewById(R.id.estrella1);
         ImageView estrella2 = view.findViewById(R.id.estrella2);
         ImageView estrella3 = view.findViewById(R.id.estrella3);
@@ -241,6 +242,8 @@ public class detalles_pedido extends AppCompatActivity {
         builder.setView(view);
         final AlertDialog alertDialog = builder.create();
         alertDialog.setCancelable(false);
+
+        txt_nombre_producto.setText(pedido.getProducto());
 
         estrella1.setOnClickListener(new View.OnClickListener() {
             @Override
