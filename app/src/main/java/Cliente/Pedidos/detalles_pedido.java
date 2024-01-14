@@ -249,14 +249,14 @@ public class detalles_pedido extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Poner la estrella seleccionada azul
-                estrella1.setImageResource(R.drawable.estrella_2);
+                estrella1.setImageResource(R.drawable.estrella_2dialog);
                 layout_btn_hecho.setVisibility(View.VISIBLE);
 
                 //Poner las demas estrellas grises
-                estrella2.setImageResource(R.drawable.estrella);
-                estrella3.setImageResource(R.drawable.estrella);
-                estrella4.setImageResource(R.drawable.estrella);
-                estrella5.setImageResource(R.drawable.estrella);
+                estrella2.setImageResource(R.drawable.estrella_dialog);
+                estrella3.setImageResource(R.drawable.estrella_dialog);
+                estrella4.setImageResource(R.drawable.estrella_dialog);
+                estrella5.setImageResource(R.drawable.estrella_dialog);
 
                 puntajeDado = 0.2f;
 
@@ -266,14 +266,14 @@ public class detalles_pedido extends AppCompatActivity {
         estrella2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                estrella1.setImageResource(R.drawable.estrella_2);
-                estrella2.setImageResource(R.drawable.estrella_2);
+                estrella1.setImageResource(R.drawable.estrella_2dialog);
+                estrella2.setImageResource(R.drawable.estrella_2dialog);
                 layout_btn_hecho.setVisibility(View.VISIBLE);
 
                 //Poner las demas estrellas grises
-                estrella3.setImageResource(R.drawable.estrella);
-                estrella4.setImageResource(R.drawable.estrella);
-                estrella5.setImageResource(R.drawable.estrella);
+                estrella3.setImageResource(R.drawable.estrella_dialog);
+                estrella4.setImageResource(R.drawable.estrella_dialog);
+                estrella5.setImageResource(R.drawable.estrella_dialog);
 
                 puntajeDado = 0.4f;
             }
@@ -282,14 +282,14 @@ public class detalles_pedido extends AppCompatActivity {
         estrella3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                estrella1.setImageResource(R.drawable.estrella_2);
-                estrella2.setImageResource(R.drawable.estrella_2);
-                estrella3.setImageResource(R.drawable.estrella_2);
+                estrella1.setImageResource(R.drawable.estrella_2dialog);
+                estrella2.setImageResource(R.drawable.estrella_2dialog);
+                estrella3.setImageResource(R.drawable.estrella_2dialog);
                 layout_btn_hecho.setVisibility(View.VISIBLE);
 
                 //Poner las demas estrellas grises
-                estrella4.setImageResource(R.drawable.estrella);
-                estrella5.setImageResource(R.drawable.estrella);
+                estrella4.setImageResource(R.drawable.estrella_dialog);
+                estrella5.setImageResource(R.drawable.estrella_dialog);
 
                 puntajeDado = 0.6f;
             }
@@ -298,14 +298,14 @@ public class detalles_pedido extends AppCompatActivity {
         estrella4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                estrella1.setImageResource(R.drawable.estrella_2);
-                estrella2.setImageResource(R.drawable.estrella_2);
-                estrella3.setImageResource(R.drawable.estrella_2);
-                estrella4.setImageResource(R.drawable.estrella_2);
+                estrella1.setImageResource(R.drawable.estrella_2dialog);
+                estrella2.setImageResource(R.drawable.estrella_2dialog);
+                estrella3.setImageResource(R.drawable.estrella_2dialog);
+                estrella4.setImageResource(R.drawable.estrella_2dialog);
                 layout_btn_hecho.setVisibility(View.VISIBLE);
 
                 //Poner las demas estrellas grises
-                estrella5.setImageResource(R.drawable.estrella);
+                estrella5.setImageResource(R.drawable.estrella_dialog);
 
                 puntajeDado = 0.8f;
             }
@@ -314,11 +314,11 @@ public class detalles_pedido extends AppCompatActivity {
         estrella5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                estrella1.setImageResource(R.drawable.estrella_2);
-                estrella2.setImageResource(R.drawable.estrella_2);
-                estrella3.setImageResource(R.drawable.estrella_2);
-                estrella4.setImageResource(R.drawable.estrella_2);
-                estrella5.setImageResource(R.drawable.estrella_2);
+                estrella1.setImageResource(R.drawable.estrella_2dialog);
+                estrella2.setImageResource(R.drawable.estrella_2dialog);
+                estrella3.setImageResource(R.drawable.estrella_2dialog);
+                estrella4.setImageResource(R.drawable.estrella_2dialog);
+                estrella5.setImageResource(R.drawable.estrella_2dialog);
                 layout_btn_hecho.setVisibility(View.VISIBLE);
 
                 puntajeDado = 1.0f;

@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:src="@android:drawable/ic_menu_gallery"
             tools:ignore="ContentDescription"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:adjustViewBounds="false"/>
 
     </LinearLayout>

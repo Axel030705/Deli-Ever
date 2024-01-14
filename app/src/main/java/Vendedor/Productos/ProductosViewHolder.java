@@ -92,33 +92,33 @@ public class ProductosViewHolder extends RecyclerView.ViewHolder {
                 } else if (puntajeEntero == 1 && puntajeEntero < 2) {
                     //Mostrar el layout de puntaje
                     LayoutPuntaje.setVisibility(View.VISIBLE);
-                    estrella1.setImageResource(R.drawable.estrella_2);
+                    estrella1.setImageResource(R.drawable.estrella_2dialog);
                 } else if (puntajeEntero == 2 && puntajeEntero < 3) {
                     //Mostrar el layout de puntaje
                     LayoutPuntaje.setVisibility(View.VISIBLE);
-                    estrella1.setImageResource(R.drawable.estrella_2);
-                    estrella2.setImageResource(R.drawable.estrella_2);
+                    estrella1.setImageResource(R.drawable.estrella_2dialog);
+                    estrella2.setImageResource(R.drawable.estrella_2dialog);
                 } else if (puntajeEntero == 3 && puntajeEntero < 4) {
                     //Mostrar el layout de puntaje
                     LayoutPuntaje.setVisibility(View.VISIBLE);
-                    estrella1.setImageResource(R.drawable.estrella_2);
-                    estrella2.setImageResource(R.drawable.estrella_2);
-                    estrella3.setImageResource(R.drawable.estrella_2);
+                    estrella1.setImageResource(R.drawable.estrella_2dialog);
+                    estrella2.setImageResource(R.drawable.estrella_2dialog);
+                    estrella3.setImageResource(R.drawable.estrella_2dialog);
                 } else if (puntajeEntero == 4 && puntajeEntero < 5) {
                     //Mostrar el layout de puntaje
                     LayoutPuntaje.setVisibility(View.VISIBLE);
-                    estrella1.setImageResource(R.drawable.estrella_2);
-                    estrella2.setImageResource(R.drawable.estrella_2);
-                    estrella3.setImageResource(R.drawable.estrella_2);
-                    estrella4.setImageResource(R.drawable.estrella_2);
+                    estrella1.setImageResource(R.drawable.estrella_2dialog);
+                    estrella2.setImageResource(R.drawable.estrella_2dialog);
+                    estrella3.setImageResource(R.drawable.estrella_2dialog);
+                    estrella4.setImageResource(R.drawable.estrella_2dialog);
                 } else if (puntajeEntero >= 5) {
                     //Mostrar el layout de puntaje
                     LayoutPuntaje.setVisibility(View.VISIBLE);
-                    estrella1.setImageResource(R.drawable.estrella_2);
-                    estrella2.setImageResource(R.drawable.estrella_2);
-                    estrella3.setImageResource(R.drawable.estrella_2);
-                    estrella4.setImageResource(R.drawable.estrella_2);
-                    estrella5.setImageResource(R.drawable.estrella_2);
+                    estrella1.setImageResource(R.drawable.estrella_2dialog);
+                    estrella2.setImageResource(R.drawable.estrella_2dialog);
+                    estrella3.setImageResource(R.drawable.estrella_2dialog);
+                    estrella4.setImageResource(R.drawable.estrella_2dialog);
+                    estrella5.setImageResource(R.drawable.estrella_2dialog);
                 }else{
                     //Ocultar el layout de puntaje
                     LayoutPuntaje.setVisibility(View.GONE);
