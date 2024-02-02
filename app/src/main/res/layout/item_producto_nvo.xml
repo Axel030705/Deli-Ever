@@ -67,7 +67,7 @@
             android:id="@+id/estrella1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/estrella_dialog"/>
+            android:src="@drawable/estrella"/>
 
         <View
             android:layout_width="7dp"
@@ -77,7 +77,7 @@
             android:id="@+id/estrella2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/estrella_dialog"/>
+            android:src="@drawable/estrella"/>
 
         <View
             android:layout_width="7dp"
@@ -87,7 +87,7 @@
             android:id="@+id/estrella3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/estrella_dialog"/>
+            android:src="@drawable/estrella"/>
 
         <View
             android:layout_width="7dp"
@@ -97,7 +97,7 @@
             android:id="@+id/estrella4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/estrella_dialog"/>
+            android:src="@drawable/estrella"/>
 
         <View
             android:layout_width="7dp"
@@ -107,7 +107,7 @@
             android:id="@+id/estrella5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/estrella_dialog"/>
+            android:src="@drawable/estrella"/>
 
     </LinearLayout>
 

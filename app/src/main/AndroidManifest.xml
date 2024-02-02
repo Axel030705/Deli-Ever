@@ -7,6 +7,8 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -17,6 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AgendaApp"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAefc0ANfB-D1u4YveBhpVFItkeddfjHIM"/>
+
         <activity
             android:name="Cliente.Pedidos.pedidos_finalizados"
             android:exported="false" />
