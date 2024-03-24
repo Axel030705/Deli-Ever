@@ -123,6 +123,8 @@ public class Registro extends AppCompatActivity {
                 Toast.makeText(this, "Confirme su contraseña", Toast.LENGTH_SHORT).show();
             } else if (!password.equals(confirmarpassword)) {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+            } else if(password.length() < 6){
+                Toast.makeText(this,"La contraseña debe ser de 6 caracteres",Toast.LENGTH_SHORT).show();
             } else if (tipoUsuario.equals("Vendedor") && TextUtils.isEmpty(txt_vendera2)) {
                 Toast.makeText(this, "Ingrese que venderá", Toast.LENGTH_SHORT).show();
             } else {

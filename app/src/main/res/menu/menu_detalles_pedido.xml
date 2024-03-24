@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/menu_ubicacion"
-        android:icon="@android:drawable/ic_dialog_map"
+        android:icon="@drawable/ubi"
         android:title="Ubicación"
         tools:ignore="HardcodedText" />
 

@@ -1,6 +1,5 @@
 package Chat;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,12 +11,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,12 +74,12 @@ public class MainActivityChat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_chat);
 
-        fotoPerfil = findViewById(R.id.fotoPerfil);
-        nombreUsr = findViewById(R.id.nombreUsr);
+        /*fotoPerfil = findViewById(R.id.fotoPerfil);
+        nombreUsr = findViewById(R.id.nombreUsr);*/
         rvMensajes = findViewById(R.id.rvMensajes);
         txt_Mensaje = findViewById(R.id.txt_Mensaje);
         Button btnEnviar = findViewById(R.id.BtnEnviar);
-        Button Btn_menu_chat = findViewById(R.id.Btn_menu_chat);
+        /*Button Btn_menu_chat = findViewById(R.id.Btn_menu_chat);*/
         BtnEnviarFoto = findViewById(R.id.BtnEnviarFoto);
         database = FirebaseDatabase.getInstance();
         //Sala del chat
@@ -105,7 +102,7 @@ public class MainActivityChat extends AppCompatActivity {
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         createNotificationChannel();
 
-        Btn_menu_chat.setOnClickListener(new View.OnClickListener() {
+        /*Btn_menu_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Creamos el objeto PupupMenu
@@ -136,7 +133,7 @@ public class MainActivityChat extends AppCompatActivity {
                 //Muestra el PupupMenu
                 popupMenu.show();
             }
-        });
+        });*/
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,15 +161,15 @@ public class MainActivityChat extends AppCompatActivity {
             }
         });
 
-        ImageButton btnEmoji = findViewById(R.id.btnEmoji);
-        btnEmoji.setOnClickListener(new View.OnClickListener() {
+        /*ImageButton btnEmoji = findViewById(R.id.btnEmoji);*/
+        /*btnEmoji.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Aquí puedes abrir un cuadro de diálogo con emojis o cualquier otra lógica que prefieras
                 // Por ejemplo, puedes mostrar un cuadro de diálogo con emojis para que el usuario seleccione uno y luego lo insertes en el campo de texto.
                 showEmojiDialog();
             }
-        });
+        });*/
 
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override

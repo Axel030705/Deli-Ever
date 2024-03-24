@@ -1,4 +1,4 @@
-package com.example.agenda;
+package Cliente.Pedidos;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.agenda.R;
 
 public class FragmentUbicacion extends Fragment {
     public FragmentUbicacion() {

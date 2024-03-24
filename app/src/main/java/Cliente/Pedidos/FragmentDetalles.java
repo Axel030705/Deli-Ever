@@ -1,4 +1,4 @@
-package com.example.agenda;
+package Cliente.Pedidos;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.example.agenda.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import Chat.MainActivityChat;
-import Cliente.Pedidos.PedidoClase;
 
 public class FragmentDetalles extends Fragment {
 

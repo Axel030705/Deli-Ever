@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -48,13 +48,14 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMensajes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_marginTop="20dp">
     </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
@@ -62,14 +63,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/btnEmoji"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_emoji"
             android:layout_marginStart="5dp"
-            android:contentDescription="Emoji Button"/>
+            android:contentDescription="Emoji Button"/>-->
 
         <ImageButton
             android:id="@+id/BtnEnviarFoto"

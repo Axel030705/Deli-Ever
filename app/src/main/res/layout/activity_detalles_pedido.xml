@@ -31,7 +31,6 @@
             android:layout_gravity="bottom"
             android:background="@color/white"
             app:itemActiveIndicatorStyle="@color/azulCielo"
-            app:itemTextColor="@color/black"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

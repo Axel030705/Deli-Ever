@@ -58,7 +58,7 @@
     <TextView
         android:id="@+id/textDescripcionProducto"
         android:layout_width="350dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:text="Descripción"
         android:textSize="20sp"
@@ -82,7 +82,7 @@
     <TextView
         android:id="@+id/textExtraProducto"
         android:layout_width="350dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
